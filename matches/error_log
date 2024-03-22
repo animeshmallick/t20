@@ -1,0 +1,46 @@
+[22-Mar-2024 15:14:30 UTC] PHP Warning:  Undefined variable $over_id in /home/fw544rd3rw72/public_html/T20/matches/over.php on line 27
+[22-Mar-2024 15:26:28 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Duplicate entry '34272997' for key 'bid_id' in /home/fw544rd3rw72/public_html/T20/matches/book.php:139
+Stack trace:
+#0 /home/fw544rd3rw72/public_html/T20/matches/book.php(139): mysqli->query()
+#1 {main}
+  thrown in /home/fw544rd3rw72/public_html/T20/matches/book.php on line 139
+[22-Mar-2024 15:29:13 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Duplicate entry '34272997' for key 'bid_id' in /home/fw544rd3rw72/public_html/T20/matches/book.php:139
+Stack trace:
+#0 /home/fw544rd3rw72/public_html/T20/matches/book.php(139): mysqli->query()
+#1 {main}
+  thrown in /home/fw544rd3rw72/public_html/T20/matches/book.php on line 139
+[22-Mar-2024 15:48:09 UTC] PHP Warning:  Undefined variable $a in /home/fw544rd3rw72/public_html/T20/Common.php on line 57
+[22-Mar-2024 15:48:48 UTC] PHP Warning:  Undefined variable $a in /home/fw544rd3rw72/public_html/T20/Common.php on line 57
+[22-Mar-2024 15:48:50 UTC] PHP Warning:  Undefined variable $a in /home/fw544rd3rw72/public_html/T20/Common.php on line 57
+[22-Mar-2024 15:48:51 UTC] PHP Warning:  Undefined variable $a in /home/fw544rd3rw72/public_html/T20/Common.php on line 57
+[22-Mar-2024 15:48:59 UTC] PHP Warning:  Undefined variable $a in /home/fw544rd3rw72/public_html/T20/Common.php on line 57
+[22-Mar-2024 15:49:02 UTC] PHP Warning:  Undefined variable $a in /home/fw544rd3rw72/public_html/T20/Common.php on line 57
+[22-Mar-2024 15:49:35 UTC] PHP Warning:  Undefined variable $a in /home/fw544rd3rw72/public_html/T20/Common.php on line 57
+[22-Mar-2024 15:50:00 UTC] PHP Warning:  Undefined variable $a in /home/fw544rd3rw72/public_html/T20/Common.php on line 57
+[22-Mar-2024 15:50:24 UTC] PHP Warning:  Undefined variable $a in /home/fw544rd3rw72/public_html/T20/Common.php on line 57
+[22-Mar-2024 15:51:09 UTC] PHP Warning:  Undefined variable $a in /home/fw544rd3rw72/public_html/T20/Common.php on line 57
+[22-Mar-2024 15:51:28 UTC] PHP Warning:  Undefined variable $a in /home/fw544rd3rw72/public_html/T20/Common.php on line 58
+[22-Mar-2024 16:07:16 UTC] PHP Warning:  Undefined variable $over_id in /home/fw544rd3rw72/public_html/T20/Common.php on line 55
+[22-Mar-2024 16:07:16 UTC] PHP Warning:  Undefined variable $over_id in /home/fw544rd3rw72/public_html/T20/Common.php on line 57
+[22-Mar-2024 16:09:54 UTC] PHP Warning:  Undefined variable $over_id in /home/fw544rd3rw72/public_html/T20/Common.php on line 55
+[22-Mar-2024 16:09:54 UTC] PHP Warning:  Undefined variable $over_id in /home/fw544rd3rw72/public_html/T20/Common.php on line 57
+[22-Mar-2024 16:10:03 UTC] PHP Warning:  Undefined variable $over_id in /home/fw544rd3rw72/public_html/T20/Common.php on line 55
+[22-Mar-2024 16:10:03 UTC] PHP Warning:  Undefined variable $over_id in /home/fw544rd3rw72/public_html/T20/Common.php on line 57
+[22-Mar-2024 16:10:03 UTC] PHP Fatal error:  Uncaught DivisionByZeroError: Division by zero in /home/fw544rd3rw72/public_html/T20/Common.php:50
+Stack trace:
+#0 /home/fw544rd3rw72/public_html/T20/Common.php(59): Common->get_expected_run()
+#1 /home/fw544rd3rw72/public_html/T20/matches/over.php(23): Common->get_expected_runs_from_over()
+#2 {main}
+  thrown in /home/fw544rd3rw72/public_html/T20/Common.php on line 50
+[22-Mar-2024 16:11:50 UTC] PHP Warning:  Undefined variable $over_id in /home/fw544rd3rw72/public_html/T20/Common.php on line 55
+[22-Mar-2024 16:11:50 UTC] PHP Warning:  Undefined variable $over_id in /home/fw544rd3rw72/public_html/T20/Common.php on line 57
+[22-Mar-2024 16:15:16 UTC] PHP Fatal error:  Uncaught DivisionByZeroError: Division by zero in /home/fw544rd3rw72/public_html/T20/Common.php:50
+Stack trace:
+#0 /home/fw544rd3rw72/public_html/T20/Common.php(61): Common->get_expected_run()
+#1 /home/fw544rd3rw72/public_html/T20/matches/over.php(23): Common->get_expected_runs_from_over()
+#2 {main}
+  thrown in /home/fw544rd3rw72/public_html/T20/Common.php on line 50
+[22-Mar-2024 17:13:16 UTC] PHP Warning:  Undefined array key "match_id" in /home/fw544rd3rw72/public_html/T20/matches/show_all.php on line 20
+[22-Mar-2024 17:13:43 UTC] PHP Warning:  Undefined array key "match_id" in /home/fw544rd3rw72/public_html/T20/matches/show_all.php on line 20
+[22-Mar-2024 17:14:36 UTC] PHP Warning:  Undefined array key "match_id" in /home/fw544rd3rw72/public_html/T20/matches/show_all.php on line 20
+[22-Mar-2024 17:16:04 UTC] PHP Warning:  Undefined array key "match_id" in /home/fw544rd3rw72/public_html/T20/matches/show_all.php on line 20
