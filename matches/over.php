@@ -77,42 +77,33 @@ if ($result->num_rows > 0) { ?>
 
     if ($actual_run == -1){ ?>
         <tr class="win" style="text-align: center">
-            <td><?php echo $common->get_user_name_from_ref_id($data->get_connection(), $ref_id); ?></td>
-            <td><?php echo $over;?></td>
-            <td><?php echo $lower_run_limit;?></td>
             <td><?php echo $upper_run_limit?></td>
+            <td><?php echo $lower_run_limit;?></td>
+            <td>--</td>
             <td>Rs<?php echo $bid_amount?></td>
-            <td><?php echo $rate?></td>
-            <td><?php if ($actual_run != -1) echo $actual_run; else echo ""; ?></td>
-            <td><?php if ($actual_rate != -1) echo $actual_rate; else echo "--"; ?></td>
-            <td><?php if ($actual_rate != -1) echo "Rs".$wins; else echo "--"; ?></td>
+            <td><?php echo $rate; ?></td>
+            <td>--</td>
             <td><?php echo $status?></td>
         </tr>
         <?php }else {
             if ($wins == -1){ ?>
                 <tr class="loss" style="text-align: center">
-                    <td><?php echo $common->get_user_name_from_ref_id($data->get_connection(), $ref_id); ?></td>
-                    <td><?php echo $over;?></td>
-                    <td><?php echo $lower_run_limit;?></td>
                     <td><?php echo $upper_run_limit?></td>
+                    <td><?php echo $lower_run_limit;?></td>
+                    <td><?php echo $actual_run?></td>
                     <td>Rs<?php echo $bid_amount?></td>
-                    <td><?php echo $rate?></td>
-                    <td><?php echo $actual_run; ?></td>
-                    <td><?php echo "--"; ?></td>
+                    <td><?php echo $rate; ?></td>
                     <td><?php echo "--"; ?></td>
                     <td><?php echo $status?></td>
                 </tr>
             <?php }else { ?>
                 <tr class="win" style="text-align: center">
-                    <td><?php echo $common->get_user_name_from_ref_id($data->get_connection(), $ref_id); ?></td>
-                    <td><?php echo $over;?></td>
-                    <td><?php echo $lower_run_limit;?></td>
                     <td><?php echo $upper_run_limit?></td>
+                    <td><?php echo $lower_run_limit;?></td>
+                    <td><?php echo $actual_run?></td>
                     <td>Rs<?php echo $bid_amount?></td>
-                    <td><?php echo $rate?></td>
-                    <td><?php if ($actual_run != -1) echo $actual_run; else echo ""; ?></td>
-                    <td><?php if ($actual_rate != -1) echo $actual_rate; else echo "--"; ?></td>
-                    <td><?php if ($actual_rate != -1) echo "Rs".$wins; else echo "--"; ?></td>
+                    <td><?php echo $rate; ?></td>
+                    <td><?php echo $wins; ?></td>
                     <td><?php echo $status?></td>
                 </tr>
             <?php }
