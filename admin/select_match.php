@@ -11,8 +11,8 @@ $result = (new Data())->get_connection()->query($sql);
 <html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
-    <link rel="stylesheet" href="../style.css">
-    <title>IPL 2024 - Home</title>
+    <link rel="stylesheet" type="text/css" href="../style.css?version=101">
+    <title>Admin - Match</title>
     <style>
         body {
             background-color: #d7f6d6;

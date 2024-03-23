@@ -1,8 +1,8 @@
 <html lang="en">
 <head>
-    <title>Admin- Activate New User</title>
+    <title>Admin- Verify New User</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" type="text/css" href="../style.css?version=101">
 </head>
 <?php
 include "../data.php";

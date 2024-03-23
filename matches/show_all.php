@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
-    <link rel="stylesheet" href="../style.css">
-    <title>IPL 2024 - Over Status</title>
+    <link rel="stylesheet" type="text/css" href="../style.css?version=101">
+    <title>My Bids</title>
 </head>
 <body>
 <div class="header"><h1>IPL - 2024</h1></div>
