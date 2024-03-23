@@ -77,8 +77,8 @@ if ($result->num_rows > 0) { ?>
 
     if ($actual_run == -1){ ?>
         <tr class="win" style="text-align: center">
-            <td><?php echo $upper_run_limit?></td>
             <td><?php echo $lower_run_limit;?></td>
+            <td><?php echo $upper_run_limit?></td>
             <td>--</td>
             <td>Rs<?php echo $bid_amount?></td>
             <td><?php echo $rate; ?></td>
@@ -88,8 +88,8 @@ if ($result->num_rows > 0) { ?>
         <?php }else {
             if ($wins == -1){ ?>
                 <tr class="loss" style="text-align: center">
-                    <td><?php echo $upper_run_limit?></td>
                     <td><?php echo $lower_run_limit;?></td>
+                    <td><?php echo $upper_run_limit?></td>
                     <td><?php echo $actual_run?></td>
                     <td>Rs<?php echo $bid_amount?></td>
                     <td><?php echo $rate; ?></td>
@@ -98,8 +98,8 @@ if ($result->num_rows > 0) { ?>
                 </tr>
             <?php }else { ?>
                 <tr class="win" style="text-align: center">
-                    <td><?php echo $upper_run_limit?></td>
                     <td><?php echo $lower_run_limit;?></td>
+                    <td><?php echo $upper_run_limit?></td>
                     <td><?php echo $actual_run?></td>
                     <td>Rs<?php echo $bid_amount?></td>
                     <td><?php echo $rate; ?></td>
