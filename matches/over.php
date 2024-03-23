@@ -23,8 +23,9 @@ if (!$common->over_started($data->get_connection(), $match_id, $innings, $over))
     $expected_run = $common->get_expected_runs_from_over($data->get_connection(), $match_id, $innings, $over);
     if($expected_run != -1) { ?>
         <div class="sub-header"><h2>Available Balance : <?php echo $common->get_wallet_balance($data->get_connection(), $common->get_auth_cookie($data->get_auth_cookie_name())); ?></h2></div>
-        <div class="innings"><h2><?php echo "(TBD) Expected Run : ".$expected_run;?></h2></div>
-        <a href="book.php?match_id=<?php echo $match_id;?>&innings=<?php echo $innings;?>&over=<?php echo $over;?>">Play on Over <?php echo $over;?></a>
+        <div class="innings"><h2>
+        <a class="play" href="book.php?match_id=<?php echo $match_id;?>&innings=<?php echo $innings;?>&over=<?php echo $over;?>">Play on Over <?php echo $over;?></a>
+            </h2></div>
     <?php
     } else { ?>
         <div class="sub-header"><h1>Over <?php echo $over;?> Yet to open. Please come back after sometime</h1></h2></div>
@@ -32,6 +33,7 @@ if (!$common->over_started($data->get_connection(), $match_id, $innings, $over))
 } else{ ?>
     <div class="sub-header"><h1>Over <?php echo $over; ?> Over Closed for new Orders</h1></h2></div>
 <?php } ?>
+<hr>
 <h2>All Your Orders on Over <?php echo $over; ?></h2>
 <hr>
 <?php
@@ -116,6 +118,7 @@ if ($result->num_rows > 0) { ?>
     <?php
 } else { ?>
     <h2>You have not placed any orders yet.</h2>
+    <hr>
 <?php }
 
 
@@ -126,7 +129,6 @@ if ($over > 1){
 <?php }
 ?>
 
-<a href="../matches/index.php">Go Home</a>
 <?php
 if ($over < 21){
     $next = $over + 1;
@@ -134,7 +136,9 @@ if ($over < 21){
     <a href="<?php echo $data->get_path()."matches/over.php?match_id=".$match_id."&innings=".$innings."&over=".$next; ?>">Next Over</a>
 <?php }
 ?>
-<h4></h4>
+<hr>
+<a href="../matches/index.php">Go Home</a>
+<hr>
 <div class="footer">
     <p>Created By: US.</p>
     <p>Contact Us On : </p>

@@ -250,3 +250,8 @@ tr.loss {
     outline-style: solid;
     color: red;
 }
+a.play {
+    border-radius: 50px;
+    display: block;
+    background-color: #78d5c3;
+}
