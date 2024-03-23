@@ -114,19 +114,34 @@
                 <?php }
             }
         }
+        if (($amount - $total) >= 0) { ?>
+            <tr class="win" style="text-align: center">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>Rs<?php echo $total; ?></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>Rs<?php echo $amount; ?></td>
+                <td><?php echo "Profit of Rs".($amount-$total);?></td>
+            </tr>
+        <?php } else { ?>
+            <tr class="loss" style="text-align: center">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>Rs<?php echo $total; ?></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>Rs<?php echo $amount; ?></td>
+                <td><?php echo "Loss of Rs".($total-$amount);?></td>
+            </tr>
+        <?php }
         ?>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>Rs<?php echo $total; ?></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>Rs<?php echo $amount; ?></td>
-            <td><?php if($total >= $amount) echo "Loss of Rs".($amount - $total); else echo "Profit of Rs".($amount-$total);?></td>
-        </tr>
     </tbody>
 </table>
 <?php
