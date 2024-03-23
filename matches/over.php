@@ -24,7 +24,7 @@ if (!$common->over_started($data->get_connection(), $match_id, $innings, $over))
     if($expected_run != -1) { ?>
         <div class="sub-header"><h2>Available Balance : <?php echo $common->get_wallet_balance($data->get_connection(), $common->get_auth_cookie($data->get_auth_cookie_name())); ?></h2></div>
         <div class="innings"><h2><?php echo "(TBD) Expected Run : ".$expected_run;?></h2></div>
-        <a href="book.php?match_id=<?php echo $match_id;?>&innings=<?php echo $innings;?>&over=<?php echo $over;?>">Play</a>
+        <a href="book.php?match_id=<?php echo $match_id;?>&innings=<?php echo $innings;?>&over=<?php echo $over;?>">Play on Over <?php echo $over;?></a>
     <?php
     } else { ?>
         <div class="sub-header"><h1>Yet to open. Please come back after sometime</h1></h2></div>
