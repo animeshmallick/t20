@@ -25,36 +25,45 @@ $match_id = $_GET['match_id'];
 <div class="sub-header"><h1><?php echo $common->get_match_name($data->get_connection(), $match_id)?></h1></div>
 <div class="row">
     <div class="innings">
+        <div class="innings_container">
+            <p><h1 style="color: black">First Inning</h1></p>
 <?php
     for ($i = 1;$i<=20;$i++){
         if (!$common->over_started($data->get_connection(), $match_id, 1, $i)) {
                 $expected_run = $common->get_expected_runs_from_over($data->get_connection(), $match_id, 1, $i);
                 if($expected_run != -1) { ?>
-                    <a class="open" href="over.php?match_id=<?php echo $match_id;?>&innings=1&over=<?php echo $i; ?>">Innings 1 : Over <?php echo $i; ?></a>
+                    <a class="open" href="over.php?match_id=<?php echo $match_id;?>&innings=1&over=<?php echo $i; ?>">Over <?php echo $i; ?></a>
                 <?php } else { ?>
-                    <a class="yettostart" href="over.php?match_id=<?php echo $match_id;?>&innings=1&over=<?php echo $i; ?>">Innings 1 : Over <?php echo $i; ?></a>
+                    <a class="yettostart" href="over.php?match_id=<?php echo $match_id;?>&innings=1&over=<?php echo $i; ?>">Over <?php echo $i; ?></a>
                 <?php }
         } else { ?>
-            <a class="closed" href="over.php?match_id=<?php echo $match_id;?>&innings=1&over=<?php echo $i; ?>">Innings 1 : Over <?php echo $i; ?></a>
+            <a class="closed" href="over.php?match_id=<?php echo $match_id;?>&innings=1&over=<?php echo $i; ?>">Over <?php echo $i; ?></a>
 
-    <?php }
-    }
+    <?php } ?>
+        <span>&nbsp;</span>
+   <?php }
 ?>
+        </div>
     </div>
     <div class="innings">
+        <div class="innings_container">
+            <p style="text-align: center"><h1 style="color: black">Second Innings</h1></p>
         <?php
     for ($i = 1;$i<=20;$i++){
         if (!$common->over_started($data->get_connection(), $match_id, 2, $i)) {
             $expected_run = $common->get_expected_runs_from_over($data->get_connection(), $match_id, 2, $i);
             if($expected_run != -1) { ?>
-                <a class="open" href="over.php?match_id=<?php echo $match_id;?>&innings=2&over=<?php echo $i; ?>">Innings 2 : Over <?php echo $i; ?></a>
+                <a class="open" href="over.php?match_id=<?php echo $match_id;?>&innings=2&over=<?php echo $i; ?>">Over <?php echo $i; ?></a>
             <?php } else { ?>
-                <a class="yettostart" href="over.php?match_id=<?php echo $match_id;?>&innings=2&over=<?php echo $i; ?>">Innings 2 : Over <?php echo $i; ?></a>
+                <a class="yettostart" href="over.php?match_id=<?php echo $match_id;?>&innings=2&over=<?php echo $i; ?>">Over <?php echo $i; ?></a>
             <?php }
         } else { ?>
-            <a class="closed" href="over.php?match_id=<?php echo $match_id;?>&innings=2&over=<?php echo $i; ?>">Innings 2 : Over <?php echo $i; ?></a>
+            <a class="closed" href="over.php?match_id=<?php echo $match_id;?>&innings=2&over=<?php echo $i; ?>">Over <?php echo $i; ?></a>
         <?php
         }
+        ?>
+        <span>&nbsp;</span>
+            <?php
     }
         ?>
     </div>

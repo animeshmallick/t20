@@ -125,3 +125,16 @@ a.yettostart {
     text-decoration: none;
     display: inline-block;
 }
+
+.innings_container{
+    max-width: 100%;
+    width: 100%;
+    background: #c9b259;
+    border-radius: 7px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+}
+
+a {
+    padding: 10px 20px;
+    border-radius: 50px;
+}
