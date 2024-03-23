@@ -10,6 +10,18 @@ include "../data.php";
 include "../Common.php";
 $data = new Data();
 $common = new Common();
+
+if($common->get_auth_cookie($data->get_admin_auth_cookie_name()) > 0) {
+
+function get_admin_name_from_ref_id($connection, $ref_id) {
+    $sql = "Select `fname` from `admin` where `ref_id`=$ref_id";
+    $result = $connection->query($sql);
+    if($result->num_rows == 1)
+        return $result->fetch_assoc()['fname'];
+    return "Unknown User";
+}
+$admin = get_admin_name_from_ref_id($data->get_connection(), $common->get_auth_cookie($data->get_admin_auth_cookie_name()));
+
 if ($_SERVER['REQUEST_METHOD'] === 'GET') { ?>
 <div class="container">
     <div class="login form">
@@ -19,11 +31,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') { ?>
             <input type="text" id="phone" name="phone" placeholder="9998887776">
             <label for="amount">Amount:</label>
             <input type="text" id="amount" name="amount" placeholder="1000">
-            <label for="admin">Choose Recharge Admin:</label>
+            <label for="admin">Recharge Admin:</label>
             <select name="admin" id="admin">
-                <option value="animesh">Animesh</option>
-                <option value="shubham">Shubham</option>
-                <option value="shamim">Shamim</option>
+                <option value="<?php echo $admin; ?>"><?php echo $admin; ?></option>
             </select><br/><br/>
             <label for="type">Choose Recharge Type:</label>
             <select name="type" id="type">
@@ -62,6 +72,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') { ?>
         }
     }else{ echo "Phone number not valid or user not active"; }
 }
+} else
+    header("Location: ".$data->get_path()."admin/index.php");
 ?>
 
 </html>

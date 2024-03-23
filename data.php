@@ -15,6 +15,7 @@ class Data {
     private $min_recharge_amount_for_referral;
     private $bonus_recharge_type;
     private $initial_wallet_balance;
+    private $admin_auth_cookie_name;
 
     function __construct(){
         $this->db_ip = "localhost";
@@ -25,12 +26,14 @@ class Data {
         $this->zero_referral_bonus = '0';
         $this->referral_bonus = '100';
         $this->verification_phone_number = "8093155669 or 7250224216 or 9304468820";
+        //$this->path = "http://localhost/T20/";
         $this->path = "https://www.crickett20.in/T20/";
         $this->auth_cookie_name = "user_ref_id";
         $this->user_active_status = "active";
         $this->bonus_recharge_type = "bonus";
         $this->min_recharge_amount_for_referral = 1000;
         $this->initial_wallet_balance = 50;
+        $this->admin_auth_cookie_name = "admin_ref_id";
         $this->connection = new mysqli($this->db_ip, $this->db_username, $this->db_password, $this->db_name);
     }
 
@@ -45,5 +48,6 @@ class Data {
     public function get_bonus_recharge_type() { return $this->bonus_recharge_type; }
     public function get_min_recharge_amount_for_referral(){ return $this->min_recharge_amount_for_referral;}
     public function get_initial_wallet_balance() {return $this->initial_wallet_balance;}
+    public function get_admin_auth_cookie_name() {return $this->admin_auth_cookie_name;}
 }
 ?>
