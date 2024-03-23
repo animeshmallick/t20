@@ -13,7 +13,7 @@ if ($common->get_auth_cookie($data->get_admin_auth_cookie_name()) <= 0) {
 <html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
-    <link rel="stylesheet" href="../style.css?version=101" type="text/css">
+    <link rel="stylesheet" href="../style.css?version=<?php echo time(); ?>" type="text/css">
     <title>Admin - Menu</title>
 </head>
 <body>
