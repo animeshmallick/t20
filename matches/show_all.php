@@ -60,30 +60,59 @@
 
             if ($common->over_started($data->get_connection(), $match_id, $innings, $over))
                 $actual_run = $common->get_actual_run($data->get_connection(), $match_id, $innings, $over);
-
+            $wins = -1;
             if (!str_contains($status, "cancel")) {
                 if ($actual_run != -1) {
                     if ($actual_run >= $lower_run_limit && $actual_run <= $upper_run_limit) {
                         $actual_rate = $rate;
                         $amount += $actual_rate * $bid_amount;
+                        $wins = $bid_amount * $rate;
                     }
                 }
                 $total += $bid_amount;
             }
-            ?>
-            <tr style="text-align: center">
-                <td><?php echo $common->get_user_name_from_ref_id($data->get_connection(), $ref_id); ?></td>
-                <td><?php echo $over;?></td>
-                <td><?php echo $lower_run_limit;?></td>
-                <td><?php echo $upper_run_limit?></td>
-                <td>Rs<?php echo $bid_amount?></td>
-                <td><?php echo $rate?></td>
-                <td><?php if ($actual_run != -1) echo $actual_run; else echo ""; ?></td>
-                <td><?php if ($actual_rate != -1) echo $actual_rate; else echo "--"; ?></td>
-                <td><?php if ($actual_rate != -1) echo "Rs".($bid_amount * $rate); else echo "--"; ?></td>
-                <td><?php echo $status?></td>
-            </tr>
-            <?php
+            if ($actual_run == -1){ ?>
+                <tr style="text-align: center">
+                    <td><?php echo $common->get_user_name_from_ref_id($data->get_connection(), $ref_id); ?></td>
+                    <td><?php echo $over;?></td>
+                    <td><?php echo $lower_run_limit;?></td>
+                    <td><?php echo $upper_run_limit?></td>
+                    <td>Rs<?php echo $bid_amount?></td>
+                    <td><?php echo $rate?></td>
+                    <td><?php if ($actual_run != -1) echo $actual_run; else echo ""; ?></td>
+                    <td><?php if ($actual_rate != -1) echo $actual_rate; else echo "--"; ?></td>
+                    <td><?php if ($actual_rate != -1) echo "Rs".$wins; else echo "--"; ?></td>
+                    <td><?php echo $status?></td>
+                </tr>
+            <?php }else {
+                if ($wins == -1){ ?>
+                    <tr class="loss" style="text-align: center">
+                        <td><?php echo $common->get_user_name_from_ref_id($data->get_connection(), $ref_id); ?></td>
+                        <td><?php echo $over;?></td>
+                        <td><?php echo $lower_run_limit;?></td>
+                        <td><?php echo $upper_run_limit?></td>
+                        <td>Rs<?php echo $bid_amount?></td>
+                        <td><?php echo $rate?></td>
+                        <td><?php echo $actual_run; ?></td>
+                        <td><?php echo "--"; ?></td>
+                        <td><?php echo "--"; ?></td>
+                        <td><?php echo $status?></td>
+                    </tr>
+                <?php }else { ?>
+                    <tr class="win" style="text-align: center">
+                        <td><?php echo $common->get_user_name_from_ref_id($data->get_connection(), $ref_id); ?></td>
+                        <td><?php echo $over;?></td>
+                        <td><?php echo $lower_run_limit;?></td>
+                        <td><?php echo $upper_run_limit?></td>
+                        <td>Rs<?php echo $bid_amount?></td>
+                        <td><?php echo $rate?></td>
+                        <td><?php if ($actual_run != -1) echo $actual_run; else echo ""; ?></td>
+                        <td><?php if ($actual_rate != -1) echo $actual_rate; else echo "--"; ?></td>
+                        <td><?php if ($actual_rate != -1) echo "Rs".$wins; else echo "--"; ?></td>
+                        <td><?php echo $status?></td>
+                    </tr>
+                <?php }
+            }
         }
         ?>
         <tr>

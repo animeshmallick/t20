@@ -239,3 +239,14 @@ a.wide {
     outline: none;
     display: block;
 }
+
+tr.win {
+    outline-color: green;
+    outline-style: solid;
+    color: green;
+}
+tr.loss {
+    outline-color: red;
+    outline-style: solid;
+    color: red;
+}

@@ -14,6 +14,7 @@ if ($common->get_auth_cookie($data->get_auth_cookie_name()) > 0) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
     <link rel="stylesheet" href="style.css">
     <title>IPL 2024</title>
+    <link rel="icon" type="image/x-icon" href="cricket.ico">
 </head>
 <body>
 <div class="header"><h1>IPL - 2024</h1></div>

@@ -33,7 +33,7 @@ $match_id = $_GET['match_id'];
     <div class="innings">
         <?php
         for ($i = 1;$i<=20;$i++){ ?>
-            <a href="over.php?match_id=<?php echo $match_id;?>&innings=2&over=<?php echo $i; ?>">Innings 2 : Over <?php echo $i; ?></a>
+            <a href="over_status.php?match_id=<?php echo $match_id;?>&innings=2&over=<?php echo $i; ?>">Innings 2 : Over <?php echo $i; ?></a>
         <?php }
         ?>
     </div>
