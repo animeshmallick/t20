@@ -76,7 +76,7 @@ if ($result->num_rows > 0) { ?>
         }
 
     if ($actual_run == -1){ ?>
-        <tr class="win" style="text-align: center">
+        <tr style="text-align: center">
             <td><?php echo $lower_run_limit;?></td>
             <td><?php echo $upper_run_limit?></td>
             <td>--</td>
