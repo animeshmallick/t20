@@ -125,7 +125,7 @@
                 <td></td>
                 <td></td>
                 <td>Rs<?php echo $amount; ?></td>
-                <td><?php echo "Profit of Rs".($amount-$total);?></td>
+                <td style="font-weight: bold"><?php echo "Profit of Rs".($amount-$total);?></td>
             </tr>
         <?php } else { ?>
             <tr class="loss" style="text-align: center">
@@ -138,7 +138,7 @@
                 <td></td>
                 <td></td>
                 <td>Rs<?php echo $amount; ?></td>
-                <td><?php echo "Loss of Rs".($total-$amount);?></td>
+                <td style="font-weight: bold"><?php echo "Loss of Rs".($total-$amount);?></td>
             </tr>
         <?php }
         ?>
