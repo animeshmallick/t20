@@ -27,12 +27,13 @@ if (!$common->over_started($data->get_connection(), $match_id, $innings, $over))
         <a href="book.php?match_id=<?php echo $match_id;?>&innings=<?php echo $innings;?>&over=<?php echo $over;?>">Play on Over <?php echo $over;?></a>
     <?php
     } else { ?>
-        <div class="sub-header"><h1>Yet to open. Please come back after sometime</h1></h2></div>
+        <div class="sub-header"><h1>Over <?php echo $over;?> Yet to open. Please come back after sometime</h1></h2></div>
 <?php }
 } else{ ?>
-    <div class="sub-header"><h1>Over Closed for new Orders</h1></h2></div>
+    <div class="sub-header"><h1>Over <?php echo $over; ?> Over Closed for new Orders</h1></h2></div>
 <?php } ?>
-<h2>Your Orders</h2>
+<h2>All Your Orders on Over <?php echo $over; ?></h2>
+<hr>
 <?php
 $ref_id = (int)$common->get_auth_cookie($data->get_auth_cookie_name());
 $sql = "Select * from `bid_table` where `match_id`='$match_id' and `innings`=$innings and `over_id`=$over and `ref_id`=$ref_id";

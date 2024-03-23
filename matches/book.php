@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" and isset($_GET['match_id']) and isset($
                 <body">
                 <div class="bid_container">
                     <div class="form">
-                        <header>New Bid</header>
+                        <header>New Bid on Over <?php echo $over;?></header>
                         <form action="book.php" method="POST" name="bid_form">
 <input type="number" id="bid_id" name="bid_id" value="<?php echo get_unique_bid_id($data->get_connection());?>" readonly required hidden="hidden">
                             <input type="text" id="match_id" name="match_id" value="<?php echo $match_id;?>" readonly required hidden="hidden">
@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" and isset($_GET['match_id']) and isset($
                 <body>
                 <div class="bid_container">
                     <div class="form">
-                        <header>New Bid</header>
+                        <header>New Bid on Over <?php echo $over;?></header>
                         <form action="book.php" method="GET" name="bid_form">
                             <input type="text" id="match_id" name="match_id" value="<?php echo $match_id;?>" readonly required hidden="hidden">
                             <input type="number" id="innings" name="innings" value="<?php echo $innings;?>" readonly required hidden="hidden">
