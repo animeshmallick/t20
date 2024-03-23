@@ -106,3 +106,22 @@ a.open {
     text-decoration: none;
     display: inline-block;
 }
+
+a.closed {
+    background-color: #cc4533;
+    color: black;
+    border: 2px solid white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+a.yettostart {
+    background-color: #78d5c3;
+    color: black;
+    border: 2px solid white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}

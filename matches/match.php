@@ -32,10 +32,10 @@ $match_id = $_GET['match_id'];
                 if($expected_run != -1) { ?>
                     <a class="open" href="over.php?match_id=<?php echo $match_id;?>&innings=1&over=<?php echo $i; ?>">Innings 1 : Over <?php echo $i; ?></a>
                 <?php } else { ?>
-                    <a href="over.php?match_id=<?php echo $match_id;?>&innings=1&over=<?php echo $i; ?>">Innings 1 : Over <?php echo $i; ?></a>
+                    <a class="yettostart" href="over.php?match_id=<?php echo $match_id;?>&innings=1&over=<?php echo $i; ?>">Innings 1 : Over <?php echo $i; ?></a>
                 <?php }
         } else { ?>
-            <a href="over.php?match_id=<?php echo $match_id;?>&innings=1&over=<?php echo $i; ?>">Innings 1 : Over <?php echo $i; ?></a>
+            <a class="closed" href="over.php?match_id=<?php echo $match_id;?>&innings=1&over=<?php echo $i; ?>">Innings 1 : Over <?php echo $i; ?></a>
 
     <?php }
     }
@@ -49,10 +49,10 @@ $match_id = $_GET['match_id'];
             if($expected_run != -1) { ?>
                 <a class="open" href="over.php?match_id=<?php echo $match_id;?>&innings=2&over=<?php echo $i; ?>">Innings 2 : Over <?php echo $i; ?></a>
             <?php } else { ?>
-                <a href="over.php?match_id=<?php echo $match_id;?>&innings=2&over=<?php echo $i; ?>">Innings 2 : Over <?php echo $i; ?></a>
+                <a class="yettostart" href="over.php?match_id=<?php echo $match_id;?>&innings=2&over=<?php echo $i; ?>">Innings 2 : Over <?php echo $i; ?></a>
             <?php }
         } else { ?>
-            <a href="over.php?match_id=<?php echo $match_id;?>&innings=2&over=<?php echo $i; ?>">Innings 2 : Over <?php echo $i; ?></a>
+            <a class="closed" href="over.php?match_id=<?php echo $match_id;?>&innings=2&over=<?php echo $i; ?>">Innings 2 : Over <?php echo $i; ?></a>
         <?php
         }
     }
