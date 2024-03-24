@@ -14,7 +14,7 @@ $common = new Common();
     <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="../style.css?version=<?php echo time(); ?>">
     <title>Over</title>
-    <link rel="icon" type="image/x-icon" href="../cricket.ico">
+    <link rel="icon" type="image/x-icon" href="../  cricket.ico">
 </head>
 <body>
 <div class="header"><h1>IPL - 2024</h1></div>
@@ -78,9 +78,42 @@ if ($result->num_rows > 0) { ?>
             }
             $total += $bid_amount;
         }
-
-    if ($actual_run == -1){ ?>
-        <tr style="text-align: center">
+    if (!str_contains($status, "cancel")) {
+        if ($actual_run == -1){ ?>
+            <tr style="text-align: center">
+                <td><?php echo $lower_run_limit;?></td>
+                <td><?php echo $upper_run_limit?></td>
+                <td>--</td>
+                <td>Rs<?php echo $bid_amount?></td>
+                <td><?php echo $rate; ?></td>
+                <td>--</td>
+                <td><?php echo $status?></td>
+            </tr>
+            <?php }else {
+                if ($wins == -1){ ?>
+                    <tr class="loss" style="text-align: center">
+                        <td><?php echo $lower_run_limit;?></td>
+                        <td><?php echo $upper_run_limit?></td>
+                        <td><?php echo $actual_run?></td>
+                        <td>Rs<?php echo $bid_amount?></td>
+                        <td><?php echo $rate; ?></td>
+                        <td><?php echo "--"; ?></td>
+                        <td><?php echo $status?></td>
+                    </tr>
+                <?php }else { ?>
+                    <tr class="win" style="text-align: center">
+                        <td><?php echo $lower_run_limit;?></td>
+                        <td><?php echo $upper_run_limit?></td>
+                        <td><?php echo $actual_run?></td>
+                        <td>Rs<?php echo $bid_amount?></td>
+                        <td><?php echo $rate; ?></td>
+                        <td><?php echo $wins; ?></td>
+                        <td><?php echo $status?></td>
+                    </tr>
+                <?php }
+                }
+        } else { ?>
+        <tr class="cancel" style="text-align: center">
             <td><?php echo $lower_run_limit;?></td>
             <td><?php echo $upper_run_limit?></td>
             <td>--</td>
@@ -89,30 +122,29 @@ if ($result->num_rows > 0) { ?>
             <td>--</td>
             <td><?php echo $status?></td>
         </tr>
-        <?php }else {
-            if ($wins == -1){ ?>
-                <tr class="loss" style="text-align: center">
-                    <td><?php echo $lower_run_limit;?></td>
-                    <td><?php echo $upper_run_limit?></td>
-                    <td><?php echo $actual_run?></td>
-                    <td>Rs<?php echo $bid_amount?></td>
-                    <td><?php echo $rate; ?></td>
-                    <td><?php echo "--"; ?></td>
-                    <td><?php echo $status?></td>
-                </tr>
-            <?php }else { ?>
-                <tr class="win" style="text-align: center">
-                    <td><?php echo $lower_run_limit;?></td>
-                    <td><?php echo $upper_run_limit?></td>
-                    <td><?php echo $actual_run?></td>
-                    <td>Rs<?php echo $bid_amount?></td>
-                    <td><?php echo $rate; ?></td>
-                    <td><?php echo $wins; ?></td>
-                    <td><?php echo $status?></td>
-                </tr>
-            <?php }
-            }
-    } ?>
+    <?php }
+    }
+    if (($amount - $total) >= 0) { ?>
+    <tr class="win" style="text-align: center">
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>Rs<?php echo $total; ?></td>
+        <td></td>
+        <td>Rs<?php echo $amount; ?></td>
+        <td style="font-weight: bold"><?php echo "Profit of Rs".($amount-$total);?></td>
+    </tr>
+    <?php } else { ?>
+    <tr class="loss" style="text-align: center">
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>Rs<?php echo $total; ?></td>
+        <td></td>
+        <td>Rs<?php echo $amount; ?></td>
+        <td style="font-weight: bold"><?php echo "Loss of Rs".($total-$amount);?></td>
+    </tr>
+    <?php } ?>
     </tbody>
     </table>
     <p>Runs mentioned above are inclusive of actual runs.</p>

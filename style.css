@@ -250,6 +250,11 @@ tr.loss {
     outline-style: solid;
     color: red;
 }
+tr.cancel {
+    outline-color: #38d7b8;
+    outline-style: solid;
+    color: #0f1060;
+}
 a.play {
     border-radius: 50px;
     display: block;
