@@ -32,11 +32,11 @@ if ($result->num_rows == 1){
 
     $datetime = new DateTime();
     $datetime->setTimestamp($bid_timestamp);
-    echo "B:".$datetime->format('Y-m-d H:i:s')."<br>";
+    //echo "B:".$datetime->format('Y-m-d H:i:s')."<br>";
 
     $datetime = new DateTime();
     $datetime->setTimestamp($current_timestamp);
-    echo "C:".$datetime->format('Y-m-d H:i:s')."<br>";
+    //echo "C:".$datetime->format('Y-m-d H:i:s')."<br>";
 
     if (($current_timestamp - $bid_timestamp) < $data->get_bid_cancel_time()) {
         $sql = "UPDATE `bid_table` SET `status`='bid_cancelled' WHERE `bid_id`=$bid_id";

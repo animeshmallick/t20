@@ -141,7 +141,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $common->deduct_wallet_balance($data->get_connection(), $ref_id, $amount, $bid_id, $common->get_unique_tran_id($data->get_connection()));
                 ?>
                 <body onload="cancel_bid_service(<?php echo $match_id;?>, <?php echo $innings;?>, <?php echo $over; ?>)">
-                    <div class="header"><h1>Bid Placed for runs between [<?php echo $run_min;?> and <?php echo $run_max; ?>] of Rs<?php echo $amount;?> @ rate of <?php echo $rate; ?></h1></div>
+                <div class="innings" style="color: black"><h1>Your Order is Placed Successfully</h1></div>
+                <div class="header"><h1>Bid Placed for runs between [<?php echo $run_min;?> and <?php echo $run_max; ?>] of Rs<?php echo $amount;?> @ rate of <?php echo $rate; ?></h1></div>
                     <a id="cancel_bid" href="cancel_bid.php?bid_id=<?php echo $bid_id;?>"> Cancel This Bid</a>
                 <?php } else { ?>
                 <body>
