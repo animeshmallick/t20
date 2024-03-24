@@ -17,6 +17,7 @@ class Data {
     private $initial_wallet_balance;
     private $admin_auth_cookie_name;
     private $match_live_status;
+    private $bid_cancel_time;
 
     function __construct(){
         $this->db_ip = "localhost";
@@ -36,6 +37,7 @@ class Data {
         $this->initial_wallet_balance = 50;
         $this->admin_auth_cookie_name = "admin_ref_id";
         $this->match_live_status = "live";
+        $this->bid_cancel_time = 10;
         $this->connection = new mysqli($this->db_ip, $this->db_username, $this->db_password, $this->db_name);
     }
 
@@ -52,5 +54,6 @@ class Data {
     public function get_initial_wallet_balance() {return $this->initial_wallet_balance;}
     public function get_admin_auth_cookie_name() {return $this->admin_auth_cookie_name;}
     public function get_match_live_status() { return $this->match_live_status;}
+    public function get_bid_cancel_time() { return $this->bid_cancel_time;}
 }
 ?>

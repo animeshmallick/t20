@@ -26,11 +26,19 @@ $result = $data->get_connection()->query($sql);
 if ($result->num_rows == 1){
     $row = $result->fetch_assoc();
     $amount = floatval($row['amount']);
-    $bid_timestamp = strtotime($row['time_stamp']);
-    date_default_timezone_set('Asia/Kolkata');
+    $bid_timestamp = (strtotime($row['time_stamp']));
+    //date_default_timezone_set('Asia/Kolkata');
     $current_timestamp = time();
 
-    if (($current_timestamp - $bid_timestamp) <= 5) {
+    $datetime = new DateTime();
+    $datetime->setTimestamp($bid_timestamp);
+    echo "B:".$datetime->format('Y-m-d H:i:s')."<br>";
+
+    $datetime = new DateTime();
+    $datetime->setTimestamp($current_timestamp);
+    echo "C:".$datetime->format('Y-m-d H:i:s')."<br>";
+
+    if (($current_timestamp - $bid_timestamp) < $data->get_bid_cancel_time()) {
         $sql = "UPDATE `bid_table` SET `status`='bid_cancelled' WHERE `bid_id`=$bid_id";
         if ($data->get_connection()->query($sql)){
             $common->recharge_user_wallet($data->get_connection(), $ref_id, $amount, $bid_id, "bid_cancel", $common->get_unique_tran_id($data->get_connection())); ?>
@@ -42,7 +50,7 @@ if ($result->num_rows == 1){
         <?php }
     } else {
         $datetime = new DateTime();
-        $datetime->setTimestamp($bid_timestamp + 5); ?>
+        $datetime->setTimestamp($bid_timestamp + $data->get_bid_cancel_time()); ?>
         <div class="header"><h1>Cancellation time expired.</h1></div>
         <div class="sub-header"><h2>Cancellation Closed <?php echo $datetime->format('H:i:s'); ?></h2></div>
         <a class="wide" href="index.php">Go To Home</a>
