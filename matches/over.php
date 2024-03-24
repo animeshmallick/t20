@@ -124,7 +124,7 @@ if ($result->num_rows > 0) { ?>
         </tr>
     <?php }
     }
-    if ((($amount - $total) > 0) && $common->over_started($data->get_connection(), $match_id, $innings, $over)) { ?>
+    if ((($amount - $total) > 0) && $common->get_actual_run($data->get_connection(), $match_id, $innings, $over) != -1) { ?>
     <tr class="win" style="text-align: center">
         <td></td>
         <td></td>
@@ -134,7 +134,7 @@ if ($result->num_rows > 0) { ?>
         <td>Rs<?php echo $amount; ?></td>
         <td style="font-weight: bold"><?php echo "Profit of Rs".($amount-$total);?></td>
     </tr>
-    <?php } else if ((($total - $amount) > 0) && $common->over_started($data->get_connection(), $match_id, $innings, $over)) { ?>
+    <?php } else if ((($total - $amount) > 0) && $common->get_actual_run($data->get_connection(), $match_id, $innings, $over) != -1) { ?>
     <tr class="loss" style="text-align: center">
         <td></td>
         <td></td>
