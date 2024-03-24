@@ -26,7 +26,7 @@ $result = $data->get_connection()->query($sql);
 if ($result->num_rows == 1){
     $row = $result->fetch_assoc();
     $amount = floatval($row['amount']);
-    $bid_timestamp = (strtotime($row['time_stamp']));
+    $bid_timestamp = (strtotime($row['time_stamp']) + 25200);
     //date_default_timezone_set('Asia/Kolkata');
     $current_timestamp = time();
 
