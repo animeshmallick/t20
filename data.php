@@ -37,7 +37,7 @@ class Data {
         $this->initial_wallet_balance = 50;
         $this->admin_auth_cookie_name = "admin_ref_id";
         $this->match_live_status = "live";
-        $this->bid_cancel_time = 10;
+        $this->bid_cancel_time = 6; //Also change in the script.js file
         $this->connection = new mysqli($this->db_ip, $this->db_username, $this->db_password, $this->db_name);
     }
 

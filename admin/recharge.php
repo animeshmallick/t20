@@ -62,9 +62,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') { ?>
     $ref_id = $common->get_ref_id_from_phone($connection, $phone, $data->get_user_active_status());
     if ($ref_id != -1) {
         $common->recharge_user_wallet($connection, $ref_id, $amount, $recharge_admin, $type, $tran_id);
-        if (((int)$amount) >= $data->get_min_recharge_amount_for_referral())
+        if (((int)$amount) >= $data->get_min_recharge_amount_for_referral()) {
             $common->give_referral_bonus($connection, $ref_id, $data->get_referral_bonus(), $data->get_bonus_recharge_type(), $tran_id);
-        ?>
+        } ?>
         <body>
             <div class="header"><h1>Recharge Successful</h1></div>
             <a href="index.php">Go Home</a>

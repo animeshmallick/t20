@@ -23,7 +23,7 @@ function validate_register_form() {
     return true;
 }
 function cancel_bid_service(match_id, innings, over) {
-    let x = 10;
+    let x = 6;
     setInterval(function (){
         document.getElementById('cancel_bid').innerText = 'Cancel this bid ('+x+' seconds remaining)';
         x--;

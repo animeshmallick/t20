@@ -144,6 +144,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div class="innings" style="color: black"><h1>Your Order is Placed Successfully</h1></div>
                 <div class="header"><h1>Bid Placed for runs between [<?php echo $run_min;?> and <?php echo $run_max; ?>] of Rs<?php echo $amount;?> @ rate of <?php echo $rate; ?></h1></div>
                     <a id="cancel_bid" href="cancel_bid.php?bid_id=<?php echo $bid_id;?>"> Cancel This Bid</a>
+                    <a class="live" href="over.php?match_id=<?php echo $match_id; ?>&innings=<?php echo $innings;?>&over=<?php echo $over; ?>">I don't want to Cancel</a>
                 <?php } else { ?>
                 <body>
                     <div class="header"><h1>Bid Placing Failed due to duplicate bid found.</h1></div>
