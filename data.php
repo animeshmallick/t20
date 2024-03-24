@@ -16,6 +16,7 @@ class Data {
     private $bonus_recharge_type;
     private $initial_wallet_balance;
     private $admin_auth_cookie_name;
+    private $match_live_status;
 
     function __construct(){
         $this->db_ip = "localhost";
@@ -34,6 +35,7 @@ class Data {
         $this->min_recharge_amount_for_referral = 1000;
         $this->initial_wallet_balance = 50;
         $this->admin_auth_cookie_name = "admin_ref_id";
+        $this->match_live_status = "live";
         $this->connection = new mysqli($this->db_ip, $this->db_username, $this->db_password, $this->db_name);
     }
 
@@ -49,5 +51,6 @@ class Data {
     public function get_min_recharge_amount_for_referral(){ return $this->min_recharge_amount_for_referral;}
     public function get_initial_wallet_balance() {return $this->initial_wallet_balance;}
     public function get_admin_auth_cookie_name() {return $this->admin_auth_cookie_name;}
+    public function get_match_live_status() { return $this->match_live_status;}
 }
 ?>

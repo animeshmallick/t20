@@ -255,3 +255,7 @@ a.play {
     display: block;
     background-color: #78d5c3;
 }
+a.live {
+    border-radius: 50px;
+    background-color: #83fa04;
+}
