@@ -12,6 +12,7 @@ $match_id = $_GET['match_id'];
     <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="../overs.css?version=<?php echo time(); ?>">
     <title>Match</title>
+    <link rel="icon" type="image/x-icon" href="../cricket.ico">
     <style>
         body {
             background-color: #000000;

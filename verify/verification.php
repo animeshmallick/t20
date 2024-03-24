@@ -3,6 +3,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="../style.css?version=<?php echo time(); ?>">
     <title>Verification</title>
+    <link rel="icon" type="image/x-icon" href="../cricket.ico">
 </head>
 <body>
 <div class="header"><h1>IPL - 2024 - Registration</h1></div>

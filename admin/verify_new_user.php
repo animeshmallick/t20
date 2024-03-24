@@ -3,6 +3,7 @@
     <title>Admin- Verify New User</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="../style.css?version=<?php echo time(); ?>">
+    <link rel="icon" type="image/x-icon" href="../cricket.ico">
 </head>
 <?php
 include "../data.php";
