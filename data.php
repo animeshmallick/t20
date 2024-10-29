@@ -1,5 +1,6 @@
 <?php
 class Data {
+    public $base_amount_for_rate_conversion;
     private $db_ip;
     private $db_username;
     private $db_password;
@@ -20,16 +21,21 @@ class Data {
     private $bid_cancel_time;
 
     function __construct(){
+        if ($_SERVER['HTTP_HOST'] == 'localhost') {
+            $this->db_username = "root";
+            $this->db_password = "";
+            $this->path = "http://localhost/t20/";
+        }else {
+            $this->db_username = "cricket";
+            $this->db_password = "Cactus@1549";
+            $this->path = "https://www.crickett20.in/T20/";
+        }
         $this->db_ip = "localhost";
-        $this->db_username = "cricket";
-        $this->db_password = "Cactus@1549";
         $this->db_name = "ipl_live";
         $this->user_pending_status = "pending";
         $this->zero_referral_bonus = '0';
         $this->referral_bonus = '100';
         $this->verification_phone_number = "8093155669 or 7250224216 or 9304468820";
-        //$this->path = "http://localhost/T20/";
-        $this->path = "https://www.crickett20.in/T20/";
         $this->auth_cookie_name = "user_ref_id";
         $this->user_active_status = "active";
         $this->bonus_recharge_type = "bonus";
@@ -38,6 +44,7 @@ class Data {
         $this->admin_auth_cookie_name = "admin_ref_id";
         $this->match_live_status = "live";
         $this->bid_cancel_time = 6; //Also change in the script.js file
+        $this->base_amount_for_rate_conversion = 100.0;
         $this->connection = new mysqli($this->db_ip, $this->db_username, $this->db_password, $this->db_name);
     }
 

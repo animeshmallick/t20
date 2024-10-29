@@ -61,9 +61,15 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" and isset($_GET['match_id']) and isset($
 
                             <label for="slot">Choose a Slot for Over : <?php echo $over; ?></label>
                             <hr>
-                            <label for="slot_a" name="slot"><input type="radio" id="slot_a" name="slot" value="a" checked><?php echo "Run [0 to ".$run_aa."] @ Rate : ".$rate_a;?></label>
-                            <label for="slot_b" name="slot"><input type="radio" id="slot_b" name="slot" value="b"><?php echo "Run [".($run_aa + 1)." to ".$run_bb."] @ Rate : ".$rate_b;?></label>
-                            <label for="slot_c" name="slot"><input type="radio" id="slot_c" name="slot" value="c"><?php echo "Run [".($run_bb + 1)." or more] @ Rate : ".$rate_c;?></label>
+                            <label for="slot_a" name="slot"><input type="radio" id="slot_a" name="slot" value="a" checked>
+                                <?php echo "Run [0 to ".$run_aa."] @ ".$common->rate_convertor($rate_a, $data->base_amount_for_rate_conversion);?>
+                            </label>
+                            <label for="slot_b" name="slot"><input type="radio" id="slot_b" name="slot" value="b">
+                                <?php echo "Run [".($run_aa + 1)." to ".$run_bb."] @ ".$common->rate_convertor($rate_b, $data->base_amount_for_rate_conversion);?>
+                            </label>
+                            <label for="slot_c" name="slot"><input type="radio" id="slot_c" name="slot" value="c">
+                                <?php echo "Run [".($run_bb + 1)." or more] @ ".$common->rate_convertor($rate_c, $data->base_amount_for_rate_conversion);?>
+                            </label>
                             <hr>
                             <input type="submit" class="button" value="Submit">
                         </form>

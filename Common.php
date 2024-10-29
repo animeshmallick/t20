@@ -199,4 +199,9 @@ class Common {
         $recharge_admin = "bid_".$bid_id;
         $this->recharge_user_wallet($connection, $ref_id, $amount, $recharge_admin, "bid_placed", $tran_id);
     }
+    function rate_convertor($rate, $base_amount): string
+    {
+        $amount = (int)((($rate * $base_amount) / 10) * 10);
+        return "Rs100 returns Rs".$amount;
+    }
 }
