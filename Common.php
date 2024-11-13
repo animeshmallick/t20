@@ -1,4 +1,5 @@
 <?php
+include "model/Score.php";
 class Common {
     function get_auth_cookie($name) {
         if (isset($_COOKIE[$name]))
@@ -201,7 +202,57 @@ class Common {
     }
     function rate_convertor($rate, $base_amount): string
     {
-        $amount = (int)((($rate * $base_amount) / 10) * 10);
-        return "Rs100 returns Rs".$amount;
+        return (int)((($rate * $base_amount) / 10) * 10);
+    }
+
+    public function is_group_over_open(mysqli $get_connection, int $match_id, int $int, int $int1): bool
+    {
+        return true;
+    }
+
+    public function get_expected_runs_from_over_slots(mysqli $connection, mixed $match_id, mixed $innings, int $over_start, int $over_end, $expected_runs_default)
+    {
+        $sql = "Select * from `scorecard` where `match_id`='$match_id' and `innings`=$innings and `ball_id`>=($over_start - 1)*6 and `ball_id`<=($over_end * 6) ORDER BY `ball_id` DESC";
+        $result = $connection->query($sql);
+        $current_ball = 0;
+        $current_runs = 0;
+        $balls = array();
+        while ($row = $result->fetch_assoc()) {
+            $ball = new Score($row['match_id'], $row['innings'], $row['ball_id'], $row['runs'], $row['wickets']);
+            $balls[] = $ball;
+            $current_ball = max($current_ball, $ball->getBallId());
+            $current_runs = max($current_runs, $ball->getRuns());
+        }
+        echo $current_ball."  ".$current_runs;
+        echo $innings;
+        if ($current_ball == 0)
+            return $expected_runs_default;
+
+        $expected_runs_from_run_rate = $current_runs / $current_ball * (($over_end) * 6);
+        $runs_gap = $expected_runs_default - $expected_runs_from_run_rate;
+        $expected_runs = $expected_runs_default - ($runs_gap * count($balls) / (($over_end - $over_start) * 6));
+        echo "exp: ".$expected_runs;
+        return $expected_runs;
+    }
+    public function get_score($connection, $match_id, $innings) {
+
+    }
+
+    public function get_all_matches()
+    {
+        $url = 'https://om8zdfeo2h.execute-api.ap-south-1.amazonaws.com/get_all_matches'; // replace with your URL
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // return response as string
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // follow redirects
+        $response = curl_exec($ch);
+        curl_close($ch);
+        $response = substr(str_replace("},{","}&&{", $response), 1, -1);
+        $matches = [];
+        $match_id = 0;
+        foreach (explode('&&', $response) as $match) {
+            $matches[$match_id] = json_decode($match);
+            $match_id = $match_id + 1;
+        }
+        return $matches;
     }
 }

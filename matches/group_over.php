@@ -3,10 +3,12 @@ include "../data.php";
 include "../Common.php";
 $match_id = $_GET['match_id'];
 $innings = $_GET['innings'];
-$over = (int)$_GET['over'];
+$over_start = (int)$_GET['start_over'];
+$over_end = (int)$_GET['end_over'];
 
 $data = new Data();
 $common = new Common();
+$over = $over_start;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,25 +16,23 @@ $common = new Common();
     <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="../style.css?version=<?php echo time(); ?>">
     <title>Over</title>
-    <link rel="icon" type="image/x-icon" href="../  cricket.ico">
+    <link rel="icon" type="image/x-icon" href="../cricket.ico">
 </head>
 <body>
 <div class="header"><h1>IPL - 2024</h1></div>
 <?php
 
-if (!$common->over_started($data->get_connection(), $match_id, $innings, $over)) {
-    $expected_run = $common->get_expected_runs_from_over($data->get_connection(), $match_id, $innings, $over);
-    if($expected_run != -1) { ?>
-        <div class="sub-header"><h2>Available Balance : <?php echo $common->get_wallet_balance($data->get_connection(), $common->get_auth_cookie($data->get_auth_cookie_name())); ?></h2></div>
-        <h2>
-        <a class="play" href="book.php?match_id=<?php echo $match_id;?>&innings=<?php echo $innings;?>&over=<?php echo $over;?>">Place New Bid </a>
-            </h2>
+if ($common->is_group_over_open($data->get_connection(), $match_id, $over_start, $over_end)) {
+
+    $expected_run = $common->get_expected_runs_from_over_slots($data->get_connection(), $match_id, $innings, $over_start, $over_end, $data->get_expected_runs_default($over_end));
+    ?>
+    <div class="sub-header"><h2>Available Balance : <?php echo $common->get_wallet_balance($data->get_connection(), $common->get_auth_cookie($data->get_auth_cookie_name())); ?></h2></div>
+    <h2>
+    <a class="play" href="book_group.php?match_id=<?php echo $match_id;?>&innings=<?php echo $innings;?>&start_over=<?php echo $over_start;?>&end_over=<?php echo $over_end;?>">Place New Bid For This Group</a>
+        </h2>
     <?php
-    } else { ?>
-        <div class="sub-header"><h1>Over <?php echo $over;?> Yet to open. Please come back after sometime</h1></h2></div>
-<?php }
 } else{ ?>
-    <div class="sub-header"><h1>Over <?php echo $over; ?> Over Closed for new Orders</h1></h2></div>
+    <div class="sub-header"><h1>Over <?php echo $over_start . " to " . $over_end; ?> Closed for new Orders</h1></h2></div>
 <?php } ?>
 <hr>
 <h2>All Your Orders on Over <?php echo $over; ?></h2>

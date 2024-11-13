@@ -9,7 +9,7 @@ class Bid_data {
 
     function __construct(){
         $this->max_affordable_loss = 1000;
-        $this->max_rate = 3;
+        $this->max_rate = 5;
         $this->lower_diff = 1.53;
         $this->upper_diff = 1.53;
         $this->bid_placed_status = "placed";

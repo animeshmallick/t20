@@ -6,7 +6,10 @@ $common = new Common();
 
 if($common->get_auth_cookie($data->get_auth_cookie_name()) > 0) {
     $sql = "SELECT * FROM `matches`";
-    $result = (new Data())->get_connection()->query($sql);
+    $result = $common->get_all_matches();
+setcookie('match_id', "", time() - (3600), "/");
+setcookie('innings', "", time() - (3600), "/");
+setcookie('overs', "", time() - (3600), "/");
     ?>
     <!DOCTYPE html>
     <html lang="en">
@@ -35,12 +38,10 @@ if($common->get_auth_cookie($data->get_auth_cookie_name()) > 0) {
         <hr>
     <h2 class="success">Matches</h2>
     <?php
-    for ($i=0; $row = $result->fetch_assoc();$i++){
-        if ($row['status'] == $data->get_match_live_status()) { ?>
-            <a class="live" href="match.php?match_id=<?php echo $row['match_id']; ?>"><?php echo $common->get_match_name($data->get_connection(), $row['match_id']);?></a>
-        <?php } else { ?>
-            <a href="match.php?match_id=<?php echo $row['match_id']; ?>"><?php echo $common->get_match_name($data->get_connection(), $row['match_id']);?></a>
-    <?php }
+    $ch = "'";
+    foreach($result as $match){ ?>
+            <a class="live" href='match.php?match_id=<?php echo $match->match_id; ?>&series_id=<?php echo $match->series_id; ?>&match_name=<?php echo $match->match_name; ?>'><?php echo $match->match_name;?></a>
+    <?php
     }
 } else {
         header("Location: ".$data->get_path()."login/login.php");

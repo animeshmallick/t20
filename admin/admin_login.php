@@ -51,8 +51,8 @@ function is_valid_user($connection, $phone, $password, $status, $path): bool
     if ($result->num_rows == 1)
             return TRUE;
     else
-            header("Location: ".$path."verify/verification.php?q=".$phone);
-    return FALSE;
+            #header("Location: ".$path."verify/verification.php?q=".$phone);
+        return FALSE;
 }
 
 function get_user_ref_id($connection, $phone, $password) {

@@ -195,7 +195,13 @@ a.wide {
     color: green;
 }
 .innings {
-    background-color: #59cc33;
+    background-color: cadetblue;
+    color: #ffffff;
+    padding: 15px;
+    margin-bottom: 0.5rem;
+}
+.play_container {
+    background-color: mediumseagreen;
     color: #ffffff;
     padding: 15px;
     margin-bottom: 0.5rem;
@@ -221,7 +227,8 @@ a.wide {
     border-style: inset;
     border-width: 1px;
     height:2px;
-    color:gray;background-color:gray
+    color:gray;
+    background-color:gray
 }
 .body {
     background-image: url("https://crickettimes.com/wp-content/uploads/2023/12/ipl-2024-complete-squads.webp");
@@ -258,9 +265,28 @@ tr.cancel {
 a.play {
     border-radius: 50px;
     display: block;
-    background-color: #78d5c3;
+    background-color: #24f104;
+    color: black;
 }
 a.live {
     border-radius: 50px;
     background-color: #83fa04;
+    display: block;
+    margin-bottom: 0.75rem;
+}
+div.bid_details_success {
+    border-radius: 10px;
+    padding: 15px;
+    display: block;
+    background-color: darkseagreen;
+    color: black;
+    margin-bottom: 0.5rem;
+    font-size: 17px;
+}
+a.cancel_bid {
+    border-radius: 50px;
+    background-color: #fa0404;
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 17px;
 }

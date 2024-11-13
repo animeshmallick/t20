@@ -105,6 +105,7 @@ a.open {
     text-align: center;
     text-decoration: none;
     display: inline-block;
+    margin-bottom: 0.5rem;
 }
 
 a.closed {
@@ -115,6 +116,7 @@ a.closed {
     text-align: center;
     text-decoration: none;
     display: inline-block;
+    margin-bottom: 0.5rem;
 }
 a.yettostart {
     background-color: #78d5c3;
@@ -124,6 +126,7 @@ a.yettostart {
     text-align: center;
     text-decoration: none;
     display: inline-block;
+    margin-bottom: 0.5rem;
 }
 
 .innings_container{
@@ -137,4 +140,10 @@ a.yettostart {
 a {
     padding: 10px 20px;
     border-radius: 50px;
+}
+div.group_over_container {
+    max-width: 100%;
+    width: 100%;
+    border-radius: 7px;
+    margin-bottom: 0.5rem;
 }

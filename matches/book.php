@@ -4,9 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="../style.css?version=<?php echo time(); ?>">
     <link rel="icon" type="image/x-icon" href="../cricket.ico">
-    <script src="../scripts.js">
-
-    </script>
+    <script src="../scripts.js"></script>
     <style>
         input[type!=radio] {
 
@@ -33,75 +31,42 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" and isset($_GET['match_id']) and isset($
     if (!$common->over_started($data->get_connection(), $match_id, $innings, $over)) {
         $expected_run = $common->get_expected_runs_from_over($data->get_connection(), $match_id, $innings, $over);
         if($expected_run != -1) {
-            if (isset($_GET['amount'])) {
-                $amount = $_GET['amount'];
-                $rate_a = $common->get_rate($data->get_connection(), $bid_data->get_max_affordable_loss(), $match_id,
-                    $innings, $over, $amount, 'a', $bid_data->get_bid_placed_status(), $bid_data->get_max_rate());
-                $rate_b = $common->get_rate($data->get_connection(),$bid_data->get_max_affordable_loss(), $match_id,
-                    $innings, $over, $amount, 'b', $bid_data->get_bid_placed_status(), $bid_data->get_max_rate());
-                $rate_c = $common->get_rate($data->get_connection(),$bid_data->get_max_affordable_loss(),$match_id,
-                    $innings, $over, $amount, 'c', $bid_data->get_bid_placed_status(), $bid_data->get_max_rate());
-                $run_a = $expected_run - $bid_data->get_lower_diff();
-                $run_aa = (int)$run_a;
-                $run_b = $expected_run + $bid_data->get_upper_diff() + 1;
-                $run_bb = (int)$run_b;
-                ?>
-                <body">
-                <div class="bid_container">
-                    <div class="form">
-                        <header>New Bid on Over <?php echo $over;?></header>
-                        <form action="book.php" method="POST" name="bid_form">
-<input type="number" id="bid_id" name="bid_id" value="<?php echo get_unique_bid_id($data->get_connection());?>" readonly required hidden="hidden">
-                            <input type="text" id="match_id" name="match_id" value="<?php echo $match_id;?>" readonly required hidden="hidden">
-                            <input type="number" id="innings" name="innings" value="<?php echo $innings;?>" readonly required hidden="hidden">
-                            <input type="number" id="over" name="over" value="<?php echo $over;?>" readonly required hidden="hidden">
+            setcookie('match_id', $match_id, time() + (3600), "/");
+            setcookie('innings', $innings, time() + (3600), "/");
+            setcookie('overs', $over, time() + (3600), "/");
+            ?>
+            <body onload="get_slot_details(100)">
+            <div class="bid_container">
+                <div class="form">
+                    <header>New Bid on Over <?php echo $over;?></header>
+                    <form action="book.php" method="POST" name="bid_form">
+                        <input type="number" id="bid_id" name="bid_id" value="<?php echo get_unique_bid_id($data->get_connection());?>" readonly required hidden="hidden">
+                        <input type="text" id="match_id" name="match_id" value="<?php echo $match_id;?>" readonly required hidden="hidden">
+                        <input type="number" id="innings" name="innings" value="<?php echo $innings;?>" readonly required hidden="hidden">
+                        <input type="number" id="over" name="over" value="<?php echo $over;?>" readonly required hidden="hidden">
+                        <label for="amount">Amount:</label>
+                        <input type="number" id="amount" name="amount" value="100" onkeyup="get_slot_details(this.value)" required>
 
-                            <label for="amount">Amount:</label>
-                            <input type="number" id="amount" name="amount" value="<?php echo $amount; ?>" readonly required>
-
-                            <label for="slot">Choose a Slot for Over : <?php echo $over; ?></label>
-                            <hr>
-                            <label for="slot_a" name="slot"><input type="radio" id="slot_a" name="slot" value="a" checked>
-                                <?php echo "Run [0 to ".$run_aa."] @ ".$common->rate_convertor($rate_a, $data->base_amount_for_rate_conversion);?>
-                            </label>
-                            <label for="slot_b" name="slot"><input type="radio" id="slot_b" name="slot" value="b">
-                                <?php echo "Run [".($run_aa + 1)." to ".$run_bb."] @ ".$common->rate_convertor($rate_b, $data->base_amount_for_rate_conversion);?>
-                            </label>
-                            <label for="slot_c" name="slot"><input type="radio" id="slot_c" name="slot" value="c">
-                                <?php echo "Run [".($run_bb + 1)." or more] @ ".$common->rate_convertor($rate_c, $data->base_amount_for_rate_conversion);?>
-                            </label>
-                            <hr>
-                            <input type="submit" class="button" value="Submit">
-                        </form>
-                        <p class="error" id="msg"><?php if(isset($_GET['msg'])) { echo $_GET['msg']; } ?></p>
-                        <a class="wide" href="book.php?match_id=<?php echo $match_id;?>&innings=<?php echo $innings;?>&over=<?php echo $over;?>">Back</a>
-                        <a class="button wide login" href="../index.php">Go Home</a>
-                    </div>
+                        <label for="slot">Choose a Slot for Over : <?php echo $over; ?></label>
+                        <hr>
+                        <label for="slot_a" name="slot"><input type="radio" id="slot_a" name="slot" value="a" checked>
+                            <span id="slot_a_span"></span>
+                        </label>
+                        <label for="slot_b" name="slot"><input type="radio" id="slot_b" name="slot" value="b">
+                            <span id="slot_b_span"></span>
+                        </label>
+                        <label for="slot_c" name="slot"><input type="radio" id="slot_c" name="slot" value="c">
+                            <span id="slot_c_span"></span>
+                        </label>
+                        <hr>
+                        <input type="submit" class="button" value="Submit">
+                    </form>
+                    <p class="error" id="msg"><?php if(isset($_GET['msg'])) { echo $_GET['msg']; } ?></p>
+                    <a class="wide" href="book.php?match_id=<?php echo $match_id;?>&innings=<?php echo $innings;?>&over=<?php echo $over;?>">Back</a>
+                    <a class="button wide login" href="../index.php">Go Home</a>
                 </div>
+            </div>
             <?php
-            } else {
-
-                ?>
-                <body>
-                <div class="bid_container">
-                    <div class="form">
-                        <header>New Bid on Over <?php echo $over;?></header>
-                        <form action="book.php" method="GET" name="bid_form">
-                            <input type="text" id="match_id" name="match_id" value="<?php echo $match_id;?>" readonly required hidden="hidden">
-                            <input type="number" id="innings" name="innings" value="<?php echo $innings;?>" readonly required hidden="hidden">
-                            <input type="number" id="over" name="over" value="<?php echo $over;?>" readonly required hidden="hidden">
-
-                            <label for="amount">Amount:</label>
-                            <input type="number" id="amount" name="amount" required>
-                            <input type="submit" class="button" value="Submit">
-                        </form>
-                        <p class="error" id="msg"><?php if(isset($_GET['msg'])) { echo $_GET['msg']; } ?></p>
-                        <a class="wide" href="match.php?match_id=<?php echo $match_id;?>&innings=<?php echo $innings;?>&over=<?php echo $over;?>">Back</a>
-                        <a class="button wide login" href="../index.php">Go Home</a>
-                    </div>
-                </div>
-            <?php
-            }
         } else
             echo "Yet to Start";
     } else
@@ -148,14 +113,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 ?>
                 <body onload="cancel_bid_service(<?php echo $match_id;?>, <?php echo $innings;?>, <?php echo $over; ?>)">
                 <div class="innings" style="color: black"><h1>Your Order is Placed Successfully</h1></div>
-                <div class="header"><h1>Bid Placed for runs between [<?php echo $run_min;?> and <?php echo $run_max; ?>] of Rs<?php echo $amount;?> @ rate of <?php echo $rate; ?></h1></div>
-                    <a id="cancel_bid" href="cancel_bid.php?bid_id=<?php echo $bid_id;?>"> Cancel This Bid</a>
-                    <a class="live" href="over.php?match_id=<?php echo $match_id; ?>&innings=<?php echo $innings;?>&over=<?php echo $over; ?>">I don't want to Cancel</a>
+                <div class="bid_details_success"><h1>Bid Placed for runs between [<?php echo $run_min;?> and <?php echo $run_max; ?>] of Rs<?php echo $amount;?> will give you Rs<?php echo $common->rate_convertor($rate, $amount)?></h1></div>
+                    <a class="cancel_bid" id="cancel_bid" href="cancel_bid.php?bid_id=<?php echo $bid_id;?>"> Cancel This Bid</a>
+                    <a id="close" class="live" href="over.php?match_id=<?php echo $match_id; ?>&innings=<?php echo $innings;?>&over=<?php echo $over; ?>">I don't want to Cancel</a>
                 <?php } else { ?>
-                <body>
                     <div class="header"><h1>Bid Placing Failed due to duplicate bid found.</h1></div>
                     <a class="button wide login" href="../index.php">Go Home</a>
-                </body>
                 <?php
                 }
         } else { ?>
