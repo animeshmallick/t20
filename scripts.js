@@ -62,17 +62,9 @@ function get_slot_details(amount) {
     xmlhttp.open("GET", "GetBidDetailsPerOver.php?match_id="+match_id+"&innings="+innings+"&overs="+overs+"&amount="+amount, true);
     xmlhttp.send();
 }
-function get_scorecard_summary(series_id, match_id){
-    const xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function() {
-        if (this.readyState === 4 && this.status === 200) {
-            let score = JSON.parse(this.responseText)
-            document.getElementById("team1_name").innerHTML = score["teams"][0];
-            document.getElementById("team1_score").innerHTML = score["team1_score"]["runs"] + "/" + score["team1_score"]["wickets"] + " (" + score["over"] + ")"
-            document.getElementById("team2_name").innerHTML = score["teams"][1];
-            document.getElementById("team2_score").innerHTML = score["team2_score"]["runs"] + "/" + score["team2_score"]["wickets"] + " (" + score["over"] + ")"
-        }
-    };
-    xmlhttp.open("GET", "https://om8zdfeo2h.execute-api.ap-south-1.amazonaws.com/scores/"+series_id+"/"+match_id+"/latest", true);
-    xmlhttp.send();
+function get_scorecard_summary(team1_name, team1_score, team2_name, team2_score){
+    document.getElementById("team1_name").innerHTML = team1_name;
+    document.getElementById("team1_score").innerHTML = team1_score;
+    document.getElementById("team2_name").innerHTML = team2_name;
+    document.getElementById("team2_score").innerHTML = team2_score;
 }
