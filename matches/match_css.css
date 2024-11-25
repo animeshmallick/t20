@@ -1,0 +1,138 @@
+div.title-container {
+    background-color: #3369cc;
+    border-radius: 10px;
+    text-align: center;
+    display: block;
+    color: #edcf08;
+    font-size: 2rem;
+    margin-bottom: 0.3rem;
+}
+
+div.scorecard-container {
+    background-color: #33c7cc;
+    border-radius: 20px;
+    text-align: center;
+    display: block;
+    font-size: 1.2rem;
+    margin-bottom: 0.3rem;
+}
+div.team-detail {
+    display: flex;
+    background-color: #33c7cc;
+    border-radius: 20px;
+    text-align: center;
+}
+div.teams_details {
+    width: 33.3%;
+    background-color: #4cd537;
+    border: 3px solid #339ecc;
+    border-radius: 20px;
+    text-align: center;
+    margin: 0.5rem;
+    font-size: 1.3rem;
+    font-weight: bolder;
+}
+div.vs {
+    width: 33.3%;
+    background-color: #edcf08;
+    border: 3px solid #f43c05;
+    border-radius: 20px;
+    text-align: center;
+    margin: 0.5rem;
+    font-size: 1.3rem;
+    font-weight: bolder;
+}
+
+div.separator {
+    border: 1px solid #000000;width:100%;
+    margin: 1px;
+}
+div.players {
+    background-color: #ccb833;
+    border: 3px solid #fa0404;
+    border-radius: 20px;
+    text-align: center;
+    display: flex;
+    font-weight: bolder;
+}
+div.batsmen {
+    width: 50%;
+    padding: 0.2rem;
+}
+div.current-over {
+    background-color: #33c7cc;
+    border-bottom: 0.2rem solid #f90606;
+    border-radius: 20px;
+    text-align: center;
+    font-weight: bold;
+}
+div.balls-container {
+    display: flex;
+}
+div.balls {
+    width: 15%;
+    background-color: #ffffff;
+    border: 0.1rem solid #ccb833;
+    border-radius: 100px;
+    text-align: center;
+    color: #070707;
+    font-weight: bolder;
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+    margin-bottom: 0.2rem;
+}
+a.wide {
+    display: block;
+}
+a.control {
+    border-radius: 20px;
+    background-color: #edcf08;
+    display: block;
+    text-align: center;
+    color: #070707;
+    font-size: 1.5rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    padding: 0.3rem;
+    margin: 0.1rem;
+    cursor: pointer;
+}
+a:hover, a:active {
+    background-color: red;
+    color: white;
+}
+div.controls {
+    background-color: #21cd07;
+    border-radius: 20px;
+    text-align: center;
+    display: block;
+    font-size: 1.2rem;
+    border-bottom: 0.2rem solid #f90606;
+    padding: 0.1rem;
+}
+div.play-container {
+    background-color: #33c7cc;
+    border-bottom: 0.2rem solid #f90606;
+    border-radius: 20px;
+    text-align: center;
+    font-weight: bold;
+}
+a.bid {
+    border-radius: 20px;
+    background-color: #24f104;
+    text-align: center;
+    color: #070707;
+    display:inline-block;
+    padding: 0.3rem;
+}
+div.bid_container {
+    display: flex;
+    align-content: center;
+}
+div.bid {
+    width: 25%;
+}
+span.title {
+    font-size: 1.3rem;
+    font-weight: bolder;
+}
