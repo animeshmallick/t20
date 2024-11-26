@@ -48,11 +48,13 @@ div.separator {
     margin: 1px;
 }
 div.players {
+    display: flex;
+}
+div.players_container {
     background-color: #ccb833;
     border: 3px solid #fa0404;
     border-radius: 20px;
     text-align: center;
-    display: flex;
     font-weight: bolder;
 }
 div.batsmen {
@@ -135,4 +137,8 @@ div.bid {
 span.title {
     font-size: 1.3rem;
     font-weight: bolder;
+}
+iframe {
+    height: 100%;
+    width: 100%;
 }

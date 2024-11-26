@@ -4,9 +4,10 @@ include "Common.php";
 $data = new Data();
 $common = new Common();
 
-if ($common->get_auth_cookie($data->get_auth_cookie_name()) > 0) {
+if ($common->get_cookie($data->get_auth_cookie_name()) > 0) {
     header("Location: ".$data->get_path()."matches/index.php");
 } else {
+    $common->delete_cookies();
 ?>
 <!DOCTYPE html>
 <html lang="en">

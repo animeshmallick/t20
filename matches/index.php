@@ -4,12 +4,9 @@ include "../Common.php";
 $data = new Data();
 $common = new Common();
 
-if($common->get_auth_cookie($data->get_auth_cookie_name()) > 0) {
-    $sql = "SELECT * FROM `matches`";
+if($common->get_cookie($data->get_auth_cookie_name()) > 0) {
     $result = $common->get_all_matches();
-setcookie('match_id', "", time() - (3600), "/");
-setcookie('innings', "", time() - (3600), "/");
-setcookie('overs', "", time() - (3600), "/");
+    $common->delete_cookies();
     ?>
     <!DOCTYPE html>
     <html lang="en">
@@ -28,14 +25,8 @@ setcookie('overs', "", time() - (3600), "/");
     <body>
         <div class="header"><h1>IPL - 2024 - Matches</h1></div>
     <?php
-        $ref_id = $common->get_auth_cookie($data->get_auth_cookie_name());
-        $wallet = $common->get_wallet_balance($data->get_connection(), $ref_id);
+        $ref_id = $common->get_cookie($data->get_auth_cookie_name());
     ?>
-        <div class="innings">
-        <h1>Hi, <?php echo $common->get_user_name_from_ref_id($data->get_connection(), $ref_id)?></h1>
-    <h1>Available Balance : <?php echo $wallet;?></h1>
-        </div>
-        <hr>
     <h2 class="success">Matches</h2>
     <?php
     $ch = "'";

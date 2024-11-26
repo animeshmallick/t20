@@ -7,6 +7,9 @@ $data = new Data();
 $match_id = $_GET['match_id'];
 $series_id = $_GET['series_id'];
 $match_name = $_GET['match_name'];
+$common->set_cookie('match_id', $match_id);
+$common->set_cookie('match_name', $match_name);
+$common->set_cookie('series_id', $series_id);
 $scorecard = json_decode($common->get_scorecard_latest($series_id, $match_id));
 $team1_score = $scorecard->team1_score->runs . "/" . $scorecard->team1_score->wickets . " (" . $scorecard->team1_score->overs . ")";
 $team2_score = $scorecard->team2_score->runs . "/" . $scorecard->team2_score->wickets . " (" . $scorecard->team2_score->overs . ")";
@@ -27,7 +30,7 @@ $this_over_string = implode("&&", $scorecard->this_over);
     <link rel="stylesheet" type="text/css" href="match_css.css?version=<?php echo time(); ?>">
     <script src="../scripts.js"></script>
 </head>
-<body onload="get_scorecard_summary(
+<body onload="fill_scorecard(
         '<?php echo $scorecard->teams[0]; ?>',
         '<?php echo $team1_score; ?>',
         '<?php echo $scorecard->teams[1]; ?>',
@@ -39,66 +42,27 @@ $this_over_string = implode("&&", $scorecard->this_over);
         '<?php echo $this_over_string; ?>',
         '<?php echo $scorecard->this_over_summary; ?>')">
 <div class="title-container">
-    <span class="title">Crickett20</span>
+    <span class="title">CricketT20</span>
 </div>
-<div class="scorecard-container">
-    <div class="team-detail">
-        <div class="teams_details">
-            <div><span id="team1_name"></span></div>
-            <span id="team1_score"></span>
-        </div>
-        <div class="vs">
-            <span id="match_additional_details"></span>
-        </div>
-        <div class="teams_details">
-            <div><span id="team2_name"></span></div>
-            <span id="team2_score"></span>
-        </div>
-    </div>
-    <div class="players">
-        <div class="batsmen">
-            <div><span id="batsman1"></span></div>
-            <span id="batsman2"></span>
-        </div>
-        <div class="batsmen">
-            <span id="bowler"></span>
-        </div>
-    </div>
-    <div class="current-over">
-        <span class="title" id="this_over_summary"></span>
-        <div class="balls-container">
-            <?php
-            $balls = 0;
-            $valid_balls = 0;
-            foreach ($scorecard->this_over as $ball) {
-                $balls += 1;
-                $valid_balls += 1;
-                if (strpos($ball, 'w'))
-                    $valid_balls -= 1;
-                ?>
-                <div class="balls">
-                    <span id="ball_id_<?php echo $balls; ?>"></span>
-                </div>
-            <?php } ?>
-        </div>
-    </div>
-</div>
+
+<div id="scorecard"></div>
+
 <div class="separator"></div>
 <div class="play-container">
     <div><span class="title">Play you Bid on</span></div>
     <span>Innings 1</span>
     <div class="bid_container">
-        <div class="bid"><a class="button bid bid-button" href="place_bid.php">Over 1 to 6</a></div>
-        <div class="bid"><a class="button bid bid-button" href="place_bid.php">Over 7 to 10</a></div>
-        <div class="bid"><a class="button bid bid-button" href="place_bid.php">Over 11 to 16</a></div>
-        <div class="bid"><a class="button bid bid-button" href="place_bid.php">Over 17 to 20</a></div>
+        <div class="bid"><a class="button bid bid-button" href="place_bid.php?slot=a1">Over 1 to 6</a></div>
+        <div class="bid"><a class="button bid bid-button" href="place_bid.php?slot=b1">Over 7 to 10</a></div>
+        <div class="bid"><a class="button bid bid-button" href="place_bid.php?slot=c1">Over 11 to 16</a></div>
+        <div class="bid"><a class="button bid bid-button" href="place_bid.php?slot=d1">Over 17 to 20</a></div>
     </div>
     <span>Innings 2</span>
     <div class="bid_container">
-        <div class="bid"><a class="button bid bid-button" href="place_bid.php">Over 1 to 6</a></div>
-        <div class="bid"><a class="button bid bid-button" href="place_bid.php">Over 7 to 10</a></div>
-        <div class="bid"><a class="button bid bid-button" href="place_bid.php">Over 11 to 16</a></div>
-        <div class="bid"><a class="button bid bid-button" href="place_bid.php">Over 17 to 20</a></div>
+        <div class="bid"><a class="button bid bid-button" href="place_bid.php?slot=a2">Over 1 to 6</a></div>
+        <div class="bid"><a class="button bid bid-button" href="place_bid.php?slot=b2">Over 7 to 10</a></div>
+        <div class="bid"><a class="button bid bid-button" href="place_bid.php?slot=c2">Over 11 to 16</a></div>
+        <div class="bid"><a class="button bid bid-button" href="place_bid.php?slot=d2">Over 17 to 20</a></div>
     </div>
 </div>
 <div class="controls">

@@ -11,7 +11,7 @@ include '../data.php';
 include "../Common.php";
 $data = new Data();
 $common = new Common();
-    if ($_SERVER['REQUEST_METHOD'] === 'GET' && !$common->get_auth_cookie($data->get_auth_cookie_name()) > 0) { ?>
+    if ($_SERVER['REQUEST_METHOD'] === 'GET' && !$common->get_cookie($data->get_auth_cookie_name()) > 0) { ?>
         <div class="container">
             <div class="login form">
                 <header>Login</header>
@@ -28,48 +28,14 @@ $common = new Common();
             </div>
         </div>
     <?php }
-    else if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$common->get_auth_cookie($data->get_auth_cookie_name())) {
+    else if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$common->get_cookie($data->get_auth_cookie_name())) {
         $phone = $_POST['phone'];
         $password = $_POST['password'];
-        $data = new Data();
-        $connection = $data->get_connection();
-        if (is_valid_user($connection, $phone, $password, $data->get_user_active_status(), $data->get_path())) {
-            $ref_id = get_user_ref_id($connection, $phone, $password, $data->get_user_active_status());
-            set_auth_cookie($data->get_auth_cookie_name(), $ref_id);
-            header("Location: ".$data->get_path()."matches/");
-        }
-        $connection->close();
+        $user = json_decode($common->get_user_from_db($phone, $password));
+        $common->set_cookie($data->get_auth_cookie_name(), $user->ref_id);
+        header("Location: ../matches/index.php");
     } else {
         header("Location: ".$data->get_path());
-    }
-
-    function is_valid_user($connection, $phone, $password, $status, $path){
-        $sql = "Select * from `users` where `phone`=$phone and `password`='$password'";
-        $result = $connection->query($sql);
-
-        if ($result->num_rows == 1){
-            if ($result->fetch_assoc()['status'] == $status)
-                return TRUE;
-            else
-                header("Location: ".$path."verify/verification.php?q=".$phone);
-        } else {
-            header("Location: ".$path."login/login.php?msg=Invalid PhoneNumber and Password.");
-        }
-        return FALSE;
-    }
-
-    function get_user_ref_id($connection, $phone, $password, $status) {
-        $sql = "Select * from `users` where `phone`=$phone and `password`='$password' and `status`='$status'";
-        $result = $connection->query($sql);
-        if ($result->num_rows == 1) {
-            return $result->fetch_assoc()['ref_id'];
-        } else {
-            return -1;
-        }
-    }
-
-    function set_auth_cookie($name, $value) {
-        setcookie($name, $value, time()+(43000), "/");
     }
 ?>
 </body>
