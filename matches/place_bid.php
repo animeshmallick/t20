@@ -29,20 +29,10 @@ $this_over_string = implode("&&", $scorecard->this_over);
 <meta content="" name="description"/>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
-<link rel="stylesheet" type="text/css" href="match_css.css?version=<?php echo time(); ?>">
+<link rel="stylesheet" type="text/css" href="../styles/style.css?version=<?php echo time(); ?>">
 <script src="../scripts.js"></script>
 </head>
-<body onload="fill_scorecard(
-    '<?php echo $scorecard->teams[0]; ?>',
-    '<?php echo $team1_score; ?>',
-    '<?php echo $scorecard->teams[1]; ?>',
-    '<?php echo $team2_score; ?>',
-    '<?php echo $scorecard->match_additional_details[0]; ?>',
-    '<?php echo $scorecard->bowler; ?>',
-    '<?php echo $scorecard->batsmen[0]; ?>',
-    '<?php echo $scorecard->batsmen[1]; ?>',
-    '<?php echo $this_over_string; ?>',
-    '<?php echo $scorecard->this_over_summary; ?>');update_slot_details(100);">
+<body onload="fill_scorecard()">
 <div class="title-container">
     <span class="title">CricketT20</span>
 </div>

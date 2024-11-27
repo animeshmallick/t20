@@ -1,16 +1,11 @@
 <!DOCTYPE html>
 <?php
 include "../Common.php";
-include "../data.php";
 $common = new Common();
-$data = new Data();
 $match_id = $common->get_cookie("match_id");
 $series_id = $common->get_cookie("series_id");
 $match_name = $common->get_cookie("match_name");
-$scorecard = json_decode($common->get_scorecard_latest($series_id, $match_id));
-$team1_score = $scorecard->team1_score->runs . "/" . $scorecard->team1_score->wickets . " (" . $scorecard->team1_score->overs . ")";
-$team2_score = $scorecard->team2_score->runs . "/" . $scorecard->team2_score->wickets . " (" . $scorecard->team2_score->overs . ")";
-$this_over_string = implode("&&", $scorecard->this_over);
+$this_over_list = (json_decode($common->get_scorecard_latest($series_id, $match_id)))->this_over;
 ?>
 <html lang="">
 <head>
@@ -24,20 +19,9 @@ $this_over_string = implode("&&", $scorecard->this_over);
     <meta content="" name="description"/>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="match_css.css?version=<?php echo time(); ?>">
     <script src="../scripts.js"></script>
 </head>
-<body onload="fill_scorecard(
-        '<?php echo $scorecard->teams[0]; ?>',
-        '<?php echo $team1_score; ?>',
-        '<?php echo $scorecard->teams[1]; ?>',
-        '<?php echo $team2_score; ?>',
-        '<?php echo $scorecard->match_additional_details[0]; ?>',
-        '<?php echo $scorecard->bowler; ?>',
-        '<?php echo $scorecard->batsmen[0]; ?>',
-        '<?php echo $scorecard->batsmen[1]; ?>',
-        '<?php echo $this_over_string; ?>',
-        '<?php echo $scorecard->this_over_summary; ?>')">
+<body onload="fill_scorecard_data()">
         <div class="scorecard-container">
             <div class="team-detail">
                 <div class="teams_details">
@@ -70,7 +54,7 @@ $this_over_string = implode("&&", $scorecard->this_over);
                     <?php
                     $balls = 0;
                     $valid_balls = 0;
-                    foreach ($scorecard->this_over as $ball) {
+                    foreach ($this_over_list as $ball) {
                         $balls += 1;
                         $valid_balls += 1;
                         if (strpos($ball, 'w'))
