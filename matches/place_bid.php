@@ -32,13 +32,11 @@ $this_over_string = implode("&&", $scorecard->this_over);
 <link rel="stylesheet" type="text/css" href="../styles/style.css?version=<?php echo time(); ?>">
 <script src="../scripts.js"></script>
 </head>
-<body onload="fill_scorecard()">
-<div class="title-container">
-    <span class="title">CricketT20</span>
-</div>
+<body onload="fill_header();fill_scorecard();fill_controls();fill_footer();">
+<div id="header"></div>
 
 <div id="scorecard"></div>
-
+<div class="separator"></div>
 <div class="bid_container">
     <form action="place_bid_to_db.php" method="post" name="bid_form">
         <label for="amount">Amount:</label>
@@ -52,5 +50,9 @@ $this_over_string = implode("&&", $scorecard->this_over);
         </label>
     </form>
 </div>
+<div class="separator"></div>
+<div id="main_controls"></div>
+<div class="separator"></div>
+<div id="footer"></div>
 </body>
 </html>

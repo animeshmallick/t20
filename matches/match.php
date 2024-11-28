@@ -27,42 +27,41 @@ $scorecard = json_decode($common->get_scorecard_latest($series_id, $match_id));
     <link rel="stylesheet" type="text/css" href="../styles/style.css?version=<?php echo time(); ?>">
     <script src="../scripts.js"></script>
 </head>
-<body onload="fill_scorecard();fill_controls();">
-<div class="title-container">
-    <span class="title">CricketT20</span>
-</div>
-
-<div id="scorecard"></div>
-
-<div class="separator"></div>
-
-<div class="play-container">
-    <div style="margin: 0.3rem"><span class="title">Play you Bid on</span></div>
-    <span>Innings 1</span>
-    <div class="bid_container">
-        <div style="display: flex">
-            <div class="bid_button_div"><a class="bid_button" href="place_bid.php?slot=a1">Over 1 to 6</a></div>
-            <div class="bid_button_div"><a class="bid_button" href="place_bid.php?slot=b1">Over 7 to 10</a></div>
+<body onload="fill_header();fill_scorecard();fill_controls();fill_footer();">
+    <div id="header"></div>
+    <div id="scorecard"></div>
+    <div class="separator"></div>
+    <div class="play-container">
+        <div class="title"><span>Play you Bid on</span></div>
+        <div class="gap"></div>
+        <div class="bid_container">
+            <div class="title"><span>1st Innings</span></div>
+            <div style="display: flex">
+                <div class="bid_button_div"><a class="bid_button" href="place_bid.php?slot=a1">Over 1 to 6</a></div>
+                <div class="bid_button_div"><a class="bid_button" href="place_bid.php?slot=b1">Over 7 to 10</a></div>
+            </div>
+            <div style="display: flex">
+                <div class="bid_button_div"><a class="bid_button" href="place_bid.php?slot=c1">Over 11 to 16</a></div>
+                <div class="bid_button_div"><a class="bid_button" href="place_bid.php?slot=d1">Over 17 to 20</a></div>
+            </div>
         </div>
-        <div style="display: flex">
-            <div class="bid_button_div"><a class="bid_button" href="place_bid.php?slot=c1">Over 11 to 16</a></div>
-            <div class="bid_button_div"><a class="bid_button" href="place_bid.php?slot=d1">Over 17 to 20</a></div>
+        <div class="gap"></div>
+        <div class="bid_container">
+            <div class="title"><span>2nd Innings</span></div>
+            <div style="display: flex">
+                <div class="bid_button_div"><a class="bid_button" href="place_bid.php?slot=a2">Over 1 to 6</a></div>
+                <div class="bid_button_div"><a class="bid_button" href="place_bid.php?slot=b2">Over 7 to 10</a></div>
+            </div>
+            <div style="display: flex">
+                <div class="bid_button_div"><a class="bid_button" href="place_bid.php?slot=c2">Over 11 to 16</a></div>
+                <div class="bid_button_div"><a class="bid_button" href="place_bid.php?slot=d2">Over 17 to 20</a></div>
+            </div>
         </div>
+        <div class="gap"></div>
     </div>
-    <span>Innings 2</span>
-    <div class="bid_container">
-        <div style="display: flex">
-            <div class="bid_button_div"><a class="bid_button" href="place_bid.php?slot=a2">Over 1 to 6</a></div>
-            <div class="bid_button_div"><a class="bid_button" href="place_bid.php?slot=b2">Over 7 to 10</a></div>
-        </div>
-        <div style="display: flex">
-            <div class="bid_button_div"><a class="bid_button" href="place_bid.php?slot=c2">Over 11 to 16</a></div>
-            <div class="bid_button_div"><a class="bid_button" href="place_bid.php?slot=d2">Over 17 to 20</a></div>
-        </div>
-    </div>
-</div>
-<div class="separator"></div>
-<div id="main_controls"></div>
-<div class="separator"></div>
+    <div class="separator"></div>
+    <div id="main_controls"></div>
+    <div class="separator"></div>
+    <div id="footer"></div>
 </body>
 </html>

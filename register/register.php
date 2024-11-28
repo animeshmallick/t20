@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && !$common->get_auth_cookie($data->get
                 <input type="submit" class="button" value="Register">
             </form>
             <p class="error" id="msg"><?php if(isset($_GET['msg'])) { echo $_GET['msg']; } ?></p>
-            <a class="button wide login" href="../index.php">Go Home</a>
+            <a class="button wide login" href="../index/index.php">Go Home</a>
         </div>
     </div>
     </body>

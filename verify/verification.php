@@ -23,7 +23,7 @@ if (isset($_GET['q']) && !$common->get_auth_cookie($data->get_auth_cookie_name()
             <h1>Hi, <?php echo $row['fname'];?></h1><br>
             <h2 class="error">Your Account is Not Active.</h2>
             <h3><?php echo "Please send a text/whatsappp message as \""?> <span class="error"> VERIFY <?php echo $row['ref_id'];?></span><?php echo "\" to ".$data->get_verification_phone_number()." from your registered mobile number ($phone)"; ?></h3>
-            <a href="../index.php">Go Home</a>
+            <a href="../index/index.php">Go Home</a>
         </div>
     <?php
     } else {

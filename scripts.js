@@ -54,6 +54,26 @@ function fill_scorecard() {
     xmlhttp.open("GET", "../model_ui/scorecard.php", true);
     xmlhttp.send();
 }
+function fill_header() {
+    const xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+            document.getElementById("header").innerHTML = this.responseText;
+        }
+    };
+    xmlhttp.open("GET", "../model_ui/header.php", true);
+    xmlhttp.send();
+}
+function fill_footer() {
+    const xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+            document.getElementById("footer").innerHTML = this.responseText;
+        }
+    };
+    xmlhttp.open("GET", "../model_ui/footer.php", true);
+    xmlhttp.send();
+}
 function fill_scorecard_data() {
     let series_id = getCookie("series_id");
     let match_id = getCookie("match_id");
@@ -74,7 +94,7 @@ function fill_scorecard_data() {
             for (let i = 1; i <= scorecard.this_over.length; i++){
                 document.getElementById('ball_id_' + i).innerHTML = scorecard.this_over[i-1];
             }
-            document.getElementById('this_over_summary').innerHTML = "Current Over : " + scorecard.this_over_summary;
+            document.getElementById('this_over_summary').innerHTML = scorecard.this_over_summary;
         }
     };
     xmlhttp.open("GET", "https://om8zdfeo2h.execute-api.ap-south-1.amazonaws.com/scores/" + series_id + "/" + match_id + "/latest", true);

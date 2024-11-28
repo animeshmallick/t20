@@ -15,35 +15,24 @@ if($common->get_cookie($data->get_auth_cookie_name()) > 0) {
         <link rel="stylesheet" type="text/css" href="../styles/style.css?version=<?php echo time(); ?>">
         <title>Home</title>
         <link rel="icon" type="image/x-icon" href="../cricket.ico">
-        <style>
-            body {
-                background-color: #d7f6d6;
-                background-size: cover;
-            }
-        </style>
+        <script src="../scripts.js"></script>
     </head>
-    <body>
-        <div class="header"><h1>IPL - 2024 - Matches</h1></div>
+    <body onload="fill_header();fill_footer();fill_controls();">
+    <div id="header"></div>
+    <div class="main_container">
+        <div class="sub-title">Matches</div>
+        <div class="gap"></div>
     <?php
-        $ref_id = $common->get_cookie($data->get_auth_cookie_name());
-    ?>
-    <h2 class="success">Matches</h2>
-    <?php
-    $ch = "'";
     foreach($result as $match){ ?>
-            <a class="live" href='match.php?match_id=<?php echo $match->match_id; ?>&series_id=<?php echo $match->series_id; ?>&match_name=<?php echo $match->match_name; ?>'><?php echo $match->match_name;?></a>
+            <a class="match-button" href='match.php?match_id=<?php echo $match->match_id; ?>&series_id=<?php echo $match->series_id; ?>&match_name=<?php echo $match->match_name; ?>'><?php echo $match->match_name;?></a>
     <?php
     }
     ?>
-        <h1></h1>
-        <hr>
-        <h1></h1>
-        <a class="wide" href="../logout.php">Logout</a>
-        <h1></h1>
-        <div class="footer">
-            <p>Created By: US.</p>
-            <p>Contact Us On : </p>
-        </div>
+    </div>
+    <div class="separator"></div>
+    <div id="main_controls"></div>
+    <div class="separator"></div>
+    <div id="footer"></div>
     </body>
     </html>
     <?php
