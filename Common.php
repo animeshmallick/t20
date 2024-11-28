@@ -34,6 +34,14 @@ class Common {
             return $_COOKIE[$name];
         return "";
     }
+    public function is_all_cookies_available(array $cookie_names): bool {
+        foreach ($cookie_names as $cookie_name) {
+            if ($this->get_cookie($cookie_name) == "") {
+                return false;
+            }
+        }
+        return true;
+    }
 
     public function delete_cookies(): void
     {

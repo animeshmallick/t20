@@ -4,7 +4,7 @@ include "../Common.php";
 $data = new Data();
 $common = new Common();
 
-if($common->get_cookie($data->get_auth_cookie_name()) > 0) {
+if($common->is_all_cookies_available([$data->get_auth_cookie_name()])) {
     $result = $common->get_all_matches();
     $common->delete_cookies();
     ?>
@@ -37,7 +37,7 @@ if($common->get_cookie($data->get_auth_cookie_name()) > 0) {
     </html>
     <?php
 } else {
-        header("Location: ".$data->get_path()."login/login.php");
+        header("Location: ".$data->get_path());
 }
 
 ?>

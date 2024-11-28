@@ -55,7 +55,7 @@ $this_over_list = (json_decode($common->get_scorecard_latest($series_id, $match_
                     <?php
                     $balls = 0;
                     $valid_balls = 0;
-                    $width = 100 / count($this_over_list);
+                    $width = count($this_over_list) < 4 ? 33.333 :100 / count($this_over_list);
                     $padding = count($this_over_list) < 4 ? 25 : 0;
                     foreach ($this_over_list as $ball) {
                         $balls += 1;
@@ -63,7 +63,7 @@ $this_over_list = (json_decode($common->get_scorecard_latest($series_id, $match_
                         if (strpos($ball, 'w'))
                             $valid_balls -= 1;
                         ?>
-                        <div class="balls" style="width: <?php echo $width ?>%;padding-left: <?php echo $padding;?>%;padding-right: <?php echo $padding;?>%">
+                        <div class="balls" style="width: <?php echo $width ?>%;align-content: center">
                             <span id="ball_id_<?php echo $balls; ?>"></span>
                         </div>
                     <?php } ?>
