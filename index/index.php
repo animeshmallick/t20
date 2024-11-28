@@ -5,7 +5,7 @@ $data = new Data();
 $common = new Common();
 
 if ($common->get_cookie($data->get_auth_cookie_name()) > 0) {
-    header("Location: ".$data->get_path()."../matches/index.php");
+    header("Location: ".$data->get_path()."/matches/index.php");
 } else {
     $common->delete_cookies();
 ?>
