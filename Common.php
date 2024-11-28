@@ -62,4 +62,37 @@ class Common {
     {
         setcookie($cookie_name, $cookie_value, time() + (3600), "/");
     }
+	
+	public function is_eligible_for_bid($scorecard, $bid_innings, $slot): bool
+	{
+		switch ($slot){																																																	
+			case "a":{ 
+				$eligible_overID = ($bid_innings * 100) + 6;
+				if($scorecard->over_id <= $eligible_overID)
+					return true;
+				break;
+			}
+			case "b":{
+				$eligible_overID = ($bid_innings * 100) + 10;
+				if($scorecard->over_id <= $eligible_overID)
+					return true;
+				break;
+			}
+			case "c":{
+				$eligible_overID = ($bid_innings * 100) + 16;
+				if($scorecard->over_id <= $eligible_overID)
+					return true;
+				break;
+			}
+			case "d":{
+				$eligible_overID = ($bid_innings * 100) + 20;
+				if($scorecard->over_id <= $eligible_overID)
+					return true;
+				break;
+			}
+			default:{
+				return false;
+			}
+		}
+	}
 }
