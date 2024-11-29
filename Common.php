@@ -82,7 +82,7 @@ class Common {
     {
         if (strlen($slot) != 2)
             return false;
-        if ($slot[0] == 'a' || $slot[0] == 'b') {
+        if ($slot[0] == 'a' || $slot[0] == 'b' || $slot[0] == 'c' || $slot[0] == 'd') {
             if ($slot[1] == 1 || $slot[1] == 2) {
                 return true;
             }

@@ -37,7 +37,7 @@ if ($common->is_valid_user($data->get_auth_cookie_name())) {
                 <div id="scorecard"></div>
                 <div class="separator"></div>
                 <div class="play-container">
-                    <div class="title"><span>Play you Bid on</span></div>
+                    <div class="title"><span>Play your Bid on</span></div>
                     <div class="gap"></div>
                     <div class="bid_container">
                         <div class="title"><span>1st Innings</span></div>
