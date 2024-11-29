@@ -4,7 +4,7 @@ include "../Common.php";
 $data = new Data();
 $common = new Common();
 
-if($common->is_all_cookies_available([$data->get_auth_cookie_name()])) {
+if($common->is_valid_user($data->get_auth_cookie_name())) {
     $result = $common->get_all_matches();
     $common->delete_cookies();
     ?>
@@ -38,6 +38,8 @@ if($common->is_all_cookies_available([$data->get_auth_cookie_name()])) {
     <?php
 } else {
         header("Location: ".$data->get_path());
+        $common->delete_cookies();
+        $common->delete_cookie($data->get_auth_cookie_name());
 }
 
 ?>

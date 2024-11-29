@@ -11,7 +11,7 @@ include '../data.php';
 include "../Common.php";
 $data = new Data();
 $common = new Common();
-    if ($_SERVER['REQUEST_METHOD'] === 'GET' && !$common->get_cookie($data->get_auth_cookie_name()) > 0) { ?>
+    if ($_SERVER['REQUEST_METHOD'] === 'GET' && !$common->is_valid_user($data->get_auth_cookie_name())) { ?>
         <div class="main_container">
             <div class="sub-title">Login</div>
             <form action="login.php" method="POST">
@@ -28,12 +28,16 @@ $common = new Common();
 
         </div>
     <?php }
-    else if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$common->get_cookie($data->get_auth_cookie_name())) {
+    else if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$common->is_valid_user($data->get_auth_cookie_name())) {
         $phone = $_POST['phone'];
         $password = $_POST['password'];
         $user = json_decode($common->get_user_from_db($phone, $password));
-        $common->set_cookie($data->get_auth_cookie_name(), $user->ref_id);
-        header("Location: ../matches/index.php");
+        if(isset($user->error))
+            header("Location: ../login/login.php?msg=" . $user->error);
+        else {
+            $common->set_cookie($data->get_auth_cookie_name(), $user->ref_id);
+            header("Location: ../matches/index.php");
+        }
     } else {
         header("Location: ".$data->get_path());
     }

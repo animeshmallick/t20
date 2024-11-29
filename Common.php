@@ -27,6 +27,11 @@ class Common {
         $url = 'https://om8zdfeo2h.execute-api.ap-south-1.amazonaws.com/scores/' . $series_id . '/' . $match_id . '/latest';
         return $this->get_response_from_url($url);
     }
+    public function validate_unique_ref_id($ref_id): string
+    {
+        $url = 'https://om8zdfeo2h.execute-api.ap-south-1.amazonaws.com/validate_ref_id/' . $ref_id;
+        return json_decode($this->get_response_from_url($url))->result == true;
+    }
 
     public function get_cookie(string $name): string
     {
@@ -57,42 +62,47 @@ class Common {
         $url = "https://om8zdfeo2h.execute-api.ap-south-1.amazonaws.com/login/".$phone."/".$password;
         return $this->get_response_from_url($url);
     }
+    public function get_user_from_ref_id(string $ref_id): string
+    {
+        $url = "https://om8zdfeo2h.execute-api.ap-south-1.amazonaws.com/login/ref_id".$ref_id;
+        return $this->get_response_from_url($url);
+    }
 
     public function set_cookie(string $cookie_name, string $cookie_value): void
     {
         setcookie($cookie_name, $cookie_value, time() + (3600), "/");
     }
-	
-	public function is_eligible_for_bid($scorecard, $bid_innings, $slot): bool
-	{
-		switch ($slot){																																																	
-			case "a":{ 
-				$eligible_overID = ($bid_innings * 100) + 6;
-				if($scorecard->over_id <= $eligible_overID)
-					return true;
-				break;
-			}
-			case "b":{
-				$eligible_overID = ($bid_innings * 100) + 10;
-				if($scorecard->over_id <= $eligible_overID)
-					return true;
-				break;
-			}
-			case "c":{
-				$eligible_overID = ($bid_innings * 100) + 16;
-				if($scorecard->over_id <= $eligible_overID)
-					return true;
-				break;
-			}
-			case "d":{
-				$eligible_overID = ($bid_innings * 100) + 20;
-				if($scorecard->over_id <= $eligible_overID)
-					return true;
-				break;
-			}
-			default:{
-				return false;
-			}
-		}
-	}
+
+    public function is_valid_match($scorecard): bool
+    {
+        return !str_contains($scorecard->source, 'amazon');
+    }
+
+    public function is_valid_slot(string $slot): bool
+    {
+        if (strlen($slot) != 2)
+            return false;
+        if ($slot[0] == 'a' || $slot[0] == 'b') {
+            if ($slot[1] == 1 || $slot[1] == 2) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function is_valid_user(string $get_auth_cookie_name): bool
+    {
+        $ref_id = $this->get_cookie($get_auth_cookie_name);
+        if ($ref_id == null || $ref_id == "")
+            return false;
+        $user = json_decode($this->get_user_from_ref_id($ref_id));
+        if (isset($user->error))
+            return false;
+        return true;
+    }
+
+    public function delete_cookie(string $get_auth_cookie_name): void
+    {
+        setcookie($get_auth_cookie_name, "", time() - (3600), "/");
+    }
 }

@@ -2,101 +2,78 @@
 <head>
     <title>Register</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="../styles/style.css?version=<?php echo time(); ?>">
+    <link rel="stylesheet" type="text/css" href="../styles/style.css?version=<?php use model\NewUser;
+
+    echo time(); ?>">
     <link rel="icon" type="image/x-icon" href="../cricket.ico">
     <script src="../scripts.js"></script>
 </head>
 <?php
 include '../data.php';
-include "../model_ui/user.php";
 include "../Common.php";
+include "../model/NewUser.php";
 $data = new Data();
 $common = new Common();
-if ($_SERVER['REQUEST_METHOD'] === 'GET' && !$common->get_auth_cookie($data->get_auth_cookie_name())) { ?>
-    <body>
-    <div class="container">
-        <div class="login form">
-            <header>Register</header>
+if ($_SERVER['REQUEST_METHOD'] === 'GET' &&
+    !$common->is_all_cookies_available([$data->get_auth_cookie_name()]) &&
+    !$common->is_active_user($common->get_cookie($data->get_auth_cookie_name()))) { ?>
+        <body onload="fill_header();fill_footer();">
+        <div id="header"></div>
+        <div class="main_container">
+            <div class="sub-title">Register</div>
             <form action="register.php" method="POST" onsubmit="return validate_register_form()" name="register_form">
-                <label for="fname">First Name:</label>
+                <label class="label" for="fname">First Name:</label>
                 <input type="text" id="fname" name="fname" placeholder="Your First Name" required>
-                <label for="lname">Last Name:</label>
+                <label class="label" for="lname">Last Name:</label>
                 <input type="text" id="lname" name="lname" placeholder="Your Last Name">
-                <label for="phone">Phone Number:</label>
+                <label class="label" for="phone">Phone Number:</label>
                 <input type="number" id="phone" name="phone" placeholder="9998887776" required>
-                <label for="password">Password:</label>
+                <label class="label" for="email">Email:</label>
+                <input type="email" id="email" name="email" placeholder="email@domain.com" required>
+                <label class="label" for="password">Password:</label>
                 <input type="password" id="password" name="password" placeholder="Password" required>
-                <label for="confirm_password">Confirm Password:</label>
+                <label class="label" for="confirm_password">Confirm Password:</label>
                 <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm Password" required>
-                <label for="ref_id">Your Reference ID (unique):</label>
-                <input type="number" id="ref_id" name="ref_id" value="<?php echo get_unique_ref_id($data->get_connection()); ?>" readonly required>
-                <label for="parent_ref_id">Your Clients Reference ID :</label>
+                <label class="label" for="ref_id">Your Reference ID (unique):</label>
+                <input type="number" id="ref_id" name="ref_id" value="<?php echo get_unique_ref_id($common); ?>" readonly required>
+                <label class="label" for="parent_ref_id">Your Clients Reference ID :</label>
                 <input type="number" id="parent_ref_id" name="parent_ref_id">
                 <input type="submit" class="button" value="Register">
             </form>
             <p class="error" id="msg"><?php if(isset($_GET['msg'])) { echo $_GET['msg']; } ?></p>
-            <a class="button wide login" href="../index/index.php">Go Home</a>
+            <a class="button" href="../index/index.php">Go Home</a>
         </div>
-    </div>
-    </body>
+        <div class="gap"></div>
+        <div class="separator"></div>
+        <div id="footer"></div>
+        </body>
 <?php }
 
-else if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$common->get_auth_cookie($data->get_auth_cookie_name())) {
-    $user = new User($_POST['fname'], $_POST['lname'], $_POST['phone'], $_POST['password']);
-    $connection = $data->get_connection();
-    $parent_ref_id = "000000000";
-    if(isset($_POST['ref_id']))
-        $parent_ref_id = $_POST['ref_id'];
-
-    if(does_user_exist($connection, $user->get_phone())){
-        header("Location: ".$data->get_path()."register/register.php?msg=User Already Exists. Try again with a another phone number.");
+else if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$common->is_all_cookies_available([$data->get_auth_cookie_name()])) {
+    if (!$common->is_new_phone_number($_POST['phone']))
+        header('Location: register.php?msg=Phone%20Number%20Already%20Registered');
+    $ref_id = $_POST['ref_id'];
+    if ($common->insert_new_user($_POST['fname'], $_POST['lname'], $_POST['phone'], $_POST['password'],
+                                $ref_id, $_POST['email'], $_POST['parent_ref_id'], $data->get_new_user_pending_status())) {
+        $common->set_cookie($data->get_auth_cookie_name(), $ref_id);
+        header('Location: ../index/index.php');
+    }else{
+        header('Location: register.php?msg=Please%20try%20again');
     }
-    else {
-        $ref_id = $_POST['ref_id'];
-        $initial_bonus = $data->get_initial_wallet_balance();
-        if (!is_valid_referral($connection, $ref_id))
-            $parent_ref_id = "000000000";
-
-        insert_user($connection, $user->get_fname(), $user->get_lname(), $user->get_phone(),
-            $user->get_password(), $initial_bonus, $data->get_user_pending_status(),
-            $ref_id, $parent_ref_id, $data->get_path());
-        redirect_to_verification_page($user->get_phone(), $data->get_path());
-    }
-    $connection->close();
 } else {
-    header("Location: ".$data->get_path()."matches/");
+    $common->delete_auth_cookie($data->get_auth_cookie_name());
+    $common->delete_cookies();
+    header("Location: ".$data->get_path());
 }
 
-function is_valid_referral($connection, $ref_id){
-    $sql = "Select `ref_id` from `users` where `ref_id`=$ref_id";
-    if ($ref_id == "")
-        return false;
-    return $connection -> query($sql) -> num_rows == 1;
-}
-
-function does_user_exist($connection, $phone){
-    $sql = "Select `alias` from `users` where `phone`=$phone";
-    return $connection -> query($sql) -> num_rows != 0;
-}
-
-function insert_user($connection, $fname, $lname, $phone, $password, $wallet, $status, $ref_id, $parent_ref_id, $path) {
-    $sql = "INSERT INTO `users` (fname, lname, phone, password, wallet, status, ref_id, parent_ref_id) VALUES ('$fname', '$lname', '$phone', '$password', '$wallet', '$status', '$ref_id', '$parent_ref_id')";
-    if (!$connection->query($sql) === TRUE) {
-        header("Location: ".$path."register/register.php?msg=Something went wrong. Please try again.");
-    }
-}
-
-function get_unique_ref_id($connection) {
-    $ref_id = mt_rand(10000000, 99999999);
-    $sql = "Select `ref_id` from `users` where `ref_id`=$ref_id";
-    while($connection->query($sql)->num_rows != 0){
+function get_unique_ref_id(Common $common): int
+{
+    for ($i = 0; $i < 100; $i++) {
         $ref_id = mt_rand(10000000, 99999999);
+        if($common->validate_unique_ref_id($ref_id))
+            return $ref_id;
     }
-    return $ref_id;
-}
-
-function redirect_to_verification_page($phone, $path){
-    header("Location: ".$path."verify/verification.php?q=$phone");
+    return -1;
 }
 
 ?>

@@ -74,6 +74,26 @@ function fill_footer() {
     xmlhttp.open("GET", "../model_ui/footer.php", true);
     xmlhttp.send();
 }
+function fill_login_form($msg) {
+    const xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+            document.getElementById("login_form").innerHTML = this.responseText;
+        }
+    };
+    xmlhttp.open("GET", "../model_ui/login_form.php?msg=" + $msg, true);
+    xmlhttp.send();
+}
+function fill_pending_verification() {
+    const xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+            document.getElementById("pending_verification").innerHTML = this.responseText;
+        }
+    };
+    xmlhttp.open("GET", "../model_ui/pending_verification.php", true);
+    xmlhttp.send();
+}
 function fill_scorecard_data() {
     let series_id = getCookie("series_id");
     let match_id = getCookie("match_id");
