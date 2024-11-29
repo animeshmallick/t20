@@ -64,13 +64,13 @@ class Common {
     }
     public function get_user_from_ref_id(string $ref_id): string
     {
-        $url = "https://om8zdfeo2h.execute-api.ap-south-1.amazonaws.com/login/ref_id".$ref_id;
+        $url = "https://om8zdfeo2h.execute-api.ap-south-1.amazonaws.com/login/ref_id/".$ref_id;
         return $this->get_response_from_url($url);
     }
     public function is_new_phone_number(string $phone): bool
     {
-        $url = "https://om8zdfeo2h.execute-api.ap-south-1.amazonaws.com/login/ref_id/".$phone;
-        return isset(json_decode($this->get_response_from_url($url))->error);
+        $url = "https://om8zdfeo2h.execute-api.ap-south-1.amazonaws.com/login/phone/".$phone;
+        return !isset(json_decode($this->get_response_from_url($url))->id);
     }
 
     public function set_cookie(string $cookie_name, string $cookie_value): void
@@ -145,16 +145,13 @@ class Common {
              "wallet_balance" => 0
         );
         $json_data = json_encode($data);
-
         $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_PUT, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Content-Type: application/json'
-        ));
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json','Content-Length: ' . strlen($json_data)));
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+        curl_setopt($ch, CURLOPT_POSTFIELDS,$json_data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         $response = curl_exec($ch);
-        echo $response;
         if (curl_errno($ch)) {
             echo 'Error: ' . curl_error($ch);
             return false;
