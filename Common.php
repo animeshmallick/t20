@@ -67,6 +67,11 @@ class Common {
         $url = "https://om8zdfeo2h.execute-api.ap-south-1.amazonaws.com/login/ref_id".$ref_id;
         return $this->get_response_from_url($url);
     }
+    public function is_new_phone_number(string $phone): bool
+    {
+        $url = "https://om8zdfeo2h.execute-api.ap-south-1.amazonaws.com/login/ref_id/".$phone;
+        return isset(json_decode($this->get_response_from_url($url))->error);
+    }
 
     public function set_cookie(string $cookie_name, string $cookie_value): void
     {
@@ -120,5 +125,41 @@ class Common {
             return true;}
         else{
             return false;}
+    }
+
+    public function insert_new_user(string $fname, string $lname, string $phone, string $password, string $ref_id,
+                                    string $email, string $parent_ref_id, string $status): bool
+    {
+        $url = 'https://om8zdfeo2h.execute-api.ap-south-1.amazonaws.com/save_new_user';
+        $data = array(
+            "id" => $ref_id,
+            "email" => $email,
+             "fname" => $fname,
+             "lname" => $lname,
+             "parent_ref_id" => $parent_ref_id,
+             "password" => $password,
+             "phone" => $phone,
+             "ref_id" => $ref_id,
+             "status" => $status,
+             "timestamp" => date('Y-m-d H:i:s'),
+             "wallet_balance" => 0
+        );
+        $json_data = json_encode($data);
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_PUT, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json'
+        ));
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
+
+        $response = curl_exec($ch);
+        echo $response;
+        if (curl_errno($ch)) {
+            echo 'Error: ' . curl_error($ch);
+            return false;
+        }
+        curl_close($ch);
+        return true;
     }
 }

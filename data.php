@@ -12,6 +12,7 @@ class Data {
 	private int $balls_slotD;
 	private int $maxballs;
     private int $wicket_multiplier;
+    private string $new_user_pending_status;
 
     function __construct(){
         if ($_SERVER['HTTP_HOST'] == 'localhost') {
@@ -28,6 +29,7 @@ class Data {
 		$this->balls_slotB = 60;
 		$this->balls_slotC = 96;
 		$this->balls_slotD = 120;
+        $this->new_user_pending_status = "pending";
         $this->wicket_multiplier = 6;
     }
 
@@ -76,5 +78,10 @@ class Data {
 		}
 		return $maxballs;
 	}
-}	
+
+    public function get_new_user_pending_status(): string
+    {
+        return $this->new_user_pending_status;
+    }
+}
 ?>

@@ -15,8 +15,7 @@ include "../model/NewUser.php";
 $data = new Data();
 $common = new Common();
 if ($_SERVER['REQUEST_METHOD'] === 'GET' &&
-    !$common->is_all_cookies_available([$data->get_auth_cookie_name()]) &&
-    !$common->is_active_user($common->get_cookie($data->get_auth_cookie_name()))) { ?>
+    !$common->is_valid_user($data->get_auth_cookie_name())) { ?>
         <body onload="fill_header();fill_footer();">
         <div id="header"></div>
         <div class="main_container">
@@ -49,19 +48,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' &&
         </body>
 <?php }
 
-else if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$common->is_all_cookies_available([$data->get_auth_cookie_name()])) {
+else if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$common->is_valid_user($data->get_auth_cookie_name())) {
     if (!$common->is_new_phone_number($_POST['phone']))
         header('Location: register.php?msg=Phone%20Number%20Already%20Registered');
     $ref_id = $_POST['ref_id'];
     if ($common->insert_new_user($_POST['fname'], $_POST['lname'], $_POST['phone'], $_POST['password'],
                                 $ref_id, $_POST['email'], $_POST['parent_ref_id'], $data->get_new_user_pending_status())) {
         $common->set_cookie($data->get_auth_cookie_name(), $ref_id);
-        header('Location: ../index/index.php');
+        //header('Location: ../index/index.php');
     }else{
         header('Location: register.php?msg=Please%20try%20again');
     }
 } else {
-    $common->delete_auth_cookie($data->get_auth_cookie_name());
+    $common->delete_cookie($data->get_auth_cookie_name());
     $common->delete_cookies();
     header("Location: ".$data->get_path());
 }
