@@ -511,3 +511,23 @@ label.label {
     margin-top: 0.3rem;
     margin-bottom: 0.3rem;
 }
+
+div.account_status_container {
+    background-color: #91dc85;
+    border-radius: 1rem;
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: rgba(140, 40, 9, 0.62);
+    box-shadow: 0 0 3rem rgb(133, 202, 122), 0 0 3rem rgb(111, 166, 102);
+}
+div.account_status {
+    background-color: rgba(247, 248, 247, 0.29);
+    border-bottom: 0.2rem solid rgba(73, 35, 24, 0.62);
+    border-radius: 1rem;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-top: 0.2rem;
+    margin-bottom: 0.4rem;
+    color: rgba(14, 14, 14, 0.62);
+}

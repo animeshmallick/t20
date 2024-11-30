@@ -84,14 +84,14 @@ function fill_login_form($msg) {
     xmlhttp.open("GET", "../model_ui/login_form.php?msg=" + $msg, true);
     xmlhttp.send();
 }
-function fill_pending_verification() {
+function fill_account_status(status) {
     const xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
-            document.getElementById("pending_verification").innerHTML = this.responseText;
+            document.getElementById("account_status").innerHTML = this.responseText;
         }
     };
-    xmlhttp.open("GET", "../model_ui/pending_verification.php", true);
+    xmlhttp.open("GET", "../model_ui/account_status.php?status=" + status, true);
     xmlhttp.send();
 }
 function get_scorecard($series_id, $match_id) {
