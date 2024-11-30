@@ -20,6 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' &&
         <div id="header"></div>
         <div class="main_container">
             <div class="sub-title">Register</div>
+            <p class="error" id="msg"><?php if(isset($_GET['msg'])) { echo $_GET['msg']; } ?></p>
             <form action="register.php" method="POST" onsubmit="return validate_register_form()" name="register_form">
                 <label class="label" for="fname">First Name:</label>
                 <input type="text" id="fname" name="fname" placeholder="Your First Name" required>
@@ -39,7 +40,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' &&
                 <input type="number" id="parent_ref_id" name="parent_ref_id">
                 <input type="submit" class="button" value="Register">
             </form>
-            <p class="error" id="msg"><?php if(isset($_GET['msg'])) { echo $_GET['msg']; } ?></p>
             <a class="button" href="../index/index.php">Go Home</a>
         </div>
         <div class="gap"></div>

@@ -5,7 +5,9 @@ $common = new Common();
 $match_id = $common->get_cookie("match_id");
 $series_id = $common->get_cookie("series_id");
 $match_name = $common->get_cookie("match_name");
-$this_over_list = (json_decode($common->get_scorecard_latest($series_id, $match_id)))->this_over;
+$scorecard = $common->get_scorecard_latest($series_id, $match_id);
+$this_over_list = $scorecard->this_over;
+$current_over_id = $scorecard->over_id;
 ?>
 <html lang="">
     <head>
@@ -49,24 +51,34 @@ $this_over_list = (json_decode($common->get_scorecard_latest($series_id, $match_
             </div>
             <div class="gap"></div>
             <div class="match-detail">
-                <div class="sub-title">Current Over</div>
-                <div class="current-over"><span id="this_over_summary"></span></div>
-                <div class="balls-container">
-                    <?php
-                    $balls = 0;
-                    $valid_balls = 0;
-                    $width = count($this_over_list) < 4 ? 33.333 :100 / count($this_over_list);
-                    $padding = count($this_over_list) < 4 ? 25 : 0;
-                    foreach ($this_over_list as $ball) {
-                        $balls += 1;
-                        $valid_balls += 1;
-                        if (strpos($ball, 'w'))
-                            $valid_balls -= 1;
-                        ?>
-                        <div class="balls" style="width: <?php echo $width ?>%;align-content: center">
-                            <span id="ball_id_<?php echo $balls; ?>"></span>
-                        </div>
-                    <?php } ?>
+                <div class="sub-title">Current Over : <?php echo $scorecard->over; ?></div>
+                <div style="display: flex">
+                    <div class="current-over"><span id="this_over_summary"></span></div>
+                    <div class="get-previous-over">
+                        <a class="show-more-over" id="get-previous-over"
+                           onclick="add_new_over_data()">
+                            Get Previous Overs Balls
+                        </a> </div>
+                </div>
+                <div class="over-container" id="over-container">
+                    <div class="balls-container" name="over_id" id="<?php echo $scorecard->over_id; ?>">
+                        <?php
+                        $balls = 0;
+                        $valid_balls = 0;
+                        $width = count($this_over_list) < 4 ? 33.333 :100 / count($this_over_list);
+                        $padding = count($this_over_list) < 4 ? 25 : 0;
+                        foreach ($this_over_list as $ball) {
+                            $balls += 1;
+                            $valid_balls += 1;
+                            if (strpos($ball, 'w'))
+                                $valid_balls -= 1;
+                            ?>
+                            <div class="balls" style="width: <?php echo $width ?>%;align-content: center">
+                                <span id="ball_id_<?php echo $balls; ?>"></span>
+                            </div>
+                        <?php } ?>
+                    </div>
+                    <div class="gap"></div>
                 </div>
             </div>
         </div>

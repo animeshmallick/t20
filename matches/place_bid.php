@@ -13,7 +13,7 @@ if ($common->is_valid_user($data->get_auth_cookie_name())){
         $series_id = $common->get_cookie("series_id");
         $match_id = $common->get_cookie("match_id");
 
-        $scorecard = json_decode($common->get_scorecard_latest($series_id, $match_id));
+        $scorecard = $common->get_scorecard_latest($series_id, $match_id);
         if ($common->is_valid_match($scorecard)) {
             $team1_score = $scorecard->team1_score->runs . "/" . $scorecard->team1_score->wickets . " (" . $scorecard->team1_score->overs . ")";
             $team2_score = $scorecard->team2_score->runs . "/" . $scorecard->team2_score->wickets . " (" . $scorecard->team2_score->overs . ")";
@@ -35,24 +35,40 @@ if ($common->is_valid_user($data->get_auth_cookie_name())){
             <link rel="stylesheet" type="text/css" href="../styles/style.css?version=<?php echo time(); ?>">
             <script src="../scripts.js"></script>
             </head>
-            <body onload="fill_header();fill_scorecard();fill_controls();fill_footer();">
+            <body onload="fill_header();fill_scorecard();fill_controls();fill_footer();update_slot_details(100);">
             <div id="header"></div>
 
             <div id="scorecard"></div>
             <div class="separator"></div>
+            <?php
+            if ($common->is_eligible_for_bid($scorecard, $slot[1], $slot[0])) {
+            ?>
             <div class="bid_container">
                 <form action="place_bid_to_db.php" method="post" name="bid_form">
                     <label for="amount">Amount:</label>
                     <input type="number" id="amount" name="amount" value="100" onkeyup="update_slot_details(this.value)" required>
-                    <label for="slot">Choose your Slot :</label>
-                    <label for="slot_a" name="slot"><input type="radio" id="slot_a" name="slot" value="a" checked>
-                        <span id="slot_a_span"></span>
-                    </label>
-                    <label for="slot_b" name="slot"><input type="radio" id="slot_b" name="slot" value="b">
-                        <span id="slot_b_span"></span>
-                    </label>
+
+                    <div class="slot_container">
+                        <label class="label" for="slot">Choose your Slot :</label>
+                        <div class="slot"
+                            <label for="slot_a" name="slot"></label>
+                            <input type="radio" id="slot_a" name="slot" value="a" checked>
+                            <span id="slot_a_span"></span>
+                        </div>
+                        <div class="slot">
+                            <label for="slot_b" name="slot"></label>
+                            <input type="radio" id="slot_b" name="slot" value="b">
+                            <span id="slot_b_span"></span>
+                        </div>
+                    </div>
+                    <input type="submit" value="Place Bid">
                 </form>
             </div>
+            <?php } else { ?>
+                <div class="bid_container">
+                    <div class="title">Biding closed for this Slot</div>
+                </div>
+            <?php }?>
             <div class="separator"></div>
             <div id="main_controls"></div>
             <div class="separator"></div>

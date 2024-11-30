@@ -6,7 +6,8 @@ $common = new Common();
 $data = new Data();
 if ($common->is_valid_user($data->get_auth_cookie_name())) {
     if (!isset($_GET['series_id']) || !isset($_GET['match_id']) || !isset($_GET['match_name'])) {
-            header("Location: ".$data->get_path()); }
+            header("Location: ".$data->get_path());
+    }
     else {
         $match_id = $_GET['match_id'];
         $series_id = $_GET['series_id'];
@@ -14,7 +15,7 @@ if ($common->is_valid_user($data->get_auth_cookie_name())) {
         $common->set_cookie('match_id', $match_id);
         $common->set_cookie('match_name', $match_name);
         $common->set_cookie('series_id', $series_id);
-        $scorecard = json_decode($common->get_scorecard_latest($series_id, $match_id));
+        $scorecard = $common->get_scorecard_latest($series_id, $match_id);
         if($common->is_valid_match($scorecard)){
         ?>
             <html lang="">

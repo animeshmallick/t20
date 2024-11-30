@@ -58,8 +58,7 @@ form input[type=submit]{
     width: 100%;
     padding: 0.4rem;
     background: #009579;
-    font-size: 1.2rem;
-    letter-spacing: 1px;
+    font-size: 1rem;
     margin-top: 1rem;
     cursor: pointer;
     transition: 0.4s;
@@ -67,6 +66,9 @@ form input[type=submit]{
     border-radius: 1rem;
     box-shadow: 0 0 3rem rgba(7, 7, 7, 0.31), 0 0 3rem rgba(0,0,0,0.24);
     font-weight: bolder;
+}
+form input[type=radio] {
+
 }
 form input:hover {
     background-color: rgba(244, 60, 5, 0.4);
@@ -333,19 +335,48 @@ div.batsmen {
     padding: 1rem;
 }
 div.current-over {
+    width: 60%;
     text-align: center;
     margin-top: 0.3rem;
     margin-bottom: 0.3rem;
+}
+div.get-previous-over {
+    width: 40%;
+    text-align: right;
+    margin-top: 0.3rem;
+    margin-bottom: 0.3rem;
+}
+a.show-more-over {
+    border: 0.1rem solid rgba(26, 140, 9, 0.62);
+    border-radius: 1rem;
+    text-align: center;
+    color: rgb(7, 7, 7);
+    font-weight: bolder;
+    padding: 0.2rem 0.75rem;
 }
 div.balls-container {
     display: flex;
     padding-bottom: 0.2rem;
 }
+div.balls-container-extra {
+    display: flex;
+    padding-bottom: 0.2rem;
+}
 div.balls {
-    width: 15%;
+    background-color: #ffffff;
+    border: 0.2rem solid rgba(26, 140, 9, 0.47);
+    border-radius: 5rem;
+    text-align: center;
+    color: #070707;
+    font-weight: bolder;
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+    margin-bottom: 0.2rem;
+}
+div.balls-extra {
     background-color: #ffffff;
     border: 0.1rem solid #ccb833;
-    border-radius: 100px;
+    border-radius: 2rem;
     text-align: center;
     color: #070707;
     font-weight: bolder;
@@ -451,4 +482,32 @@ a.control-button {
     box-shadow: 0 0 3rem rgba(7, 7, 7, 0.31), 0 0 3rem rgba(0,0,0,0.24);
     font-weight: normal;
     font-size: 0.9rem;
+}
+p.no-more-over-para {
+    text-align: right;
+    padding-right: 1rem;
+    color: red;
+}
+div.more_over_div {
+    width: 25%;
+    text-align: right;
+    padding-top: 0.3rem;
+    padding-right: 1.5rem;
+    font-style: italic;
+}
+div.slot_container {
+    margin: 0.2rem 1rem;
+    display: block;
+    align-content: center;
+    background: rgba(7, 7, 7, 0.08);
+    border-radius: 1rem;
+    box-shadow: 0 1rem 1rem rgb(250, 4, 4, 0.5);
+}
+div.slot {
+    display: block;
+    text-align: center;
+}
+label.label {
+    margin-top: 0.3rem;
+    margin-bottom: 0.3rem;
 }

@@ -10,9 +10,9 @@ class Data {
 	private int $balls_slotB;
 	private int $balls_slotC;
 	private int $balls_slotD;
-	private int $maxballs;
     private int $wicket_multiplier;
     private string $new_user_pending_status;
+    private float $loss_capacity_for_each_slot;
 
     function __construct(){
         if ($_SERVER['HTTP_HOST'] == 'localhost') {
@@ -31,6 +31,7 @@ class Data {
 		$this->balls_slotD = 120;
         $this->new_user_pending_status = "pending";
         $this->wicket_multiplier = 6;
+        $this->loss_capacity_for_each_slot = 1000.0;
     }
 
     public function get_auth_cookie_name(): string
@@ -82,6 +83,11 @@ class Data {
     public function get_new_user_pending_status(): string
     {
         return $this->new_user_pending_status;
+    }
+
+    public function get_loss_capacity_for_each_slot(): float
+    {
+        return $this->loss_capacity_for_each_slot;
     }
 }
 ?>
