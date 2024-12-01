@@ -530,97 +530,70 @@ div.more_over_div {
     font-style: italic;
 }
 div.slot_container {
+    width: 100%;
+    align-content: center;
     display: block;
-    align-content: normal;
     background: rgba(7, 7, 7, 0.08);
     border-radius: 1rem;
     box-shadow: 0 1rem 1rem rgb(250, 4, 4, 0.5);
     padding-bottom: 0.2rem;
 }
+input[type="radio"]:checked + div.slot {
+    font-weight: bold;
+    font-size: 1.25rem;
+    color: #1a8c09;
+    text-shadow: 0 1rem 2rem rgba(204, 184, 51);
+    letter-spacing: 0.1rem;
+    box-shadow: 0 1rem 2rem rgba(33, 205, 7, 0.63);
+    border-radius: 2rem;
+}
+
 div.slot {
-    display: flex;
-    margin: 1rem;
+    font-weight: bold;
+    letter-spacing: 0.1rem;
+    box-shadow: 0 1rem 2rem rgba(250, 4, 4, 0.5);
+    border-radius: 2rem;
 }
 
 label.container {
+    width: 50%;
+    margin-left: 25%;
     text-align: center;
-    width: 100%;
     display: block;
     position: relative;
-    padding-left: 2rem;
-    margin-bottom: 1rem;
     cursor: pointer;
-    font-size: 1.2rem;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
+    font-size: 1rem;
     user-select: none;
+    border-radius: 2rem;
+    padding: 1rem;
+    box-shadow: 0 1rem 1rem rgba(7, 7, 7, 0.64);
 }
 
 /* Hide the browser's default checkbox */
 input[type=radio] {
-    position: absolute;
     opacity: 0;
     cursor: pointer;
     height: 0;
-    width: 0;
-}
 
-/* Create a custom checkbox */
-span.radio {
-    position: absolute;
-    top: 0;
-    left: 7rem;
-    height: 1.5rem;
-    width: 1.5rem;
-    background-color: #eee;
-}
-
-/* On mouse-over, add a grey background color */
-label.container:hover input ~ span.radio {
-    background-color: #ccc;
-}
-
-/* When the checkbox is checked, add a blue background */
-label.container input:checked ~ span.radio {
-    background-color: #2196F3;
-}
-
-/* Create the checkmark/indicator (hidden when not checked) */
-span.radio:after {
-    content: "";
-    position: absolute;
-    display: none;
-}
-
-/* Show the checkmark when checked */
-label.container input:checked ~ span.radio:after {
-    display: block;
 }
 
 /* Style the checkmark/indicator */
-label.container span.radio:after {
-    left: 9px;
-    top: 5px;
-    width: 5px;
-    height: 10px;
-    border: solid white;
-    border-width: 0 3px 3px 0;
-    -ms-transform: rotate(45deg);
-    transform: rotate(45deg);
+label.container div.slot:after ~ input:checked{
+    font-size: 3rem;
 }
 label.amount_span {
     font-weight: bold;
     font-size: 1.3rem;
     padding-top: 1rem;
-    margin-left: 2rem;
-    margin-right: 2rem;
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
     white-space: nowrap;
 }
 div.plux_minus_container {
     display: flex;
     margin-left: 1rem;
     margin-right: 1rem;
+    width: 100%;
 }
 input[id=amount] {
     margin-top: 0.5rem;

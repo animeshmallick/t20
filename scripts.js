@@ -189,11 +189,13 @@ function update_slot_details(amount) {
     xmlhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             let bid_master = JSON.parse(this.responseText);
-            document.getElementById("slot_a").innerHTML =
-                "Runs Less Than " + bid_master.predicted_runs + " : ₹" + amount +
+            document.getElementById("slot_a_runs").innerHTML =
+                "Runs Less Than " + bid_master.predicted_runs;
+            document.getElementById("slot_a_amount").innerHTML = "₹" + amount +
                 " will give you ₹" + Math.trunc(amount * bid_master.rate_1);
-            document.getElementById("slot_b").innerHTML =
-                "Runs More Than " + bid_master.predicted_runs + " : ₹" + amount +
+            document.getElementById("slot_b_runs").innerHTML =
+                "Runs More Than " + bid_master.predicted_runs;
+            document.getElementById("slot_b_amount").innerHTML =  "₹" + amount +
                 " will give you ₹" + Math.trunc(amount * bid_master.rate_2);
         }
     };

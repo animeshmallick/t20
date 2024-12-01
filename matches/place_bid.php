@@ -46,24 +46,30 @@ if ($common->is_active_user($data->get_auth_cookie_name())){
                                 <label class="amount_span" for="amount">Bid Amount:</label>
                                 <input type="number" id="amount" name="amount" value="100"
                                        onkeyup="update_slot_details(this.value)" required />
-                                <div class="plux_minus_container">
-                                    <a class="button" onclick="increase_amount(100);"> + ₹100 </a>
-                                    <a class="button" onclick="decrease_amount(100);"> - ₹100 </a>
-                                </div>
+
+                            </div>
+                            <div class="plux_minus_container">
+                                <a style="width: 25%" class="button" onclick="increase_amount(100);"> + ₹100 </a>
+                                <div style="width: 35%"></div>
+                                <a style="width: 25%" class="button" onclick="decrease_amount(100);"> - ₹100 </a>
                             </div>
                             <div class="gap"></div>
                             <div class="slot_container">
                                 <div class="title">Choose your Slot :</div>
                                 <div class="gap"></div>
                                 <label class="container">
-                                    <div id="slot_a">Slot1</div>
                                     <input type="radio" name="operator" value="less" checked="checked">
-                                    <span class="radio"></span>
+                                    <div class="slot">
+                                        <div id="slot_a_runs">Slot1</div>
+                                        <div id="slot_a_amount">Slot1</div>
+                                    </div>
                                 </label>
                                 <label class="container">
-                                    <div id="slot_b">Slot2</div>
                                     <input type="radio" name="operator" value="more">
-                                    <span class="radio"></span>
+                                    <div class="slot">
+                                        <div id="slot_b_runs">Slot2</div>
+                                        <div id="slot_b_amount">Slot2</div>
+                                    </div>
                                 </label>
                                 <input type="submit" value="Place Bid">
                                 <div class="gap"></div>
