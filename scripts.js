@@ -197,6 +197,11 @@ function update_slot_details(amount) {
                 "Runs More Than " + bid_master.predicted_runs;
             document.getElementById("slot_b_amount").innerHTML =  "₹" + amount +
                 " will give you ₹" + Math.trunc(amount * bid_master.rate_2);
+            if (bid_master.rate_1 < bid_master.rate_2){
+                document.getElementById("more_input").setAttribute("checked", "checked");
+            }else {
+                document.getElementById("less_input").setAttribute("checked", "checked");
+            }
         }
     };
     xmlhttp.open("GET", "../matches/GetSlotDetails.php?series_id="+series_id+"&match_id="+match_id+"&bid_innings="+innings+"&slot="+slot+"&amount=" + amount, true);

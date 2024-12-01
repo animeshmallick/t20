@@ -165,10 +165,12 @@ a:hover, a:active {
 .gap {
     width: 100%;
     margin-bottom: 1rem;
+    height: 1rem;
 }
 div.small-gap {
     width: 100%;
     margin-bottom: 0.5rem;
+    height: 0.5rem;
 }
 .hr {
     display: block;
@@ -540,7 +542,7 @@ div.slot_container {
 }
 input[type="radio"]:checked + div.slot {
     font-weight: bold;
-    font-size: 1.25rem;
+    font-size: 1.3rem;
     color: #1a8c09;
     text-shadow: 0 1rem 2rem rgba(204, 184, 51);
     letter-spacing: 0.1rem;
@@ -553,11 +555,12 @@ div.slot {
     letter-spacing: 0.1rem;
     box-shadow: 0 1rem 2rem rgba(250, 4, 4, 0.5);
     border-radius: 2rem;
+    color: red;
 }
 
 label.container {
-    width: 50%;
-    margin-left: 25%;
+    margin-right: 1rem;
+    margin-left: 1rem;
     text-align: center;
     display: block;
     position: relative;
@@ -565,7 +568,7 @@ label.container {
     font-size: 1rem;
     user-select: none;
     border-radius: 2rem;
-    padding: 1rem;
+    padding: 0.4rem;
     box-shadow: 0 1rem 1rem rgba(7, 7, 7, 0.64);
 }
 
@@ -579,14 +582,14 @@ input[type=radio] {
 
 /* Style the checkmark/indicator */
 label.container div.slot:after ~ input:checked{
-    font-size: 3rem;
+    font-size: 2rem;
 }
 label.amount_span {
     font-weight: bold;
     font-size: 1.3rem;
     padding-top: 1rem;
-    margin-left: 1.5rem;
-    margin-right: 1.5rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
     white-space: nowrap;
 }
 div.plux_minus_container {
@@ -645,13 +648,14 @@ i.refresh-button {
     bottom: 5%;
     right: 5%;
     font-size:2rem;
-    color:#3377d1;
-    padding: 0.5rem;
+    color: cadetblue;
+    padding: 1rem;
+    background: wheat;
+    border-radius: 2rem;
 }
 
 i.refresh-button:hover {
-    color: greenyellow;
     background: rgba(244, 60, 5, 1);
-    padding: 0.5rem;
+    color: deepskyblue;
 }
 
