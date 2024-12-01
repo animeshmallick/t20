@@ -11,7 +11,7 @@
 include '../data.php';
 include "../Common.php";
 $data = new Data();
-$common = new Common();
+$common = new Common($data->get_path(), $data->get_amazon_api_endpoint());
     if ($_SERVER['REQUEST_METHOD'] === 'GET' && !$common->is_valid_user($data->get_auth_cookie_name())) { ?>
     <body onload="fill_header();fill_footer();">
             <div class="main_container">
@@ -33,7 +33,7 @@ $common = new Common();
     else if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$common->is_valid_user($data->get_auth_cookie_name())) {
         $phone = $_POST['phone'];
         $password = $_POST['password'];
-        $user = json_decode($common->get_user_from_db($phone, $password));
+        $user = $common->get_user_from_db($phone, $password);
         if(isset($user->error))
             header("Location: ../login/login.php?msg=" . $user->error);
         else {
@@ -51,7 +51,7 @@ $common = new Common();
             }
         }
     } else {
-        $user = json_decode($common->get_user_from_ref_id($common->get_cookie($data->get_auth_cookie_name())));
+        $user = $common->get_user_from_ref_id($common->get_cookie($data->get_auth_cookie_name()));
         if($user->status == "active")
             header("Location: ".$data->get_path());
        else{

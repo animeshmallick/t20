@@ -181,14 +181,34 @@ function create_no_more_overs() {
     return p;
 }
 function update_slot_details(amount) {
+    let series_id = this.getCookie("series_id");
+    let match_id = this.getCookie("match_id");
+    let innings = this.getCookie("innings");
+    let slot = this.getCookie("slot");
     const xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
-            let slot = JSON.parse(this.responseText);
-            document.getElementById("slot_a_span").innerHTML = slot.slot1;
-            document.getElementById("slot_b_span").innerHTML = slot.slot1;
+            let bid_master = JSON.parse(this.responseText);
+            document.getElementById("slot_a").innerHTML =
+                "Runs Less Than " + bid_master.predicted_runs + " : ₹" + amount +
+                " will give you ₹" + Math.trunc(amount * bid_master.rate_1);
+            document.getElementById("slot_b").innerHTML =
+                "Runs More Than " + bid_master.predicted_runs + " : ₹" + amount +
+                " will give you ₹" + Math.trunc(amount * bid_master.rate_2);
         }
     };
-    xmlhttp.open("GET", "../matches/GetSlotDetails.php?amount=" + amount, true);
+    xmlhttp.open("GET", "../matches/GetSlotDetails.php?series_id="+series_id+"&match_id="+match_id+"&bid_innings="+innings+"&slot="+slot+"&amount=" + amount, true);
     xmlhttp.send();
+}
+function increase_amount(amount){
+    const amount_element = document.getElementById("amount");
+    amount = parseFloat(amount_element.value) + parseFloat(amount);
+    amount_element.value = Math.min(amount, 1000);
+    this.update_slot_details(amount_element.value);
+}
+function decrease_amount(amount){
+    const amount_element = document.getElementById("amount");
+    amount = parseFloat(amount_element.value) - parseFloat(amount);
+    amount_element.value = Math.max(amount, 100);
+    this.update_slot_details(amount_element.value);
 }

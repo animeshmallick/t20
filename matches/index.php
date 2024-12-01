@@ -2,7 +2,7 @@
 include "../data.php";
 include "../Common.php";
 $data = new Data();
-$common = new Common();
+$common = new Common($data->get_path(), $data->get_amazon_api_endpoint());
 
 if($common->is_valid_user($data->get_auth_cookie_name())) {
     $result = $common->get_all_matches();

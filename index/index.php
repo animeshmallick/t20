@@ -2,7 +2,7 @@
 include '../data.php';
 include "../Common.php";
 $data = new Data();
-$common = new Common();
+$common = new Common($data->get_path(), $data->get_amazon_api_endpoint());
 
 if ($common->is_all_cookies_available([$data->get_auth_cookie_name()])) {
     header("Location: ".$data->get_path()."matches/index.php");

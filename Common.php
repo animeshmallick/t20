@@ -1,9 +1,11 @@
 <?php
 class Common {
     private string $amazon_api_end_point;
-    function __construct()
+    private string $path;
+    function __construct($path, $amazon_api_end_point)
     {
-        $this->amazon_api_end_point = "https://om8zdfeo2h.execute-api.ap-south-1.amazonaws.com";
+        $this->path = $path;
+        $this->amazon_api_end_point = $amazon_api_end_point;
     }
 
     private function get_response_from_url($url): string
@@ -20,7 +22,7 @@ class Common {
         $url = $this->amazon_api_end_point . '/get_all_matches';
         return json_decode($this->get_response_from_url($url));
     }
-    public function get_scorecard_latest($series_id, $match_id): object
+    public function get_scorecard_latest($series_id, $match_id)
     {
         $url = $this->amazon_api_end_point . '/scores/' . $series_id . '/' . $match_id . '/latest';
         return json_decode($this->get_response_from_url($url));
@@ -53,15 +55,15 @@ class Common {
         setcookie('slot', "", time() - (3600), "/");
     }
 
-    public function get_user_from_db(mixed $phone, mixed $password): bool|string
+    public function get_user_from_db(string $phone, string $password)
     {
         $url = $this->amazon_api_end_point . "/login/".$phone."/".$password;
-        return $this->get_response_from_url($url);
+        return json_decode($this->get_response_from_url($url));
     }
-    public function get_user_from_ref_id(string $ref_id): string
+    public function get_user_from_ref_id(string $ref_id)
     {
         $url = $this->amazon_api_end_point . "/login/ref_id/".$ref_id;
-        return $this->get_response_from_url($url);
+        return json_decode($this->get_response_from_url($url));
     }
     public function is_new_phone_number(string $phone): bool
     {
@@ -96,7 +98,7 @@ class Common {
         $ref_id = $this->get_cookie($get_auth_cookie_name);
         if ($ref_id == null || $ref_id == "")
             return false;
-        $user = json_decode($this->get_user_from_ref_id($ref_id));
+        $user = $this->get_user_from_ref_id($ref_id);
         if (isset($user->error))
             return false;
         return true;
@@ -107,7 +109,7 @@ class Common {
         setcookie($get_auth_cookie_name, "", time() - (3600), "/");
     }
 
-    public function     is_eligible_for_bid($scorecard, $bid_innings, $slot): bool{
+    public function is_eligible_for_bid($scorecard, $bid_innings, $slot): bool {
         $eligible_overID = 0;
         if($slot == 'a'){
             $eligible_overID = ($bid_innings * 100) + 6;}
@@ -177,12 +179,80 @@ class Common {
         $amount = 0.0;
         foreach ($all_bids as $bid){
             if ($bid->innings == $bid_innings && $bid->slot == $slot && $bid->operator == $operator) {
-                if ($operator == 'less' && $bid->target_score < ($predicted_runs + 5))
+                if ($operator == 'less' && $bid->target_score < ($predicted_runs + 5)) {
                     $amount += ($bid->amount * $bid->rate);
-                if ($operator == 'more' && $bid->target_score > ($predicted_runs - 5))
+                }
+                if ($operator == 'more' && $bid->target_score > ($predicted_runs - 5)) {
                     $amount += ($bid->amount * $bid->rate);
+                }
             }
         }
         return $amount;
+    }
+
+    public function get_unique_bid_id(): int
+    {
+        for ($i=0; $i<100; $i++){
+            $new_bid_id = mt_rand(10000000, 99999999);
+            if (!isset($this->get_bid_from_bid_id($new_bid_id)->bid_id))
+                return $new_bid_id;
+        }
+        return -1;
+    }
+    public function get_bid_from_bid_id($bid_id)
+    {
+        $url = $this->amazon_api_end_point . "/get_all_bids";
+        $all_bids = json_decode($this->get_response_from_url($url));
+        foreach ($all_bids as $bid){
+            if ($bid->bid_id == $bid_id)
+                return $bid;
+        }
+        return null;
+    }
+    public function get_bid_bookie_details(string $series_id, $match_id, $bid_innings, string $slot, int $amount)
+    {
+        $url = $this->path . "matches/GetSlotDetails.php?match_id=".$match_id."&series_id=".$series_id."&bid_innings=".$bid_innings."&slot=".$slot."&amount=".$amount;
+        $response = file_get_contents($url);
+        return json_decode($response);
+    }
+    public function insert_new_bid_to_db($bid_id, $ref_id, $series_id, $match_id, $innings, $slot,
+                                         $predicted_runs, $operator, $rate, $amount, $status): bool
+    {
+        $bid_data = array(
+            "id" => $bid_id,
+            "bid_id" => $bid_id,
+            "amount" => $amount,
+            "innings" => $innings,
+            "match_id" => $match_id,
+            "operator" => $operator,
+            "rate" => $rate,
+            "ref_id" => $ref_id,
+            "series_id" => $series_id,
+            "slot" => $slot,
+            "status" => $status,
+            "target_score" => $predicted_runs,
+            "timestamp" => time()
+        );
+        $url = $this->amazon_api_end_point . '/save_new_bid';
+        $json_bid_data = json_encode($bid_data);
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json','Content-Length: ' . strlen($json_bid_data)));
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+        curl_setopt($ch, CURLOPT_POSTFIELDS,$json_bid_data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $response = curl_exec($ch);
+        if (curl_errno($ch)) {
+            echo 'Error: ' . curl_error($ch);
+            return false;
+        }
+        curl_close($ch);
+        return true;
+    }
+
+    public function is_new_bid_id(mixed $bid_id): bool
+    {
+        $res = $this->get_bid_from_bid_id($bid_id);
+        return $res == null;
     }
 }

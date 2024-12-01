@@ -1,5 +1,7 @@
 <?php
 class Data {
+    private int $max_rate_allowed_for_slots;
+    private string $amazon_api_endpoint;
     private string $auth_cookie_name;
     private string $path;
 	private int $default_runs_slotA;
@@ -32,6 +34,8 @@ class Data {
         $this->new_user_pending_status = "pending";
         $this->wicket_multiplier = 6;
         $this->loss_capacity_for_each_slot = 1000.0;
+        $this->amazon_api_endpoint = "https://om8zdfeo2h.execute-api.ap-south-1.amazonaws.com";
+        $this->max_rate_allowed_for_slots = 4;
     }
 
     public function get_auth_cookie_name(): string
@@ -88,6 +92,15 @@ class Data {
     public function get_loss_capacity_for_each_slot(): float
     {
         return $this->loss_capacity_for_each_slot;
+    }
+    public function get_amazon_api_endpoint(): string
+    {
+        return $this->amazon_api_endpoint;
+    }
+
+    public function get_max_rate_allowed_for_slots()
+    {
+        return $this->max_rate_allowed_for_slots;
     }
 }
 ?>

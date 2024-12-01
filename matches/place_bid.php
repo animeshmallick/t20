@@ -1,8 +1,8 @@
 <?php
 include "../Common.php";
 include "../data.php";
-$common = new Common();
 $data = new Data();
+$common = new Common($data->get_path(), $data->get_amazon_api_endpoint());
 if ($common->is_valid_user($data->get_auth_cookie_name())){
     if (isset($_GET['slot']) && strlen($_GET['slot']) == 2 &&
                 $common->is_valid_slot($_GET['slot']) &&
@@ -21,59 +21,64 @@ if ($common->is_valid_user($data->get_auth_cookie_name())){
             ?>
 
             <html lang="">
-            <head>
-                <title></title>
-            <meta content="summary_large_image" name="twitter:card"/>
-            <meta content="website" property="og:type"/>
-            <meta content="" property="og:description"/>
-            <meta content="https://x91avs1ipp.preview-beefreedesign.com/ZFlck" property="og:url"/>
-            <meta content="https://pro-bee-beepro-thumbnail.getbee.io/messages/1299033/1285255/2292406/11945799_large.jpg" property="og:image"/>
-            <meta content="" property="og:title"/>
-            <meta content="" name="description"/>
-            <meta charset="utf-8"/>
-            <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
-            <link rel="stylesheet" type="text/css" href="../styles/style.css?version=<?php echo time(); ?>">
-            <script src="../scripts.js"></script>
-            </head>
-            <body onload="fill_header();fill_scorecard();fill_controls();fill_footer();update_slot_details(100);">
-            <div id="header"></div>
+                <head>
+                    <title>Place Your Bid</title>
+                    <meta charset="utf-8"/>
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
+                    <link rel="stylesheet" type="text/css" href="../styles/style.css?version=<?php echo time(); ?>">
+                    <script src="../scripts.js"></script>
+                </head>
+                <body onload="fill_header();fill_scorecard();fill_controls();fill_footer();update_slot_details(100);">
+                    <div id="header"></div>
 
-            <div id="scorecard"></div>
-            <div class="separator"></div>
-            <?php
-            if ($common->is_eligible_for_bid($scorecard, $slot[1], $slot[0])) {
-            ?>
-            <div class="bid_container">
-                <form action="place_bid_to_db.php" method="post" name="bid_form">
-                    <label for="amount">Amount:</label>
-                    <input type="number" id="amount" name="amount" value="100" onkeyup="update_slot_details(this.value)" required>
-
-                    <div class="slot_container">
-                        <label class="label" for="slot">Choose your Slot :</label>
-                        <div class="slot"
-                            <label for="slot_a" name="slot"></label>
-                            <input type="radio" id="slot_a" name="slot" value="a" checked>
-                            <span id="slot_a_span"></span>
-                        </div>
-                        <div class="slot">
-                            <label for="slot_b" name="slot"></label>
-                            <input type="radio" id="slot_b" name="slot" value="b">
-                            <span id="slot_b_span"></span>
-                        </div>
+                    <div id="scorecard"></div>
+                    <div class="separator"></div>
+                    <?php
+                    if ($common->is_eligible_for_bid($scorecard, $slot[1], $slot[0])) {
+                    ?>
+                    <div class="bid_container">
+                        <div class="sub-title">Place New Bid</div>
+                        <form action="place_bid_to_db.php" method="post" name="bid_form">
+                            <input type="text" name="bid_id" value="<?php echo $common->get_unique_bid_id();?>" hidden="hidden">
+                            <div class="title">For Innings <?php echo $slot[1];?>, End Of <?php echo ($data->get_maxballs_for_slot($slot[0])/6)?>th Over</div>
+                            <div style="display: flex">
+                                <label class="amount_span" for="amount">Bid Amount:</label>
+                                <input type="number" id="amount" name="amount" value="100"
+                                       onkeyup="update_slot_details(this.value)" required />
+                                <div class="plux_minus_container">
+                                    <a class="button" onclick="increase_amount(100);"> Increase ₹100 </a>
+                                    <a class="button" onclick="decrease_amount(100);"> Decrease ₹100 </a>
+                                </div>
+                            </div>
+                            <div class="gap"></div>
+                            <div class="slot_container">
+                                <div class="title">Choose your Slot :</div>
+                                <div class="gap"></div>
+                                <label class="container">
+                                    <div id="slot_a">Slot1</div>
+                                    <input type="radio" name="operator" value="less" checked="checked">
+                                    <span class="radio"></span>
+                                </label>
+                                <label class="container">
+                                    <div id="slot_b">Slot2</div>
+                                    <input type="radio" name="operator" value="more">
+                                    <span class="radio"></span>
+                                </label>
+                                <input type="submit" value="Place Bid">
+                                <div class="gap"></div>
+                            </div>
+                        </form>
                     </div>
-                    <input type="submit" value="Place Bid">
-                </form>
-            </div>
-            <?php } else { ?>
-                <div class="bid_container">
-                    <div class="title">Biding closed for this Slot</div>
-                </div>
-            <?php }?>
-            <div class="separator"></div>
-            <div id="main_controls"></div>
-            <div class="separator"></div>
-            <div id="footer"></div>
-            </body>
+                    <?php } else { ?>
+                        <div class="bid_container">
+                            <div class="title">Biding closed for this Slot</div>
+                        </div>
+                    <?php }?>
+                    <div class="separator"></div>
+                    <div id="main_controls"></div>
+                    <div class="separator"></div>
+                    <div id="footer"></div>
+                </body>
             </html>
         <?php
         } else {

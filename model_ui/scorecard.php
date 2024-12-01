@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <?php
 include "../Common.php";
-$common = new Common();
+include "../data.php";
+$data = new Data();
+$common = new Common($data->get_path(), $data->get_amazon_api_endpoint());
 $match_id = $common->get_cookie("match_id");
 $series_id = $common->get_cookie("series_id");
 $match_name = $common->get_cookie("match_name");
