@@ -53,7 +53,7 @@ $common = new Common($data->get_path(), $data->get_amazon_api_endpoint());
     } else {
         $user = $common->get_user_from_ref_id($common->get_cookie($data->get_auth_cookie_name()));
         if($user->status == "active")
-            header("Location: ".$data->get_path());
+            header("Location: ../matches/index.php");
        else{
             $common->set_cookie($data->get_auth_cookie_name(), $user->ref_id); ?>
             <body onload="fill_header();fill_footer();fill_account_status('<?php echo $user->status?>');fill_controls();">

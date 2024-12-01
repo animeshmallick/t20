@@ -11,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["amount"]) && isset($_P
     $slot = $common->get_cookie("slot");
 
     $scorecard = $common->get_scorecard_latest($series_id, $match_id);
-    if ($common->is_valid_user($data->get_auth_cookie_name()) &&
+    if ($common->is_active_user($data->get_auth_cookie_name()) &&
         $common->is_valid_match($scorecard) &&
         in_array($innings, [1,2]) && in_array($slot, ['a', 'b', 'c', 'd']) &&
         $common->is_eligible_for_bid($scorecard, $innings, $slot)) {

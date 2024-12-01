@@ -103,6 +103,16 @@ class Common {
             return false;
         return true;
     }
+    public function is_active_user(string $get_auth_cookie_name): bool
+    {
+        $ref_id = $this->get_cookie($get_auth_cookie_name);
+        if ($ref_id == null || $ref_id == "")
+            return false;
+        $user = $this->get_user_from_ref_id($ref_id);
+        if (isset($user->error))
+            return false;
+        return isset($user->status) && $user->status == "active";
+    }
 
     public function delete_cookie(string $get_auth_cookie_name): void
     {

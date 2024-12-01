@@ -4,7 +4,7 @@ include "../Common.php";
 $data = new Data();
 $common = new Common($data->get_path(), $data->get_amazon_api_endpoint());
 
-if($common->is_valid_user($data->get_auth_cookie_name())) {
+if($common->is_active_user($data->get_auth_cookie_name())) {
     $result = $common->get_all_matches();
     $common->delete_cookies();
     ?>
@@ -39,7 +39,6 @@ if($common->is_valid_user($data->get_auth_cookie_name())) {
 } else {
         header("Location: ".$data->get_path());
         $common->delete_cookies();
-        $common->delete_cookie($data->get_auth_cookie_name());
 }
 
 ?>

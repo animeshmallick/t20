@@ -4,7 +4,7 @@ include "../Common.php";
 include "../data.php";
 $data = new Data();
 $common = new Common($data->get_path(), $data->get_amazon_api_endpoint());
-if ($common->is_valid_user($data->get_auth_cookie_name())) {
+if ($common->is_active_user($data->get_auth_cookie_name())) {
     if (!isset($_GET['series_id']) || !isset($_GET['match_id']) || !isset($_GET['match_name'])) {
             header("Location: ".$data->get_path());
     }

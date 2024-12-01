@@ -3,7 +3,7 @@ include "../Common.php";
 include "../data.php";
 $data = new Data();
 $common = new Common($data->get_path(), $data->get_amazon_api_endpoint());
-if ($common->is_valid_user($data->get_auth_cookie_name())){
+if ($common->is_active_user($data->get_auth_cookie_name())){
     if (isset($_GET['slot']) && strlen($_GET['slot']) == 2 &&
                 $common->is_valid_slot($_GET['slot']) &&
                 $common->is_all_cookies_available(['match_id', 'series_id', 'match_name'])) {
