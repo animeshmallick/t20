@@ -667,3 +667,18 @@ div.bid_details_success {
     padding-bottom: 0.3rem;
     margin: 0.5rem 0.3rem 0.3rem;
 }
+i.refresh-button {
+    position: fixed;
+    bottom: 5%;
+    right: 5%;
+    font-size:2rem;
+    color:#3377d1;
+    padding: 0.5rem;
+}
+
+i.refresh-button:hover {
+    color: greenyellow;
+    background: rgba(244, 60, 5, 1);
+    padding: 0.5rem;
+}
+

@@ -30,11 +30,13 @@ if ($common->is_valid_user($data->get_auth_cookie_name())) {
                 <meta content="" name="description"/>
                 <meta charset="utf-8"/>
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
                 <link rel="stylesheet" type="text/css" href="../styles/style.css?version=<?php echo time(); ?>">
                 <script src="../scripts.js"></script>
             </head>
             <body onload="fill_header();fill_scorecard();fill_controls();fill_footer();">
                 <div id="header"></div>
+                <i class="fa fa-refresh refresh-button" onclick="location.reload();"></i>
                 <div id="scorecard"></div>
                 <div class="separator"></div>
                 <div class="play-container">
