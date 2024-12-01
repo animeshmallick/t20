@@ -47,8 +47,8 @@ if ($common->is_valid_user($data->get_auth_cookie_name())){
                                 <input type="number" id="amount" name="amount" value="100"
                                        onkeyup="update_slot_details(this.value)" required />
                                 <div class="plux_minus_container">
-                                    <a class="button" onclick="increase_amount(100);"> Increase ₹100 </a>
-                                    <a class="button" onclick="decrease_amount(100);"> Decrease ₹100 </a>
+                                    <a class="button" onclick="increase_amount(100);"> + ₹100 </a>
+                                    <a class="button" onclick="decrease_amount(100);"> - ₹100 </a>
                                 </div>
                             </div>
                             <div class="gap"></div>

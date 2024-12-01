@@ -59,7 +59,7 @@ $current_over_id = $scorecard->over_id;
                     <div class="get-previous-over">
                         <a class="show-more-over" id="get-previous-over"
                            onclick="add_new_over_data()">
-                            Get Previous Overs Balls
+                            Previous Over
                         </a> </div>
                 </div>
                 <div class="over-container" id="over-container">
