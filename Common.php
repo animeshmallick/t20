@@ -52,7 +52,7 @@ class Common {
         setcookie('series_id', "", time() - (3600), "/");
         setcookie('match_name', "", time() - (3600), "/");
         setcookie('innings', "", time() - (3600), "/");
-        setcookie('slot', "", time() - (3600), "/");
+        setcookie('session', "", time() - (3600), "/");
     }
 
     public function get_user_from_db(string $phone, string $password)
@@ -119,15 +119,15 @@ class Common {
         setcookie($get_auth_cookie_name, "", time() - (3600), "/");
     }
 
-    public function is_eligible_for_bid($scorecard, $bid_innings, $slot): bool {
+    public function is_eligible_for_bid($scorecard, $bid_innings, $session): bool {
         $eligible_overID = 0;
-        if($slot == 'a'){
+        if($session == 'a'){
             $eligible_overID = ($bid_innings * 100) + 6;}
-        elseif($slot == 'b'){
+        elseif($session == 'b'){
             $eligible_overID = ($bid_innings * 100) + 10;}
-        elseif($slot == 'c'){
+        elseif($session == 'c'){
             $eligible_overID = ($bid_innings * 100) + 16;}
-        elseif ($slot == 'd'){
+        elseif ($session == 'd'){
             $eligible_overID = ($bid_innings * 100) + 20;}
         if($scorecard->over_id <= $eligible_overID){
             return true;}
@@ -173,33 +173,6 @@ class Common {
         return json_decode($this->get_response_from_url($url));
     }
 
-    public function get_total_amount_from_bids(array $all_bids, $innings, $slot): float
-    {
-        $amount = 0.0;
-        foreach ($all_bids as $bid) {
-            if ($bid->innings == $innings && $bid->slot == $slot)
-                $amount += $bid->amount;
-        }
-        return $amount;
-    }
-
-    public function get_bid_distributed_amount(array $all_bids, string $bid_innings,
-                                               string $slot, int $predicted_runs, string $operator): float
-    {
-        $amount = 0.0;
-        foreach ($all_bids as $bid){
-            if ($bid->innings == $bid_innings && $bid->slot == $slot && $bid->operator == $operator) {
-                if ($operator == 'less' && $bid->target_score < ($predicted_runs + 5)) {
-                    $amount += ($bid->amount * $bid->rate);
-                }
-                if ($operator == 'more' && $bid->target_score > ($predicted_runs - 5)) {
-                    $amount += ($bid->amount * $bid->rate);
-                }
-            }
-        }
-        return $amount;
-    }
-
     public function get_unique_bid_id(): int
     {
         for ($i=0; $i<100; $i++){
@@ -219,28 +192,29 @@ class Common {
         }
         return null;
     }
-    public function get_bid_bookie_details(string $series_id, $match_id, $bid_innings, string $slot, int $amount)
+    public function get_bid_bookie_details(string $series_id, $match_id, $bid_innings, string $session, int $amount)
     {
-        $url = $this->path . "matches/GetSlotDetails.php?match_id=".$match_id."&series_id=".$series_id."&bid_innings=".$bid_innings."&slot=".$slot."&amount=".$amount;
+        $url = $this->path . "matches/GetSlotDetails.php?match_id=".$match_id."&series_id=".$series_id."&bid_innings=".$bid_innings."&session=".$session."&amount=".$amount;
         $response = file_get_contents($url);
         return json_decode($response);
     }
-    public function insert_new_bid_to_db($bid_id, $ref_id, $series_id, $match_id, $innings, $slot,
-                                         $predicted_runs, $operator, $rate, $amount, $status): bool
+    public function insert_new_bid_to_db($bid_id, $ref_id, $series_id, $match_id, $innings, $session, $slot,
+                                         $runs_min, $runs_max, $rate, $amount, $status): bool
     {
         $bid_data = array(
             "id" => $bid_id,
             "bid_id" => $bid_id,
-            "amount" => $amount,
-            "innings" => $innings,
-            "match_id" => $match_id,
-            "operator" => $operator,
-            "rate" => $rate,
             "ref_id" => $ref_id,
             "series_id" => $series_id,
+            "match_id" => $match_id,
+            "innings" => $innings,
+            "session" => $session,
             "slot" => $slot,
+            "runs_min" => $runs_min,
+            "runs_max" => $runs_max,
+            "rate" => $rate,
+            "amount" => $amount,
             "status" => $status,
-            "target_score" => $predicted_runs,
             "timestamp" => time()
         );
         $url = $this->amazon_api_end_point . '/save_new_bid';
@@ -264,5 +238,81 @@ class Common {
     {
         $res = $this->get_bid_from_bid_id($bid_id);
         return $res == null;
+    }
+
+    public function get_rates(array $all_bids, int $bid_innings, string $session, float $amount): array
+    {
+        $x = 0.0; $a = 0.0; $b = 0.0; $c = 0.0;
+        foreach ($all_bids as $bid) {
+            if ($bid->innings == $bid_innings && $bid->session == $session)
+                $x += (float)($bid->amount);
+        }
+        $x = $x - ($x/100) + $amount;
+
+        foreach ($all_bids as $bid) {
+            if ($bid->innings == $bid_innings && $bid->session == $session && $bid->slot == 'x')
+                $a += (float)($bid->amount);
+        }
+
+        foreach ($all_bids as $bid) {
+            if ($bid->innings == $bid_innings && $bid->session == $session && $bid->slot == 'y')
+                $b += (float)($bid->amount);
+        }
+
+        foreach ($all_bids as $bid) {
+            if ($bid->innings == $bid_innings && $bid->session == $session && $bid->slot == 'z')
+                $c += (float)($bid->amount);
+        }
+
+        $ga = max(($x - $a), 0.0);
+        $gb = max(($x - $b), 0.0);
+        $gc = max(($x - $c), 0.0);
+        $g = $ga + $gb + $gc;
+
+
+        $ra = $ga/$g;
+        $rb = $gb/$g;
+        $rc = $gc/$g;
+
+        $f = 6 / ($ra + $rb + $rc);
+
+        $ra *= $f;
+        $rb *= $f;
+        $rc *= $f;
+
+        return [$ra, $rb, $rc];
+    }
+
+    public function get_user_balance(string $ref_id): float
+    {
+        $url = $this->amazon_api_end_point."/get_user_balance/".$ref_id;
+        $response = json_decode($this->get_response_from_url($url));
+        if (isset($response->balance)) {
+            return (float)$response->balance;
+        }
+        return -1.0;
+    }
+
+    public function get_recharge_from_recharge_id($recharge_id)
+    {
+
+    }
+    public function get_unique_recharge_id(): int
+    {
+        for ($i=0; $i<100; $i++){
+            $new_recharge_id = mt_rand(10000000, 99999999);
+            $url = $this->amazon_api_end_point . "/get_recharge_details/".$new_recharge_id;
+            $recharge = json_decode($this->get_response_from_url($url));
+            if (!isset($recharge->id))
+                return $new_recharge_id;
+        }
+        return -1;
+    }
+    public function update_balance(int $bid_id, string $ref_id, float $amount): void
+    {
+        $recharge_id = $this->get_unique_recharge_id();
+        $from = "bidder_".$bid_id;
+        $url = $this->amazon_api_end_point . "/recharge/" . $recharge_id . "/" . $from . "/" . $ref_id . "/" . $amount;
+        $response = json_decode($this->get_response_from_url($url));
     }
 }

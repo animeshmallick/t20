@@ -37,11 +37,11 @@ class Scores {
 		return $r2 + 3;	
 	}
 	
-	public function get_r($r1, $r2, $curr_balls, $slot): int{
+	public function get_r($r1, $r2, $curr_balls, $slot): float{
 		$r = $r2 - (($r2 - $r1) * $curr_balls) / $this->datahelper->get_maxballs_for_slot($slot);
 		return $r;
 	}
-    public function get_slot_runs($bid_innings, $scorecard, $slot): int{
+    public function get_slot_runs($bid_innings, $scorecard, $slot): float{
 
             $curr_balls_played = $this->get_curr_balls($scorecard);
             if($curr_balls_played == 0)

@@ -184,27 +184,36 @@ function update_slot_details(amount) {
     let series_id = this.getCookie("series_id");
     let match_id = this.getCookie("match_id");
     let innings = this.getCookie("innings");
-    let slot = this.getCookie("slot");
+    let session = this.getCookie("session");
     const xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             let bid_master = JSON.parse(this.responseText);
             document.getElementById("slot_a_runs").innerHTML =
-                "Runs Less Than " + bid_master.predicted_runs;
+                "Runs Less Than " + bid_master.predicted_runs_a;
             document.getElementById("slot_a_amount").innerHTML = "₹" + amount +
                 " will give you ₹" + Math.trunc(amount * bid_master.rate_1);
+
             document.getElementById("slot_b_runs").innerHTML =
-                "Runs More Than " + bid_master.predicted_runs;
+                "Runs between [" + bid_master.predicted_runs_a + " to " + bid_master.predicted_runs_b + "]";
             document.getElementById("slot_b_amount").innerHTML =  "₹" + amount +
                 " will give you ₹" + Math.trunc(amount * bid_master.rate_2);
-            if (bid_master.rate_1 < bid_master.rate_2){
-                document.getElementById("more_input").setAttribute("checked", "checked");
-            }else {
-                document.getElementById("less_input").setAttribute("checked", "checked");
-            }
+
+            document.getElementById("slot_c_runs").innerHTML =
+                "Runs More Than " + bid_master.predicted_runs_b;
+            document.getElementById("slot_c_amount").innerHTML =  "₹" + amount +
+                " will give you ₹" + Math.trunc(amount * bid_master.rate_3);
+
+            let max_rate = Math.max(bid_master.rate_1, bid_master.rate_2, bid_master.rate_3);
+            if (bid_master.rate_3 === max_rate)
+                document.getElementById("slot_c").checked = true;
+            if (bid_master.rate_2 === max_rate)
+                document.getElementById("slot_b").checked = true;
+            if (bid_master.rate_1 === max_rate)
+                document.getElementById("slot_a").checked = true;
         }
     };
-    xmlhttp.open("GET", "../matches/GetSlotDetails.php?series_id="+series_id+"&match_id="+match_id+"&bid_innings="+innings+"&slot="+slot+"&amount=" + amount, true);
+    xmlhttp.open("GET", "../matches/GetSlotDetails.php?series_id="+series_id+"&match_id="+match_id+"&bid_innings="+innings+"&session="+session+"&amount="+amount, true);
     xmlhttp.send();
 }
 function increase_amount(amount){

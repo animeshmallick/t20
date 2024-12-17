@@ -4,12 +4,12 @@ include "../data.php";
 $data = new Data();
 $common = new Common($data->get_path(), $data->get_amazon_api_endpoint());
 if ($common->is_active_user($data->get_auth_cookie_name())){
-    if (isset($_GET['slot']) && strlen($_GET['slot']) == 2 &&
-                $common->is_valid_slot($_GET['slot']) &&
+    if (isset($_GET['session']) && strlen($_GET['session']) == 2 &&
+                $common->is_valid_slot($_GET['session']) &&
                 $common->is_all_cookies_available(['match_id', 'series_id', 'match_name'])) {
-        $slot = $_GET['slot'];
-        $common->set_cookie("innings", $slot[1]);
-        $common->set_cookie("slot", $slot[0]);
+        $session = $_GET['session'];
+        $common->set_cookie("innings", $session[1]);
+        $common->set_cookie("session", $session[0]);
         $series_id = $common->get_cookie("series_id");
         $match_id = $common->get_cookie("match_id");
 
@@ -35,13 +35,13 @@ if ($common->is_active_user($data->get_auth_cookie_name())){
                     <div id="scorecard"></div>
                     <div class="separator"></div>
                     <?php
-                    if ($common->is_eligible_for_bid($scorecard, $slot[1], $slot[0])) {
+                    if ($common->is_eligible_for_bid($scorecard, $session[1], $session[0])) {
                     ?>
                     <div class="bid_container">
                         <div class="sub-title">Place New Bid</div>
                         <form action="place_bid_to_db.php" method="post" name="bid_form">
                             <input type="text" name="bid_id" value="<?php echo $common->get_unique_bid_id();?>" hidden="hidden">
-                            <div class="title">For Innings <?php echo $slot[1];?>, <br />End Of <?php echo ($data->get_maxballs_for_slot($slot[0])/6)?>th Over</div>
+                            <div class="title">For Innings <?php echo $session[1];?>, <br />End Of <?php echo ($data->get_maxballs_for_slot($session[0])/6)?>th Over</div>
                             <div style="display: flex">
                                 <label class="amount_span" for="amount">Bid Amount:</label>
                                 <input type="number" id="amount" name="amount" value="100"
@@ -57,7 +57,7 @@ if ($common->is_active_user($data->get_auth_cookie_name())){
                             <div class="slot_container">
                                 <div class="title">Choose your Slot :</div>
                                 <label class="container">
-                                    <input type="radio" name="operator" value="less" id="less_input">
+                                    <input type="radio" name="slot" value="x" id="slot_a">
                                     <div class="slot">
                                         <div id="slot_a_runs">Slot1</div>
                                         <div class="small-gap"></div>
@@ -66,11 +66,20 @@ if ($common->is_active_user($data->get_auth_cookie_name())){
                                 </label>
                                 <div class="gap"></div>
                                 <label class="container">
-                                    <input type="radio" name="operator" value="more" id="more_input">
+                                    <input type="radio" name="slot" value="y" id="slot_b">
                                     <div class="slot">
                                         <div id="slot_b_runs">Slot2</div>
                                         <div class="small-gap"></div>
                                         <div id="slot_b_amount">Slot2</div>
+                                    </div>
+                                </label>
+                                <div class="gap"></div>
+                                <label class="container">
+                                    <input type="radio" name="slot" value="z" id="slot_c">
+                                    <div class="slot">
+                                        <div id="slot_c_runs">Slot3</div>
+                                        <div class="small-gap"></div>
+                                        <div id="slot_c_amount">Slot3</div>
                                     </div>
                                 </label>
                                 <div class="gap"></div>

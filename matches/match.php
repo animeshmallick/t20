@@ -5,8 +5,9 @@ include "../data.php";
 $data = new Data();
 $common = new Common($data->get_path(), $data->get_amazon_api_endpoint());
 if ($common->is_active_user($data->get_auth_cookie_name())) {
-    if (!isset($_GET['series_id']) || !isset($_GET['match_id']) || !isset($_GET['match_name'])) {
-            header("Location: ".$data->get_path());
+    if (!isset($_GET['flag'])) {
+        if (!isset($_GET['series_id']) || !isset($_GET['match_id']) || !isset($_GET['match_name']))
+            header("Location: " . $data->get_path());
     }
     else {
         $match_id = $_GET['match_id'];
@@ -45,24 +46,24 @@ if ($common->is_active_user($data->get_auth_cookie_name())) {
                     <div class="bid_container">
                         <div class="title"><span>1st Innings</span></div>
                         <div style="display: flex">
-                            <div class="bid_button_div"><a class="bid_button" href="place_bid.php?slot=a1">Over 1 to 6</a></div>
-                            <div class="bid_button_div"><a class="bid_button" href="place_bid.php?slot=b1">Over 7 to 10</a></div>
+                            <div class="bid_button_div"><a class="bid_button" href="place_bid.php?session=a1">Over 1 to 6</a></div>
+                            <div class="bid_button_div"><a class="bid_button" href="place_bid.php?session=b1">Over 7 to 10</a></div>
                         </div>
                         <div style="display: flex">
-                            <div class="bid_button_div"><a class="bid_button" href="place_bid.php?slot=c1">Over 11 to 16</a></div>
-                            <div class="bid_button_div"><a class="bid_button" href="place_bid.php?slot=d1">Over 17 to 20</a></div>
+                            <div class="bid_button_div"><a class="bid_button" href="place_bid.php?session=c1">Over 11 to 16</a></div>
+                            <div class="bid_button_div"><a class="bid_button" href="place_bid.php?session=d1">Over 17 to 20</a></div>
                         </div>
                     </div>
                     <div class="gap"></div>
                     <div class="bid_container">
                         <div class="title"><span>2nd Innings</span></div>
                         <div style="display: flex">
-                            <div class="bid_button_div"><a class="bid_button" href="place_bid.php?slot=a2">Over 1 to 6</a></div>
-                            <div class="bid_button_div"><a class="bid_button" href="place_bid.php?slot=b2">Over 7 to 10</a></div>
+                            <div class="bid_button_div"><a class="bid_button" href="place_bid.php?session=a2">Over 1 to 6</a></div>
+                            <div class="bid_button_div"><a class="bid_button" href="place_bid.php?session=b2">Over 7 to 10</a></div>
                         </div>
                         <div style="display: flex">
-                            <div class="bid_button_div"><a class="bid_button" href="place_bid.php?slot=c2">Over 11 to 16</a></div>
-                            <div class="bid_button_div"><a class="bid_button" href="place_bid.php?slot=d2">Over 17 to 20</a></div>
+                            <div class="bid_button_div"><a class="bid_button" href="place_bid.php?session=c2">Over 11 to 16</a></div>
+                            <div class="bid_button_div"><a class="bid_button" href="place_bid.php?session=d2">Over 17 to 20</a></div>
                         </div>
                     </div>
                     <div class="gap"></div>
