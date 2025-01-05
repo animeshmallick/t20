@@ -9,16 +9,17 @@ $scores = new Scores($data);
 
 $match_id = $_GET["match_id"];
 $series_id = $_GET["series_id"];
-$bid_innings = (int)$_GET["bid_innings"];
 $session = $_GET["session"];
 $amount = (float)$_GET['amount'];
 
 $scorecard = $common->get_scorecard_latest($series_id, $match_id);
 
-if($common->is_eligible_for_bid($scorecard, $bid_innings, $session)){
+if($common->is_eligible_for_session_bid($scorecard, $session)){
+    $bid_innings = $session[1];
+    $session = $session[0];
     $predicted_runs = $scores->get_slot_runs($bid_innings,$scorecard,$session);
 
-    $all_bids = $common->get_all_bids_from_match($series_id, $match_id);
+    $all_bids = $common->get_all_bids_from_match($series_id, $match_id, 'session');
     $rates = $common->get_rates($all_bids, $bid_innings, $session, $amount);
 
     $output = array(

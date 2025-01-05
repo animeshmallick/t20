@@ -4,12 +4,10 @@ include "../data.php";
 $data = new Data();
 $common = new Common($data->get_path(), $data->get_amazon_api_endpoint());
 if ($common->is_active_user($data->get_auth_cookie_name())){
-    if (isset($_GET['session']) && strlen($_GET['session']) == 2 &&
-                $common->is_valid_slot($_GET['session']) &&
+    if (isset($_GET['session']) && $common->is_valid_slot($_GET['session']) &&
                 $common->is_all_cookies_available(['match_id', 'series_id', 'match_name'])) {
         $session = $_GET['session'];
-        $common->set_cookie("innings", $session[1]);
-        $common->set_cookie("session", $session[0]);
+        $common->set_cookie('session', $session);
         $series_id = $common->get_cookie("series_id");
         $match_id = $common->get_cookie("match_id");
 
@@ -29,13 +27,13 @@ if ($common->is_active_user($data->get_auth_cookie_name())){
                     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
                     <script src="../scripts.js"></script>
                 </head>
-                <body onload="fill_header();fill_scorecard();fill_controls();fill_footer();update_slot_details(100);">
+                <body onload="fill_header();fill_scorecard();fill_controls();fill_footer();update_session_slot_details(100);update_winner_slot_details(100)">
                     <div id="header"></div>
                     <i class="fa fa-refresh refresh-button" onclick="location.reload();"></i>
                     <div id="scorecard"></div>
                     <div class="separator"></div>
                     <?php
-                    if ($common->is_eligible_for_bid($scorecard, $session[1], $session[0])) {
+                    if ($common->is_eligible_for_session_bid($scorecard, $session)) {
                     ?>
                     <div class="bid_container">
                         <div class="sub-title">Place New Bid</div>
@@ -45,7 +43,7 @@ if ($common->is_active_user($data->get_auth_cookie_name())){
                             <div style="display: flex">
                                 <label class="amount_span" for="amount">Bid Amount:</label>
                                 <input type="number" id="amount" name="amount" value="100"
-                                       onkeyup="update_slot_details(this.value)" required />
+                                       onkeyup="update_session_slot_details(this.value)" required />
 
                             </div>
                             <div class="plux_minus_container">
@@ -88,7 +86,49 @@ if ($common->is_active_user($data->get_auth_cookie_name())){
                             </div>
                         </form>
                     </div>
-                    <?php } else { ?>
+                    <?php } else if ($common->is_eligible_for_winner_bid($scorecard, $session)) { ?>
+                        <div class="bid_container">
+                            <div class="sub-title">Place New Bid</div>
+                            <form action="place_bid_to_db.php" method="post" name="bid_form">
+                                <input type="text" name="bid_id" value="<?php echo $common->get_unique_bid_id();?>" hidden="hidden">
+                                <div class="title">For Match Winner</div>
+                                <div style="display: flex">
+                                    <label class="amount_span" for="amount">Bid Amount:</label>
+                                    <input type="number" id="amount" name="amount" value="100"
+                                           onkeyup="update_winner_slot_details(this.value)" required />
+                                </div>
+                                <div class="plux_minus_container">
+                                    <a style="width: 5rem" class="button" onclick="increase_amount(100);"> + ₹100 </a>
+                                    <div style="width: 33%"></div>
+                                    <a style="width: 5rem" class="button" onclick="decrease_amount(100);"> - ₹100 </a>
+                                </div>
+                                <div class="small-gap"></div>
+                                <div class="slot_container">
+                                    <div class="title">Choose your Slot :</div>
+                                    <label class="container">
+                                        <input type="radio" name="slot" value="T1" id="slot_a">
+                                        <div class="slot">
+                                            <div id="winner_a">Slot1</div>
+                                            <div class="small-gap"></div>
+                                            <div id="winner_a_amount">Slot1</div>
+                                        </div>
+                                    </label>
+                                    <div class="small-gap"></div>
+                                    <label class="container">
+                                        <input type="radio" name="slot" value="T2" id="slot_b">
+                                        <div class="slot">
+                                            <div id="winner_b">Slot1</div>
+                                            <div class="small-gap"></div>
+                                            <div id="winner_b_amount">Slot1</div>
+                                        </div>
+                                    </label>
+                                    <div class="gap"></div>
+                                    <input type="submit" value="Place Bid">
+                                    <div class="small-gap"></div>
+                                </div>
+                            </form>
+                        </div>
+                    <?php }else { ?>
                         <div class="bid_container">
                             <div class="title">Biding closed for this Slot</div>
                         </div>

@@ -61,12 +61,12 @@ if ($common->is_active_user($data->get_auth_cookie_name())) {
                             <div class="bid_button_div"><a class="bid_button" href="place_bid.php?session=a2">Over 1 to 6</a></div>
                             <div class="bid_button_div"><a class="bid_button" href="place_bid.php?session=b2">Over 7 to 10</a></div>
                         </div>
-                        <div style="display: flex">
-                            <div class="bid_button_div"><a class="bid_button" href="place_bid.php?session=c2">Over 11 to 16</a></div>
-                            <div class="bid_button_div"><a class="bid_button" href="place_bid.php?session=d2">Over 17 to 20</a></div>
-                        </div>
                     </div>
                     <div class="gap"></div>
+                    <div class="bid_container">
+                        <div class="title"><span>Match Winner</span></div>
+                        <div class="bid_button_div" style="margin-left: 15%; width: 70%"><a class="bid_button" href="place_bid.php?session=winner">Who will win the match?</a></div>
+                    </div>
                 </div>
                 <div class="separator"></div>
                 <div id="main_controls"></div>
