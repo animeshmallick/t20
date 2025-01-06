@@ -115,6 +115,16 @@ class Common {
             return false;
         return isset($user->status) && $user->status == "active";
     }
+    public function is_admin_user(string $get_auth_cookie_name): bool
+    {
+        $ref_id = $this->get_cookie($get_auth_cookie_name);
+        if ($ref_id == null || $ref_id == "")
+            return false;
+        $user = $this->get_user_from_ref_id($ref_id);
+        if (isset($user->error))
+            return false;
+        return isset($user->type) && $user->type == "admin";
+    }
 
     public function delete_cookie(string $get_auth_cookie_name): void
     {
@@ -167,7 +177,7 @@ class Common {
              "ref_id" => $ref_id,
              "status" => $status,
              "timestamp" => date('Y-m-d H:i:s'),
-             "wallet_balance" => 0
+             "balance" => 0
         );
         $json_data = json_encode($data);
         $ch = curl_init($url);
@@ -404,17 +414,38 @@ class Common {
         }
         return -1;
     }
-    public function update_balance(int $bid_id, string $ref_id, float $amount): void
+    public function update_balance(int $bid_id, string $ref_id, float $amount)
     {
         $recharge_id = $this->get_unique_recharge_id();
         $from = "bidder_".$bid_id;
-        $url = $this->amazon_api_end_point . "/recharge/" . $recharge_id . "/" . $from . "/" . $ref_id . "/" . $amount;
-        $response = json_decode($this->get_response_from_url($url));
+        return $this->recharge_user($recharge_id, $from, $ref_id, $amount);
     }
 
     public function is_user_an_agent(string $ref_id): bool
     {
         $user = $this->get_user_from_ref_id($ref_id);
         return isset($user->type) && $user->type == "agent";
+    }
+    public function is_user_an_admin(string $ref_id): bool
+    {
+        $user = $this->get_user_from_ref_id($ref_id);
+        return isset($user->type) && $user->type == "admin";
+    }
+
+    public function get_user_from_phone(mixed $phone)
+    {
+        $url = $this->amazon_api_end_point ."/login/phone/" . $phone;
+        return json_decode($this->get_response_from_url($url));
+    }
+    public function recharge_user($recharge_id, $from_ref_id, $to_ref_id, $amount)
+    {
+        $url = $this->amazon_api_end_point."/recharge/".$recharge_id."/".$from_ref_id."/".$to_ref_id."/".$amount;
+        return json_decode($this->get_response_from_url($url));
+    }
+
+    public function activate_user(string $phone, string $otp, string $ref_id)
+    {
+        $url = $this->amazon_api_end_point."/activate_user/".$ref_id."/".$phone."/".$otp;
+        return json_decode($this->get_response_from_url($url));
     }
 }

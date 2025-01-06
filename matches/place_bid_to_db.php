@@ -50,9 +50,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["amount"]) && isset($_P
                         -> Currently the return type of update_balance is void.
                         -> If update_balance returns FALSE then delete the bid by marking as inactive.
                     */
-                    if ($common->is_user_an_agent($ref_id))
-                        $amount = $amount * 0.9;
-                    $common->update_balance($bid_id, $ref_id, ((float)$amount) * -1.0);
+                    if ($common->is_user_an_agent($ref_id)) {
+                        $amount = (float)$amount - (float)$amount/10;
+                        $common->update_balance($bid_id, $ref_id, $amount);
+                    }else {
+                        $common->update_balance($bid_id, $ref_id, (float)$amount);
+                    }
                     ?>
                     <div class="bid_container">
                         <div class="bid-success-title">Bid Placed : Success</div>
@@ -153,9 +156,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["amount"]) && isset($_P
                             -> Currently the return type of update_balance is void.
                             -> If update_balance returns FALSE then delete the bid by marking as inactive.
                         */
-                        if ($common->is_user_an_agent($ref_id))
-                            $amount = $amount * 0.9;
-                        $common->update_balance($bid_id, $ref_id, ((float)$amount) * -1.0);
+                        $common->update_balance($bid_id, $ref_id, (float)$amount);
                         ?>
                         <div class="bid_container">
                             <div class="bid-success-title">Bid Placed : Success</div>
