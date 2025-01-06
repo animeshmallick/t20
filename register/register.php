@@ -16,7 +16,7 @@ $data = new Data();
 $common = new Common($data->get_path(), $data->get_amazon_api_endpoint());
 if ($_SERVER['REQUEST_METHOD'] === 'GET' &&
     !$common->is_valid_user($data->get_auth_cookie_name())) { ?>
-        <body onload="fill_header();fill_footer();">
+        <body>
         <div id="header"></div>
         <div class="main_container">
             <div class="sub-title">Register</div>

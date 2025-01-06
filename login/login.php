@@ -12,7 +12,9 @@ include '../data.php';
 include "../Common.php";
 $data = new Data();
 $common = new Common($data->get_path(), $data->get_amazon_api_endpoint());
-    if ($_SERVER['REQUEST_METHOD'] === 'GET' && !$common->is_valid_user($data->get_auth_cookie_name())) { ?>
+    if ($_SERVER['REQUEST_METHOD'] === 'GET' && !$common->is_valid_user($data->get_auth_cookie_name())) {
+        setcookie((new Data())->get_auth_cookie_name(), "", time() - 36000, "/");
+        ?>
     <body onload="fill_header();fill_footer();">
             <div class="main_container">
             <div class="sub-title">Login</div>

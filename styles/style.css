@@ -659,3 +659,51 @@ i.refresh-button:hover {
     color: deepskyblue;
 }
 
+.bids_heading {
+    padding-top: 0.5rem;
+    text-align: center;
+    font-weight: bold;
+    letter-spacing: 0.15rem;
+    border-radius: 1rem;
+    border-bottom: 0.2rem solid #f90606;
+    box-shadow: 0 0.8rem 0.5rem rgba(250, 4, 4, 0.34);
+    padding-bottom: 0.3rem;
+    margin-bottom: 0.5rem;
+    font-size: 175%;
+}
+
+table {
+    width: 80%;
+    margin: 20px auto;
+    //border-collapse: collapse;
+    //border: 2px solid #333;
+    box-shadow: 8px 8px 8px darkgrey;
+    //border-radius: 15px;
+    border-collapse:separate;
+    border:solid black 2px;
+    border-radius:6px;
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #000000;
+
+}
+
+
+
+h2.type_session, h2.type_winner{
+    text-align: center;
+}
+
+
+
+tr.row_win{
+    background-color: lightgreen;
+}
+
+tr.row_loss{
+    background-color: lightcoral;
+}
+

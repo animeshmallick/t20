@@ -65,7 +65,7 @@ if ($common->is_active_user($data->get_auth_cookie_name())) {
                     <div class="gap"></div>
                     <div class="bid_container">
                         <div class="title"><span>Match Winner</span></div>
-                        <div class="bid_button_div" style="margin-left: 15%; width: 70%"><a class="bid_button" href="place_bid.php?session=winner">Who will win the match?</a></div>
+                        <div class="bid_button_div" style="margin-left: 10%; width: 80%"><a class="bid_button" href="place_bid.php?session=winner">Who will win the match?</a></div>
                     </div>
                 </div>
                 <div class="separator"></div>
