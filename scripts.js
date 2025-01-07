@@ -74,6 +74,16 @@ function fill_footer() {
     xmlhttp.open("GET", "../model_ui/footer.php", true);
     xmlhttp.send();
 }
+function fill_profile(){
+    const xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+            document.getElementById("profile").innerHTML = this.responseText;
+        }
+    };
+    xmlhttp.open("GET", "../model_ui/profile.php", true);
+    xmlhttp.send();
+}
 function fill_login_form($msg) {
     const xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {

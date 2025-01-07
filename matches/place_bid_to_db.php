@@ -37,9 +37,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["amount"]) && isset($_P
             <link rel="stylesheet" type="text/css" href="../styles/style.css?version=<?php echo time(); ?>">
             <script src="../scripts.js"></script>
         </head>
-        <body onload="fill_header();fill_scorecard();fill_controls();fill_footer();">
+        <body onload="fill_header();fill_profile();fill_scorecard();fill_controls();fill_footer();">
             <div id="header"></div>
             <div id="scorecard"></div>
+            <div class="separator"></div>
+            <div id="profile"></div>
             <div class="separator"></div>
         <?php
         if($common->is_new_bid_id($bid_id)) {
@@ -70,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["amount"]) && isset($_P
                             On Winning You will receive ₹<?php echo (int)($amount * $rate); ?>
                         </span></div>
                         <div class="small-separator"></div>
-                        <a class="button" href="match.php?match_id=<?php echo $match_id ?>&series_id=<?php echo $series_id ?>&match_name=<?php echo $match_name; ?>&flag=1">Place Another Bid</a>
+                        <a class="button" href="match.php?match_id=<?php echo $match_id ?>&series_id=<?php echo $series_id ?>&match_name=<?php echo $match_name; ?>">Place Another Bid</a>
                     </div>
                     <?php
                 } else { ?>
@@ -85,7 +87,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["amount"]) && isset($_P
                         <div class="small-gap"></div>
                         <div class="bid-failure-title">Bid Placed : Failure</div>
                         <div class="small-separator"></div>
-                        <a class="button" href="match.php?match_id=<?php echo $match_id ?>&series_id=<?php echo $series_id ?>&match_name=<?php echo $match_name; ?>&flag=1">Place Another Bid</a>
+                        <a class="button" href="match.php?match_id=<?php echo $match_id ?>&series_id=<?php echo $series_id ?>&match_name=<?php echo $match_name; ?>">Place Another Bid</a>
                     </div>
                 <?php }
             }else { ?>
@@ -100,7 +102,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["amount"]) && isset($_P
                     <div class="small-gap"></div>
                     <div class="bid-failure-title">Not enough balance to place BID</div>
                     <div class="small-separator"></div>
-                    <a class="button" href="match.php?match_id=<?php echo $match_id ?>&series_id=<?php echo $series_id ?>&match_name=<?php echo $match_name; ?>&flag=1">Place Another Bid</a>
+                    <a class="button" href="match.php?match_id=<?php echo $match_id ?>&series_id=<?php echo $series_id ?>&match_name=<?php echo $match_name; ?>">Place Another Bid</a>
                 </div>
             <?php }
         } else { ?>
@@ -115,7 +117,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["amount"]) && isset($_P
                 <div class="small-gap"></div>
                 <div class="bid-failure-title">Duplicate Bid ID Found : Bid Not placed</div>
                 <div class="small-separator"></div>
-                <a class="button" href="match.php?match_id=<?php echo $match_id ?>&series_id=<?php echo $series_id ?>&match_name=<?php echo $match_name; ?>&flag=1">Place Another Bid</a>
+                <a class="button" href="match.php?match_id=<?php echo $match_id ?>&series_id=<?php echo $series_id ?>&match_name=<?php echo $match_name; ?>">Place Another Bid</a>
             </div>
         <?php } ?>
         <div class="separator"></div>
@@ -171,7 +173,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["amount"]) && isset($_P
                             On Winning You will receive ₹<?php echo (int)($amount * $rate); ?>
                         </span></div>
                             <div class="small-separator"></div>
-                            <a class="button" href="match.php?match_id=<?php echo $match_id ?>&series_id=<?php echo $series_id ?>&match_name=<?php echo $match_name; ?>&flag=1">Place Another Bid</a>
+                            <a class="button" href="match.php?match_id=<?php echo $match_id ?>&series_id=<?php echo $series_id ?>&match_name=<?php echo $match_name; ?>">Place Another Bid</a>
                         </div>
                         <?php
                     } else { ?>
@@ -186,7 +188,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["amount"]) && isset($_P
                             <div class="small-gap"></div>
                             <div class="bid-failure-title">Bid Placed : Failure</div>
                             <div class="small-separator"></div>
-                            <a class="button" href="match.php?match_id=<?php echo $match_id ?>&series_id=<?php echo $series_id ?>&match_name=<?php echo $match_name; ?>&flag=1">Place Another Bid</a>
+                            <a class="button" href="match.php?match_id=<?php echo $match_id ?>&series_id=<?php echo $series_id ?>&match_name=<?php echo $match_name; ?>">Place Another Bid</a>
                         </div>
                     <?php }
                 }else { ?>
@@ -201,7 +203,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["amount"]) && isset($_P
                         <div class="small-gap"></div>
                         <div class="bid-failure-title">Not enough balance to place BID</div>
                         <div class="small-separator"></div>
-                        <a class="button" href="match.php?match_id=<?php echo $match_id ?>&series_id=<?php echo $series_id ?>&match_name=<?php echo $match_name; ?>&flag=1">Place Another Bid</a>
+                        <a class="button" href="match.php?match_id=<?php echo $match_id ?>&series_id=<?php echo $series_id ?>&match_name=<?php echo $match_name; ?>">Place Another Bid</a>
                     </div>
                 <?php }
             } else { ?>
@@ -216,7 +218,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["amount"]) && isset($_P
                     <div class="small-gap"></div>
                     <div class="bid-failure-title">Duplicate Bid ID Found : Bid Not placed</div>
                     <div class="small-separator"></div>
-                    <a class="button" href="match.php?match_id=<?php echo $match_id ?>&series_id=<?php echo $series_id ?>&match_name=<?php echo $match_name; ?>&flag=1">Place Another Bid</a>
+                    <a class="button" href="match.php?match_id=<?php echo $match_id ?>&series_id=<?php echo $series_id ?>&match_name=<?php echo $match_name; ?>">Place Another Bid</a>
                 </div>
             <?php } ?>
             <div class="separator"></div>

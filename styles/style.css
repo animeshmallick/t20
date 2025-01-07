@@ -446,6 +446,17 @@ div.title {
     padding-bottom: 0.3rem;
     margin-bottom: 0.5rem;
 }
+span.profile {
+    margin: 0.2rem 0.5rem;
+    padding-top: 0.5rem;
+    padding-left: 0.5rem;
+    text-align: left;
+    font-weight: bold;
+    letter-spacing: 0.15rem;
+    border-radius: 1rem;
+    padding-bottom: 0.3rem;
+    display: block;
+}
 div.bid-failure-title {
     font-size: 1.5rem;
     background: rgba(255, 0, 0, 0.35);;

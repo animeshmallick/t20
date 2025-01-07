@@ -27,15 +27,17 @@ if ($common->is_active_user($data->get_auth_cookie_name())){
                     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
                     <script src="../scripts.js"></script>
                 </head>
-                <body onload="fill_header();fill_scorecard();fill_controls();fill_footer();update_session_slot_details(100);update_winner_slot_details(100)">
+                <body onload="fill_header();fill_profile();fill_scorecard();fill_controls();fill_footer();update_session_slot_details(100);update_winner_slot_details(100)">
                     <div id="header"></div>
                     <i class="fa fa-refresh refresh-button" onclick="location.reload();"></i>
                     <div id="scorecard"></div>
                     <div class="separator"></div>
+                    <div id="profile"></div>
+                    <div class="separator"></div>
+                    <div class="bid_container">
                     <?php
                     if ($common->is_eligible_for_session_bid($scorecard, $session)) {
                     ?>
-                    <div class="bid_container">
                         <div class="sub-title">Place New Bid</div>
                         <form action="place_bid_to_db.php" method="post" name="bid_form">
                             <input type="text" name="bid_id" value="<?php echo $common->get_unique_bid_id();?>" hidden="hidden">
@@ -85,9 +87,7 @@ if ($common->is_active_user($data->get_auth_cookie_name())){
                                 <div class="small-gap"></div>
                             </div>
                         </form>
-                    </div>
                     <?php } else if ($common->is_eligible_for_winner_bid($scorecard, $session)) { ?>
-                        <div class="bid_container">
                             <div class="sub-title">Place New Bid</div>
                             <form action="place_bid_to_db.php" method="post" name="bid_form">
                                 <input type="text" name="bid_id" value="<?php echo $common->get_unique_bid_id();?>" hidden="hidden">
@@ -127,12 +127,11 @@ if ($common->is_active_user($data->get_auth_cookie_name())){
                                     <div class="small-gap"></div>
                                 </div>
                             </form>
-                        </div>
                     <?php }else { ?>
-                        <div class="bid_container">
                             <div class="title">Biding closed for this Slot</div>
-                        </div>
                     <?php }?>
+                    <div class="bid_button_div" style="margin-left: 25%"><a class="button" href="match.php?match_id=<?php echo $common->get_cookie('match_id'); ?>&series_id=<?php echo $common->get_cookie('series_id'); ?>&match_name=<?php echo $common->get_cookie('match_name'); ?>">Go Back</a></div>
+                    </div>
                     <div class="separator"></div>
                     <div id="main_controls"></div>
                     <div class="separator"></div>
