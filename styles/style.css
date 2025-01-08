@@ -684,23 +684,20 @@ i.refresh-button:hover {
 }
 
 table {
-    width: 80%;
-    margin: 20px auto;
-    //border-collapse: collapse;
-    //border: 2px solid #333;
-    box-shadow: 8px 8px 8px darkgrey;
-    //border-radius: 15px;
+    width: 100%;
+    box-shadow: 0.5rem 0.5rem darkgrey;
+    padding: 0.5rem;
     border-collapse:separate;
-    border:solid black 2px;
-    border-radius:6px;
+    border:solid black 0.2rem;
+    border-radius: 1rem;
     overflow-x:scroll;
 }
 
 th, td {
-    padding: 10px;
     text-align: center;
-    border: 1px solid #000000;
-
+    border: 0.1rem solid #000000;
+    border-radius: 1rem;
+    padding: 0.3rem;
 }
 
 
@@ -712,10 +709,19 @@ h2.type_session, h2.type_winner{
 
 
 tr.row_win{
-    background-color: lightgreen;
+    background-color: rgba(144, 238, 144, 0.65);
 }
 
 tr.row_loss{
-    background-color: lightcoral;
+    background-color: rgba(240, 128, 128, 0.52);
 }
-
+td.match_name {
+    background: rgba(244, 60, 5, 0.51);
+    font-size: larger;
+    font-weight: bolder;
+}
+td.session{
+    background: rgba(52, 165, 213, 0.4);
+    text-align: left;
+    font-weight: bold;
+}

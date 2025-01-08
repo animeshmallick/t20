@@ -31,6 +31,14 @@ foreach($user_bids as $bids) {
         $bids_type_winner[]=$bids;
     }
 }
+usort($bids_type_session, function($a, $b) {
+    return strcmp($a->series_id.'&&'.$a->match_id.'&&'.$a->innings.'&&'.$a->session,
+        $b->series_id.'&&'.$b->match_id.'&&'.$b->innings.'&&'.$a->session);
+});
+usort($bids_type_winner, function($a, $b) {
+    return strcmp($a->series_id.'&&'.$a->match_id, $b->series_id.'&&'.$b->match_id);
+});
+
 ?>
 <html lang="">
     <head>
@@ -50,59 +58,64 @@ foreach($user_bids as $bids) {
             <div class="bid_container">
                 <div class ="title">BIDS-SESSION</div>
                 <table>
-                    <thead>
-                    <tr>
-                        <th>REF ID</th>
-                        <th>MATCH NAME</th>
-                        <th>INNINGS</th>
-                        <th>SESSION</th>
-                        <th>AMOUNT</th>
-                        <th>MIN RUN</th>
-                        <th>MAX RUN</th>
-                        <th>TYPE</th>
-                        <th>EXPECTED AMOUNT</th>
-                        <th>ACTUAL AMOUNT</th>
-                    </tr>
-                    </thead>
                     <tbody>
-                    <?php foreach ($bids_type_session as $bids) :
+                    <?php
+                    $last_match_name = "NA";
+                    $last_session = 'NA';
+                    $start = 0;
+                    foreach ($bids_type_session as $bids) :
                         $flag = "others";
                         if ($bids->status=="win")
                             $flag="win";
                         if($bids->status=="loss")
                             $flag="loss";
+                        $match_name = $common->get_match_name_match_id($all_matches, $bids->match_id, $bids->series_id);
+                        if ($last_match_name != $match_name){
+                            $last_match_name = $match_name; ?>
+                            <tr><td colspan="3" style="border: 0; padding-top: <?php echo $start; $start=2;?>rem"></td></tr>
+                            <tr><td colspan="3" class="match_name"><?php echo $match_name; ?></td></tr>
+                        <?php }
+                        if($last_session != $bids->innings.'&'.$bids->session){
+                            $last_session = $bids->innings.'&'.$bids->session; ?>
+                            <tr><td colspan="3" style="border: 0; padding-top: 0.5rem"></td></tr>
+                            <tr><td colspan="3" class="session">
+                                    <?php if($bids->session=='a'){
+                                        echo "Innings ".$bids->innings." : Over (1 to 6)";}
+                                    else if($bids->session=='b'){
+                                        echo "Innings ".$bids->innings." : Over (7 to 10)";}
+                                    else if($bids->session=='c'){
+                                        echo "Innings ".$bids->innings." : Over (11 to 16)";}
+                                    else if($bids->session=='d'){
+                                        echo "Innings ".$bids->innings." : Over (17 to 20)";}
+                                    ?>
+                                </td></tr>
+                        <?php }
                         ?>
                         <tr class="row_<?php echo $flag;?>">
-                            <td><?php echo $bids->ref_id; ?></td>
-                            <td><?php echo $common->get_match_name_match_id($all_matches, $bids->match_id, $bids->series_id) ?></td>
-                            <td><?php echo $bids->innings; ?></td>
-                            <td><?php if($bids->session=='a'){
-                                        echo "1st to 6th overs";}
-                                      else if($bids->session=='b'){
-                                          echo "7th to 10th overs";}
-                                      else if($bids->session=='c'){
-                                          echo "11th to 16th overs";}
-                                      else if($bids->session=='d'){
-                                          echo "17th to 20th overs";}
-                                      ?></td>
-                            <td><?php echo $bids->amount; ?></td>
-                            <td><?php echo $bids->runs_min; ?></td>
-                            <td><?php echo $bids->runs_max; ?></td>
-                            <td><?php echo $bids->type; ?></td>
-                            <td><?php echo (int)($bids->amount*$bids->rate); ?></td>
-                            <td><?php if($bids->status=="placed"){
-                                    echo "--";}
-                                else if($bids->status=="cancel"){
-                                    echo "--";}
-                                else if($bids->status=="win"){
-                                    echo (int)($bids->amount*$bids->rate);
-                                    $row_color="highlight_green";}
-                                else if($bids->status=="loss"){
-                                    echo "0";
-                                    $row_color="highlight_red";}
-                                ?></td>
+                            <td><?php if ($bids->slot == 'x')
+                                        echo 'Runs '.$bids->runs_max." or Less";
+                                      else if($bids->slot == 'y')
+                                        echo "Runs ".$bids->runs_min." to ".$bids->runs_max;
+                                      else if($bids->slot == 'z')
+                                          echo "Runs ".$bids->runs_min." or More";
+                                ?>
+                            </td>
+                            <?php $amount_string = '₹'.$bids->amount." && ₹".(int)($bids->amount*$bids->rate);
+                                if($bids->status=="placed")
+                                    $amount_string = str_replace('&&', "may return", $amount_string);
+                                else if($bids->status=="cancel")
+                                    $amount_string = '₹'.$bids->amount.' Cancelled';
+                                else if($bids->status=="win")
+                                    $amount_string = str_replace('&&', "became", $amount_string);
+                                else if($bids->status=="loss")
+                                    $amount_string = str_replace('&&', "failed to", $amount_string);
+                                else
+                                    $amount_string = "BID Status Invalid"
+                                ?>
+                            <td><?php echo $amount_string; ?></td>
+                            <td><?php echo $bids->status; ?></td>
                         </tr>
-                    <?php endforeach; ?>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
