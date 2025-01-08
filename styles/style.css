@@ -693,6 +693,7 @@ table {
     border-collapse:separate;
     border:solid black 2px;
     border-radius:6px;
+    overflow-x:scroll;
 }
 
 th, td {

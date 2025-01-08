@@ -473,6 +473,22 @@ class Common {
         }
         return "";
     }
+    public function get_all_transactions($ref_user_id):array{
+        $url = $this->amazon_api_end_point . "/get_user_recharges/" . $ref_user_id;
+        $all_transactions= json_decode($this->get_response_from_url($url));
+        $temp=array();
+        foreach($all_transactions as $bids){
+            if($bids->to_user_id==$ref_user_id){
+                $temp[]=$bids;
+            }
+        }
+        return $temp;
+    }
+
+    public function get_all_bids_by_user(string $ref_user_id) {
+        $url = $this->amazon_api_end_point . "/get_user_bids/" . $ref_user_id;
+        return json_decode($this->get_response_from_url($url));
+    }
 
 
 }

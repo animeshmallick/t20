@@ -8,17 +8,19 @@ $common = new Common($data->get_path(), $data->get_amazon_api_endpoint());
 $match_id = $common->get_cookie("match_id");
 $series_id = $common->get_cookie("series_id");
 $ref_user_id = $common->get_cookie($data->get_auth_cookie_name());
-
-$all_bids = $common->get_all_bids($series_id, $match_id);
-//print_r($all_bids);
+if($series_id!=null && $match_id!=null){
+    $all_bids = $common->get_all_bids($series_id, $match_id);
+}
+else if($ref_user_id!=null){
+    $all_bids = $common->get_all_bids_by_user($ref_user_id);
+}
+else {
+    header("Location: ".$data->get_path());
+}
 $user_bids = $common->get_bid_from_userid($all_bids, $ref_user_id);
 $all_matches= $common->get_all_matches();
 $match_name=$common->get_match_name_match_id($all_matches, $match_id, $series_id);
 $result=explode(" VS ", $match_name);
-//print_r($result[0]);
-
-//print_r($all_matches);
-//print_r($user_bids);
 $bids_type_session = array();
 $bids_type_winner = array();
 foreach($user_bids as $bids) {
@@ -29,12 +31,6 @@ foreach($user_bids as $bids) {
         $bids_type_winner[]=$bids;
     }
 }
-//print_r($bids_type_session);
-//print_r($bids_type_winner);
-//print_r($user_bids);
-
-
-
 ?>
 <html lang="">
     <head>
@@ -45,8 +41,10 @@ foreach($user_bids as $bids) {
         <script src="../scripts.js"></script>
         <link rel="stylesheet" href="../styles/style.css">
     </head>
-    <body onload="fill_header();fill_controls();fill_footer()">
-        <div id="header"></div>
+    <body onload="fill_header(); fill_profile(); fill_controls();fill_footer()">
+    <div id="header"></div>
+    <div id="profile"></div>
+    <div class="separator"></div>
         <div class="bid_container">
         <div class="bids_heading">ALL BIDS</div>
             <div class="bid_container">
@@ -136,7 +134,8 @@ foreach($user_bids as $bids) {
                             <td><?php echo $common->get_match_name_match_id($all_matches, $bids->match_id, $bids->series_id) ?></td>
                             <td><?php echo $bids->amount; ?></td>
                             <td><?php echo $bids->type; ?></td>
-                            <td><?php if($bids->slot=="T1"){
+                            <td><?php $result=explode(" VS ", $common->get_match_name_match_id($all_matches, $bids->match_id, $bids->series_id));
+                                if($bids->slot=="T1"){
                                             echo $result[0];
                                 }
                                         else{
@@ -165,7 +164,5 @@ foreach($user_bids as $bids) {
         <div id="main_controls"></div>
         <div id="footer"></div>
     </body>
-
-
-
+</html>
 
