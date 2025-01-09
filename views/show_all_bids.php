@@ -110,7 +110,7 @@ usort($bids_type_winner, function($a, $b) {
                                 else if($bids->status=="loss")
                                     $amount_string = str_replace('&&', "failed to", $amount_string);
                                 else
-                                    $amount_string = "BID Status Invalid"
+                                    $amount_string = "BID Status Invalid";
                                 ?>
                             <td><?php echo $amount_string; ?></td>
                             <td><?php echo $bids->status; ?></td>
@@ -123,49 +123,46 @@ usort($bids_type_winner, function($a, $b) {
             <div class="bid_container">
                 <div class="title">BIDS-WINNER</div>
                 <table>
-                    <thead>
-                    <tr>
-                        <th>REF ID</th>
-                        <th>MATCH NAME</th>
-                        <th>AMOUNT</th>
-                        <th>TYPE</th>
-                        <th>EXPECTED WINNER</th>
-                        <th>EXPECTED AMOUNT</th>
-                        <th>ACTUAL AMOUNT</th>
-                    </tr>
-                    </thead>
                     <tbody>
-                    <?php foreach ($bids_type_winner as $bids) :
+                    <?php
+                    $last_match_name = "NA";
+                    $last_session = 'NA';
+                    $start = 0;
+                    foreach ($bids_type_winner as $bids) :
                         $flag = "others";
                         if ($bids->status=="win")
                             $flag="win";
                         if($bids->status=="loss")
                             $flag="loss";
+                        $match_name = $common->get_match_name_match_id($all_matches, $bids->match_id, $bids->series_id);
+                        if ($last_match_name != $match_name){
+                            $last_match_name = $match_name; ?>
+                            <tr><td colspan="3" style="border: 0; padding-top: <?php echo $start; $start=2;?>rem"></td></tr>
+                            <tr><td colspan="3" class="match_name"><?php echo $match_name; ?></td></tr>
+                        <?php }
                         ?>
                         <tr class="row_<?php echo $flag;?>">
-                            <td><?php echo $bids->ref_id; ?></td>
-                            <td><?php echo $common->get_match_name_match_id($all_matches, $bids->match_id, $bids->series_id) ?></td>
-                            <td><?php echo $bids->amount; ?></td>
-                            <td><?php echo $bids->type; ?></td>
                             <td><?php $result=explode(" VS ", $common->get_match_name_match_id($all_matches, $bids->match_id, $bids->series_id));
                                 if($bids->slot=="T1"){
-                                            echo $result[0];
+                                            echo $result[0]." Wins";
                                 }
                                         else{
-                                            echo $result[1];
+                                            echo $result[1]." Wins";
                                         }?></td>
-                            <td><?php echo (int)($bids->amount*$bids->rate); ?></td>
-                            <td><?php if($bids->status=="placed"){
-                                    echo "--";}
+                            <?php $amount_string = '₹'.$bids->amount." && ₹".(int)($bids->amount*$bids->rate); ?>
+                            <?php if($bids->status=="placed"){
+                                    $amount_string = str_replace('&&', "may return", $amount_string);}
                                 else if($bids->status=="cancel"){
-                                    echo "--";}
+                                    $amount_string = '₹'.$bids->amount.' Cancelled';}
                                 else if($bids->status=="win"){
-                                    echo (int)($bids->amount*$bids->rate);
-                                    }
+                                    $amount_string = str_replace('&&', "became", $amount_string);}
                                 else if($bids->status=="loss"){
-                                    echo "0";
-                                    }
-                                ?></td>
+                                    $amount_string = str_replace('&&', "failed to", $amount_string);}
+                                else
+                                    $amount_string = "BID Status Invalid";
+                                ?>
+                            <td><?php echo $amount_string; ?></td>
+                            <td><?php echo $bids->status; ?></td>
                         </tr>
                     <?php endforeach; ?>
                     </tbody>
