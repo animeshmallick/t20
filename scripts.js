@@ -194,6 +194,7 @@ function update_session_slot_details(session, amount) {
     if (session === 'winner')
         return false;
     const xmlhttp = new XMLHttpRequest();
+    console.log("Session = " + session);
     xmlhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             console.log(this.responseText);

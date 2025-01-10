@@ -172,7 +172,8 @@ class Common {
              "ref_id" => $ref_id,
              "status" => $status,
              "timestamp" => date('Y-m-d H:i:s'),
-             "balance" => 0
+             "balance" => 0,
+            "type" => 'user'
         );
         $json_data = json_encode($data);
         $ch = curl_init($url);
