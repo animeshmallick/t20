@@ -3,10 +3,8 @@ include "../data.php";
 include "../Common.php";
 $data = new Data();
 $common = new Common($data->get_path(), $data->get_amazon_api_endpoint());
-
-if($common->is_active_user($data->get_auth_cookie_name())) {
+if($common->is_user_logged_in()) {
     $result = $common->get_all_matches();
-    $common->delete_cookies();
     ?>
     <!DOCTYPE html>
     <html lang="en">
@@ -40,7 +38,6 @@ if($common->is_active_user($data->get_auth_cookie_name())) {
     <?php
 } else {
         header("Location: ".$data->get_path());
-        $common->delete_cookies();
 }
 
 ?>

@@ -10,8 +10,7 @@
             include "../Common.php";
             $data = new Data();
             $common = new Common($data->get_path(), $data->get_amazon_api_endpoint());
-            if($common->is_user_an_admin($common->get_cookie($data->get_auth_cookie_name())) ||
-                $common->is_user_an_agent($common->get_cookie($data->get_auth_cookie_name()))){ ?>
+            if($common->is_user_an_agent() || $common->is_user_an_admin()){ ?>
                 <a class="button" href="../admin/activate_user.php">Activate New User</a>
                 <a class="button" href="../admin/recharge.php">Recharge User Account</a>
             <?php }

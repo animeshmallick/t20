@@ -4,10 +4,9 @@ include "../Common.php";
 $data = new Data();
 $common = new Common($data->get_path(), $data->get_amazon_api_endpoint());
 
-if ($common->is_valid_user($data->get_auth_cookie_name())) {
+if ($common->is_user_logged_in()) {
     header("Location: ../login/login.php");
 } else {
-    $common->delete_cookies();
 ?>
 <!DOCTYPE html>
 <html lang="en">

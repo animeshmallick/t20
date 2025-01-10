@@ -7,7 +7,11 @@ class Common {
         $this->path = $path;
         $this->amazon_api_end_point = $amazon_api_end_point;
     }
-
+    public function is_user_logged_in(): bool
+    {
+        return (int)$this->get_cookie('user_ref_id') > 0 &&
+            strlen($this->get_cookie('user_type')) > 0;
+    }
     private function get_response_from_url($url): string
     {
         $ch = curl_init($url);
@@ -46,15 +50,6 @@ class Common {
         return true;
     }
 
-    public function delete_cookies(): void
-    {
-        setcookie('match_id', "", time() - (3600), "/");
-        setcookie('series_id', "", time() - (3600), "/");
-        setcookie('match_name', "", time() - (3600), "/");
-        setcookie('innings', "", time() - (3600), "/");
-        setcookie('session', "", time() - (3600), "/");
-    }
-
     public function get_user_from_db(string $phone, string $password)
     {
         $url = $this->amazon_api_end_point . "/login/".$phone."/".$password;
@@ -76,7 +71,7 @@ class Common {
         setcookie($cookie_name, $cookie_value, time() + (3600), "/");
     }
 
-    public function is_valid_match($scorecard): bool
+    public function is_valid_scorecard($scorecard): bool
     {
         return !isset($scorecard->error) && !str_contains($scorecard->source, 'amazon');
     }
@@ -95,9 +90,8 @@ class Common {
         return false;
     }
 
-    public function is_valid_user(string $get_auth_cookie_name): bool
+    public function is_valid_user(string $ref_id): bool
     {
-        $ref_id = $this->get_cookie($get_auth_cookie_name);
         if ($ref_id == null || $ref_id == "")
             return false;
         $user = $this->get_user_from_ref_id($ref_id);
@@ -115,9 +109,8 @@ class Common {
             return false;
         return isset($user->status) && $user->status == "active";
     }
-    public function is_admin_user(string $get_auth_cookie_name): bool
+    public function is_admin_user(string $ref_id): bool
     {
-        $ref_id = $this->get_cookie($get_auth_cookie_name);
         if ($ref_id == null || $ref_id == "")
             return false;
         $user = $this->get_user_from_ref_id($ref_id);
@@ -131,12 +124,14 @@ class Common {
         setcookie($get_auth_cookie_name, "", time() - (3600), "/");
     }
 
-    public function is_eligible_for_winner_bid($scorecard, $session): bool {
+    public function is_eligible_for_winner_bid($session): bool {
         if ($session != 'winner')
             return false;
+        $scorecard = $this->get_scorecard_latest($this->get_cookie('series_id'),
+                                                $this->get_cookie('match_id'));
         return !isset($scorecard->closing_soon);
     }
-    public function is_eligible_for_session_bid($scorecard, $session): bool {
+    public function is_eligible_for_session_bid($session): bool {
         if (!in_array($session[1], [1,2]))
             return false;
         if(!in_array($session[0], ['a', 'b', 'c', 'd']))
@@ -156,7 +151,7 @@ class Common {
             $eligible_overID = ($bid_innings * 100) + 16;}
         elseif ($session == 'd'){
             $eligible_overID = ($bid_innings * 100) + 20;}
-        if($scorecard->over_id <= $eligible_overID){
+        if((int)$this->get_cookie('current_over_id') <= $eligible_overID){
             return true;}
         else{
             return false;}
@@ -229,17 +224,21 @@ class Common {
     {
         $url = $this->path . "matches/GetSessionSlotDetails.php?match_id=".$match_id."&series_id=".$series_id."&session=".$session."&amount=".$amount;
         $response = file_get_contents($url);
+        $response = '{'.explode('{', $response)[1];
         return json_decode($response);
     }
     public function get_match_winner_bid_bookie_details(string $series_id, $match_id, int $amount)
     {
         $url = $this->path . "matches/GetWinnerSlotDetails.php?match_id=".$match_id."&series_id=".$series_id."&amount=".$amount;
         $response = file_get_contents($url);
+        $response = '{'.explode('{', $response)[1];
         return json_decode($response);
     }
     public function insert_new_session_bid_to_db($bid_id, $ref_id, $series_id, $match_id, $session, $slot,
-                                                 $runs_min, $runs_max, $rate, $amount, $status): bool
+                                                 $runs_min, $runs_max, $rate, $amount): bool|string
     {
+        if ($rate == null)
+            return false;
         $bid_data = array(
             "id" => $bid_id,
             "bid_id" => $bid_id,
@@ -253,7 +252,7 @@ class Common {
             "runs_max" => $runs_max,
             "rate" => $rate,
             "amount" => $amount,
-            "status" => $status,
+            "status" => "placed",
             'type' => 'session',
             "timestamp" => time()
         );
@@ -271,11 +270,11 @@ class Common {
             return false;
         }
         curl_close($ch);
-        return true;
+        return $response;
     }
 
     public function insert_new_winner_bid_to_db($bid_id, $ref_id, $series_id, $match_id, $slot,
-                                                $rate, $amount, $status): bool
+                                                $rate, $amount): bool|string
     {
         $bid_data = array(
             "id" => $bid_id,
@@ -286,7 +285,7 @@ class Common {
             "slot" => $slot,
             "rate" => $rate,
             "amount" => $amount,
-            "status" => $status,
+            "status" => "placed",
             'type' => 'winner',
             "timestamp" => time()
         );
@@ -304,7 +303,7 @@ class Common {
             return false;
         }
         curl_close($ch);
-        return true;
+        return $response;
     }
 
     public function is_new_bid_id(mixed $bid_id): bool
@@ -421,15 +420,13 @@ class Common {
         return $this->recharge_user($recharge_id, $from, $ref_id, $amount);
     }
 
-    public function is_user_an_agent(string $ref_id): bool
+    public function is_user_an_agent(): bool
     {
-        $user = $this->get_user_from_ref_id($ref_id);
-        return isset($user->type) && $user->type == "agent";
+        return $this->get_cookie('user_type') == "agent";
     }
-    public function is_user_an_admin(string $ref_id): bool
+    public function is_user_an_admin(): bool
     {
-        $user = $this->get_user_from_ref_id($ref_id);
-        return isset($user->type) && $user->type == "admin";
+        return $this->get_cookie('user_type') == "admin";
     }
 
     public function get_user_from_phone(mixed $phone)
@@ -490,6 +487,24 @@ class Common {
         return json_decode($this->get_response_from_url($url));
     }
 
+    public function delete_session(): void
+    {
+        session_unset();
+        session_destroy();
+    }
+
+    public function logout(): void
+    {
+        setcookie((new Data())->get_auth_cookie_name(), "", time() - 36000, "/");
+        setcookie('fname', "", time() - 36000, "/");
+        setcookie('lname', "", time() - 36000, "/");
+        setcookie('match_id', "", time() - 36000, "/");
+        setcookie('series_id', "", time() - 36000, "/");
+        setcookie('user_type', "", time() - 36000, "/");
+        setcookie('match_name', "", time() - 36000, "/");
+        setcookie('current_over_id', "", time() - 36000, "/");
+        $this->delete_session();
+    }
     public function withdraw_amount(string $ref_user_id, string $amount){
         $url = $this->amazon_api_end_point . "/withdraw/" . $ref_user_id . "/". $amount;
         return json_decode($this->get_response_from_url($url));
@@ -505,5 +520,27 @@ class Common {
             }
         }
         return $temp;
+    }
+    public function is_valid_match(): bool
+    {
+        return (int)$this->get_cookie('current_over_id') > 100 &&
+            (int)$this->get_cookie('current_over_id') < 300;
+    }
+
+    public function is_valid_bookie_response_session(mixed $bid_bookie_response): bool
+    {
+        return property_exists($bid_bookie_response,'predicted_runs_a') &&
+            property_exists($bid_bookie_response, 'predicted_runs_b') &&
+            property_exists($bid_bookie_response,'rate_1') &&
+            property_exists($bid_bookie_response, 'rate_2') &&
+            property_exists($bid_bookie_response, 'rate_3');
+    }
+
+    public function is_valid_bookie_response_winner(mixed $bid_bookie_response): bool
+    {
+        return property_exists($bid_bookie_response, 'rate_1') &&
+            property_exists($bid_bookie_response,'rate_2') &&
+            property_exists($bid_bookie_response,'team_a') &&
+            property_exists($bid_bookie_response, 'team_b');
     }
 }

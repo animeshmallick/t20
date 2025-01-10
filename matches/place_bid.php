@@ -3,19 +3,12 @@ include "../Common.php";
 include "../data.php";
 $data = new Data();
 $common = new Common($data->get_path(), $data->get_amazon_api_endpoint());
-if ($common->is_active_user($data->get_auth_cookie_name())){
-    if (isset($_GET['session']) && $common->is_valid_slot($_GET['session']) &&
-                $common->is_all_cookies_available(['match_id', 'series_id', 'match_name'])) {
+if ($common->is_user_logged_in()){
+    if (isset($_GET['session']) && $common->is_valid_slot($_GET['session'])) {
         $session = $_GET['session'];
-        $common->set_cookie('session', $session);
         $series_id = $common->get_cookie("series_id");
         $match_id = $common->get_cookie("match_id");
-
-        $scorecard = $common->get_scorecard_latest($series_id, $match_id);
-        if ($common->is_valid_match($scorecard)) {
-            $team1_score = $scorecard->team1_score->runs . "/" . $scorecard->team1_score->wickets . " (" . $scorecard->team1_score->overs . ")";
-            $team2_score = $scorecard->team2_score->runs . "/" . $scorecard->team2_score->wickets . " (" . $scorecard->team2_score->overs . ")";
-            $this_over_string = implode("&&", $scorecard->this_over);
+        if ($common->is_valid_match()) {
             ?>
 
             <html lang="">
@@ -27,7 +20,11 @@ if ($common->is_active_user($data->get_auth_cookie_name())){
                     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
                     <script src="../scripts.js"></script>
                 </head>
-                <body onload="fill_header();fill_profile();fill_scorecard();fill_controls();fill_footer();update_session_slot_details(100);update_winner_slot_details(100)">
+                <body onload="fill_header();fill_profile();
+                        fill_scorecard('<?php echo $series_id;?>', '<?php echo $match_id;?>');
+                        update_session_slot_details('<?php echo $session;?>', 100);
+                        update_winner_slot_details('<?php echo $session; ?>', 100)
+                        fill_controls();fill_footer();">
                     <div id="header"></div>
                     <i class="fa fa-refresh refresh-button" onclick="location.reload();"></i>
                     <div id="scorecard"></div>
@@ -36,16 +33,17 @@ if ($common->is_active_user($data->get_auth_cookie_name())){
                     <div class="separator"></div>
                     <div class="bid_container">
                     <?php
-                    if ($common->is_eligible_for_session_bid($scorecard, $session)) {
+                    if ($common->is_eligible_for_session_bid($session)) {
                     ?>
                         <div class="sub-title">Place New Bid</div>
                         <form action="place_bid_to_db.php" method="post" name="bid_form">
                             <input type="text" name="bid_id" value="<?php echo $common->get_unique_bid_id();?>" hidden="hidden">
+                            <input type="text" name="session" value="<?php echo $session;?>" hidden="hidden">
                             <div class="title">For Innings <?php echo $session[1];?>, <br />End Of <?php echo ($data->get_maxballs_for_slot($session[0])/6)?>th Over</div>
                             <div style="display: flex">
                                 <label class="amount_span" for="amount">Bid Amount:</label>
                                 <input type="number" id="amount" name="amount" value="100"
-                                       onkeyup="update_session_slot_details(this.value)" required />
+                                       onkeyup="update_session_slot_details('<?php echo $session;?>', this.value)" required />
 
                             </div>
                             <div class="plux_minus_container">
@@ -87,15 +85,16 @@ if ($common->is_active_user($data->get_auth_cookie_name())){
                                 <div class="small-gap"></div>
                             </div>
                         </form>
-                    <?php } else if ($common->is_eligible_for_winner_bid($scorecard, $session)) { ?>
+                    <?php } else if ($common->is_eligible_for_winner_bid($session)) { ?>
                             <div class="sub-title">Place New Bid</div>
                             <form action="place_bid_to_db.php" method="post" name="bid_form">
                                 <input type="text" name="bid_id" value="<?php echo $common->get_unique_bid_id();?>" hidden="hidden">
+                                <input type="text" name="session" value="<?php echo $session;?>" hidden="hidden">
                                 <div class="title">For Match Winner</div>
                                 <div style="display: flex">
                                     <label class="amount_span" for="amount">Bid Amount:</label>
                                     <input type="number" id="amount" name="amount" value="100"
-                                           onkeyup="update_winner_slot_details(this.value)" required />
+                                           onkeyup="update_winner_slot_details('<?php echo $session; ?>', this.value)" required />
                                 </div>
                                 <div class="plux_minus_container">
                                     <a style="width: 5rem" class="button" onclick="increase_amount(100);"> + ₹100 </a>
@@ -140,7 +139,6 @@ if ($common->is_active_user($data->get_auth_cookie_name())){
             </html>
         <?php
         } else {
-            $common->delete_cookies();
             header("Location: ".$data->get_path()."/index.php");
         }
     }else {header("Location: index.php");}

@@ -3,9 +3,7 @@ include "../Common.php";
 include "../data.php";
 $data = new Data();
 $common = new Common($data->get_path(), $data->get_amazon_api_endpoint());
-$ref_id = $common->get_cookie($data->get_auth_cookie_name());
-if ($_SERVER['REQUEST_METHOD'] === 'GET' &&
-    ($common->is_user_an_agent($ref_id) || $common->is_user_an_admin($ref_id))){ ?>
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && $common->is_user_an_admin()){ ?>
     <html>
     <head>
         <title>Activate New User</title>
@@ -34,13 +32,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' &&
     <div id="footer"></div>
     </body>
     </html>
-<?php } else if($_SERVER['REQUEST_METHOD'] === 'POST' &&
-    ($common->is_user_an_agent($ref_id) || $common->is_user_an_admin($ref_id))) {
+<?php } else if($_SERVER['REQUEST_METHOD'] === 'POST' && $common->is_user_an_admin() && $common->is_user_logged_in()) {
     $phone = $_POST['phone'];
     $otp = $_POST['otp'];
-    $response = $common->activate_user($phone, $otp, $ref_id);
+    $response = $common->activate_user($phone, $otp, $common->get_cookie($data->get_auth_cookie_name()));
     header('Location:activate_user.php?msg='.$response->status);
 } else {
     header("Location: ".$data->get_path());
-    $common->delete_cookies();
 }

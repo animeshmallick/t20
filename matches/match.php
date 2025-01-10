@@ -4,33 +4,26 @@ include "../Common.php";
 include "../data.php";
 $data = new Data();
 $common = new Common($data->get_path(), $data->get_amazon_api_endpoint());
-if ($common->is_active_user($data->get_auth_cookie_name())) {
+if ($common->is_user_logged_in()) {
     $match_id = $_GET['match_id'];
     $series_id = $_GET['series_id'];
     $match_name = $_GET['match_name'];
+
     $common->set_cookie('match_id', $match_id);
-    $common->set_cookie('match_name', $match_name);
     $common->set_cookie('series_id', $series_id);
-    $scorecard = $common->get_scorecard_latest($series_id, $match_id);
-    if($common->is_valid_match($scorecard)){
+    $common->set_cookie('match_name', $match_name);
     ?>
         <html lang="">
         <head>
             <title><?php echo $match_name?></title>
-            <meta content="summary_large_image" name="twitter:card"/>
-            <meta content="website" property="og:type"/>
-            <meta content="" property="og:description"/>
-            <meta content="https://x91avs1ipp.preview-beefreedesign.com/ZFlck" property="og:url"/>
-            <meta content="https://pro-bee-beepro-thumbnail.getbee.io/messages/1299033/1285255/2292406/11945799_large.jpg" property="og:image"/>
-            <meta content="" property="og:title"/>
-            <meta content="" name="description"/>
             <meta charset="utf-8"/>
             <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
             <link rel="stylesheet" type="text/css" href="../styles/style.css?version=<?php echo time(); ?>">
             <script src="../scripts.js"></script>
         </head>
-        <body onload="fill_header();fill_profile();fill_scorecard();fill_controls();fill_footer();">
+        <body onload="fill_header();fill_profile();fill_controls();fill_footer();
+                fill_scorecard('<?php echo $series_id;?>', '<?php echo $match_id;?>');">
             <div id="header"></div>
             <i class="fa fa-refresh refresh-button" onclick="location.reload();"></i>
             <div id="scorecard"></div>
@@ -74,10 +67,7 @@ if ($common->is_active_user($data->get_auth_cookie_name())) {
         </body>
         </html>
 <?php
-    }else{
-        header("Location: ".$data->get_path());
-    }
 } else {
-    $common->delete_cookie($data->get_auth_cookie_name());
+    $common->logout();
     header("Location: ".$data->get_path());
 }?>

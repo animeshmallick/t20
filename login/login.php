@@ -12,11 +12,11 @@ include '../data.php';
 include "../Common.php";
 $data = new Data();
 $common = new Common($data->get_path(), $data->get_amazon_api_endpoint());
-    if ($_SERVER['REQUEST_METHOD'] === 'GET' && !$common->is_valid_user($data->get_auth_cookie_name())) {
-        setcookie((new Data())->get_auth_cookie_name(), "", time() - 36000, "/");
-        ?>
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && !$common->is_user_logged_in()) {
+    ?>
     <body onload="fill_header();fill_footer();">
-            <div class="main_container">
+        <div id="header"></div>
+        <div class="main_container">
             <div class="sub-title">Login</div>
             <form action="login.php" method="POST">
                 <label class="label" for="phone">Phone Number:</label>
@@ -29,44 +29,44 @@ $common = new Common($data->get_path(), $data->get_amazon_api_endpoint());
             <p class="error" id="msg"><?php if(isset($_GET['msg'])) { echo $_GET['msg']; } ?></p>
             <a class="button" href="#">Forgot password?</a>
             <a class="button" href="../index/index.php">Go Home</a>
-
         </div>
-    <?php }
-    else if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$common->is_valid_user($data->get_auth_cookie_name())) {
-        $phone = $_POST['phone'];
-        $password = $_POST['password'];
-        $user = $common->get_user_from_db($phone, $password);
-        if(isset($user->error))
-            header("Location: ../login/login.php?msg=" . $user->error);
-        else {
-            if($user->status == "active"){
-                $common->set_cookie($data->get_auth_cookie_name(), $user->ref_id);
-                header("Location: ../matches/index.php");}
-            else {
-                $common->set_cookie($data->get_auth_cookie_name(), $user->ref_id);?>
-                <body onload="fill_header();fill_footer();fill_account_status('<?php echo $user->status?>');fill_controls()">
-                <div id="header"></div>
-                <div id="account_status"></div>
-                <div id="main_controls"></div>
-                <div id="footer"></div>
-                <?php
-            }
-        }
-    } else {
-        $user = $common->get_user_from_ref_id($common->get_cookie($data->get_auth_cookie_name()));
-        if($user->status == "active")
-            header("Location: ../matches/index.php");
-       else{
-            $common->set_cookie($data->get_auth_cookie_name(), $user->ref_id); ?>
-            <body onload="fill_header();fill_footer();fill_account_status('<?php echo $user->status?>');fill_controls();">
+<?php }
+else if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$common->is_user_logged_in()) {
+    $phone = $_POST['phone'];
+    $password = $_POST['password'];
+    $user = $common->get_user_from_db($phone, $password);
+    if(isset($user->error))
+        header("Location: ../login/login.php?msg=" . $user->error);
+    else {
+        if($user->status == "active"){
+                $common->set_cookie('user_ref_id', $user->ref_id);
+                $common->set_cookie('user_type', $user->type);
+                $common->set_cookie('fname', $user->fname);
+                $common->set_cookie('lname', $user->lname);
+                header("Location: ../matches/index.php");
+        } else { ?>
+            <body onload="fill_header();fill_footer();fill_account_status('<?php echo $user->status?>');fill_controls()">
             <div id="header"></div>
             <div id="account_status"></div>
             <div id="main_controls"></div>
             <div id="footer"></div>
             <?php
-            }
+        }
     }
+} else {
+    if($common->is_user_logged_in())
+        header("Location: ../matches/index.php");
+   else{ ?>
+        <body onload="fill_header();fill_footer();fill_account_status('Something Went Wrong.');fill_controls();">
+            <div id="header"></div>
+            <div id="account_status"></div>
+            <div id="main_controls"></div>
+            <div id="footer"></div>
+        <?php
+        }
+}
 ?>
+        <div id="footer"></div>
 </body>
 </html>
 

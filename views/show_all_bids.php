@@ -19,8 +19,7 @@ else {
 }
 $user_bids = $common->get_bid_from_userid($all_bids, $ref_user_id);
 $all_matches= $common->get_all_matches();
-$match_name=$common->get_match_name_match_id($all_matches, $match_id, $series_id);
-$result=explode(" VS ", $match_name);
+
 $bids_type_session = array();
 $bids_type_winner = array();
 foreach($user_bids as $bids) {

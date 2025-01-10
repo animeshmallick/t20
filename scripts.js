@@ -43,15 +43,40 @@ function fill_controls() {
     xmlhttp.open("GET", "../model_ui/main_controls.php", true);
     xmlhttp.send();
 }
-function fill_scorecard() {
+function fill_scorecard(series_id, match_id) {
     const xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function() {
+    xmlhttp.onload = function() {
         if (this.readyState === 4 && this.status === 200) {
             document.getElementById("scorecard").innerHTML = this.responseText;
-            fill_scorecard_data();
+            fill_scorecard_data(series_id, match_id);
         }
     };
     xmlhttp.open("GET", "../model_ui/scorecard.php", true);
+    xmlhttp.send();
+}
+function fill_scorecard_data(series_id, match_id){
+    const xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            let scorecard = JSON.parse(this.responseText);
+            document.getElementById("team1_name").innerHTML = scorecard.teams[0];
+            let team1_score = scorecard.team1_score.runs + "/" + scorecard.team1_score.wickets + " (" + scorecard.team1_score.overs + ")";
+            document.getElementById("team1_score").innerHTML = team1_score;
+            document.getElementById("team2_name").innerHTML = scorecard.teams[1];
+            let team2_score = scorecard.team2_score.runs + "/" + scorecard.team2_score.wickets + " (" + scorecard.team2_score.overs + ")";
+            document.getElementById("team2_score").innerHTML = team2_score;
+            document.getElementById("match_additional_details").innerHTML = scorecard.match_additional_details[0];
+            document.getElementById('bowler').innerHTML = scorecard.bowler;
+            document.getElementById('batsman1').innerHTML = scorecard.batsmen[0];
+            document.getElementById('batsman2').innerHTML = scorecard.batsmen[1];
+            for (let i = 1; i <= scorecard.this_over.length; i++) {
+                document.getElementById('ball_id_' + i).innerHTML = scorecard.this_over[i - 1];
+            }
+            document.getElementById('this_over_summary').innerHTML =
+                "Over " + scorecard.over + "  :  " + scorecard.this_over_summary;
+        }
+    };
+    xmlhttp.open("GET", "https://om8zdfeo2h.execute-api.ap-south-1.amazonaws.com/scores/" + series_id + "/" + match_id + "/latest", true);
     xmlhttp.send();
 }
 function fill_header() {
@@ -106,33 +131,6 @@ function fill_account_status(status) {
 }
 function get_scorecard($series_id, $match_id) {
 
-}
-function fill_scorecard_data() {
-    let series_id = getCookie("series_id");
-    let match_id = getCookie("match_id");
-    const xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function() {
-        if (this.readyState === 4 && this.status === 200) {
-            let scorecard = JSON.parse(this.responseText);
-            document.getElementById("team1_name").innerHTML = scorecard.teams[0];
-            let team1_score = scorecard.team1_score.runs + "/" + scorecard.team1_score.wickets + " (" + scorecard.team1_score.overs + ")";
-            document.getElementById("team1_score").innerHTML = team1_score;
-            document.getElementById("team2_name").innerHTML = scorecard.teams[1];
-            let team2_score = scorecard.team2_score.runs + "/" + scorecard.team2_score.wickets + " (" + scorecard.team2_score.overs + ")";
-            document.getElementById("team2_score").innerHTML = team2_score;
-            document.getElementById("match_additional_details").innerHTML = scorecard.match_additional_details[0];
-            document.getElementById('bowler').innerHTML = scorecard.bowler;
-            document.getElementById('batsman1').innerHTML = scorecard.batsmen[0];
-            document.getElementById('batsman2').innerHTML = scorecard.batsmen[1];
-            for (let i = 1; i <= scorecard.this_over.length; i++){
-                document.getElementById('ball_id_' + i).innerHTML = scorecard.this_over[i-1];
-            }
-            document.getElementById('this_over_summary').innerHTML =
-                "Over " + scorecard.over + "  :  " + scorecard.this_over_summary;
-        }
-    };
-    xmlhttp.open("GET", "https://om8zdfeo2h.execute-api.ap-south-1.amazonaws.com/scores/" + series_id + "/" + match_id + "/latest", true);
-    xmlhttp.send();
 }
 function add_new_over_data() {
     let existing_overs_element = document.getElementsByName("over_id");
@@ -190,54 +188,54 @@ function create_no_more_overs() {
     p.innerHTML = "Only Last 4 overs allowed";
     return p;
 }
-function update_session_slot_details(amount) {
-    let series_id = this.getCookie("series_id");
-    let match_id = this.getCookie("match_id");
-    let session = this.getCookie("session");
-    if (session !== 'winner') {
-        const xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function () {
-            if (this.readyState === 4 && this.status === 200) {
-                console.log(this.responseText);
-                let bid_master = JSON.parse(this.responseText);
-                document.getElementById("slot_a_runs").innerHTML =
-                    "Runs Less Than " + bid_master.predicted_runs_a;
-                document.getElementById("slot_a_amount").innerHTML = "₹" + amount +
-                    " will give you ₹" + Math.trunc(amount * bid_master.rate_1);
+function update_session_slot_details(session, amount) {
+    let series_id = this.getCookie('series_id');
+    let match_id = this.getCookie('match_id');
+    if (session === 'winner')
+        return false;
+    const xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            console.log(this.responseText);
+            let responseText = '{'+this.responseText.split('{')[1];
+            let bid_master = JSON.parse(responseText);
+            document.getElementById("slot_a_runs").innerHTML =
+                "Runs Less Than " + bid_master.predicted_runs_a;
+            document.getElementById("slot_a_amount").innerHTML = "₹" + amount +
+                " will give you ₹" + Math.trunc(amount * bid_master.rate_1);
 
-                document.getElementById("slot_b_runs").innerHTML =
-                    "Runs between [" + bid_master.predicted_runs_a + " to " + bid_master.predicted_runs_b + "]";
-                document.getElementById("slot_b_amount").innerHTML = "₹" + amount +
-                    " will give you ₹" + Math.trunc(amount * bid_master.rate_2);
+            document.getElementById("slot_b_runs").innerHTML =
+                "Runs between [" + bid_master.predicted_runs_a + " to " + bid_master.predicted_runs_b + "]";
+            document.getElementById("slot_b_amount").innerHTML = "₹" + amount +
+                " will give you ₹" + Math.trunc(amount * bid_master.rate_2);
 
-                document.getElementById("slot_c_runs").innerHTML =
-                    "Runs More Than " + bid_master.predicted_runs_b;
-                document.getElementById("slot_c_amount").innerHTML = "₹" + amount +
-                    " will give you ₹" + Math.trunc(amount * bid_master.rate_3);
+            document.getElementById("slot_c_runs").innerHTML =
+                "Runs More Than " + bid_master.predicted_runs_b;
+            document.getElementById("slot_c_amount").innerHTML = "₹" + amount +
+                " will give you ₹" + Math.trunc(amount * bid_master.rate_3);
 
-                let max_rate = Math.max(bid_master.rate_1, bid_master.rate_2, bid_master.rate_3);
-                if (bid_master.rate_3 === max_rate)
-                    document.getElementById("slot_c").checked = true;
-                if (bid_master.rate_2 === max_rate)
-                    document.getElementById("slot_b").checked = true;
-                if (bid_master.rate_1 === max_rate)
-                    document.getElementById("slot_a").checked = true;
-            }
-        };
-        xmlhttp.open("GET", "../matches/GetSessionSlotDetails.php?series_id=" + series_id + "&match_id=" + match_id + "&session=" + session + "&amount=" + amount, true);
-        xmlhttp.send();
-    }
+            let max_rate = Math.max(bid_master.rate_1, bid_master.rate_2, bid_master.rate_3);
+            if (bid_master.rate_3 === max_rate)
+                document.getElementById("slot_c").checked = true;
+            if (bid_master.rate_2 === max_rate)
+                document.getElementById("slot_b").checked = true;
+            if (bid_master.rate_1 === max_rate)
+                document.getElementById("slot_a").checked = true;
+        }
+    };
+    xmlhttp.open("GET", "../matches/GetSessionSlotDetails.php?series_id=" + series_id + "&match_id=" + match_id + "&session=" + session + "&amount=" + amount, true);
+    xmlhttp.send();
 }
-function update_winner_slot_details(amount) {
-    let series_id = this.getCookie("series_id");
-    let match_id = this.getCookie("match_id");
-    let session = this.getCookie("session");
+function update_winner_slot_details(session, amount) {
+    let series_id = this.getCookie('series_id');
+    let match_id = this.getCookie('match_id');
     const xmlhttp = new XMLHttpRequest();
     if(session === 'winner') {
         xmlhttp.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
                 console.log(this.responseText);
-                let bid_master = JSON.parse(this.responseText);
+                let responseText = '{'+this.responseText.split('{')[1]
+                let bid_master = JSON.parse(responseText);
                 document.getElementById("winner_a").innerHTML =
                     bid_master.team_a + " Will Win The Match";
                 document.getElementById("winner_a_amount").innerHTML = "₹" + amount +

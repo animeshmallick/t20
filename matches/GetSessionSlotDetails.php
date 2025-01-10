@@ -14,7 +14,7 @@ $amount = (float)$_GET['amount'];
 
 $scorecard = $common->get_scorecard_latest($series_id, $match_id);
 
-if($common->is_eligible_for_session_bid($scorecard, $session)){
+if($common->is_eligible_for_session_bid($session)){
     $bid_innings = $session[1];
     $session = $session[0];
     $predicted_runs = $scores->get_slot_runs($bid_innings,$scorecard,$session);

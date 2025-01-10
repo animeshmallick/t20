@@ -1,25 +1,30 @@
+<?php
+?>
 <!DOCTYPE html>
+<html lang="">
+<head>
+    <link rel="stylesheet" type="text/css" href="../styles/style.css?version=<?php echo time(); ?>">
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
+    <script src="../scripts.js"></script>
+</head>
 <?php
 include "../Common.php";
 include "../data.php";
 $data = new Data();
 $common = new Common($data->get_path(), $data->get_amazon_api_endpoint());
-$match_id = $common->get_cookie("match_id");
-$series_id = $common->get_cookie("series_id");
-$match_name = $common->get_cookie("match_name");
+$match_id = $common->get_cookie('match_id');
+$series_id = $common->get_cookie('series_id');
+$match_name = $common->get_cookie('match_name');
+
 $scorecard = $common->get_scorecard_latest($series_id, $match_id);
-$this_over_list = $scorecard->this_over;
-$current_over_id = $scorecard->over_id;
+
+if($common->is_valid_scorecard($scorecard)){
+    $common->set_cookie('current_over_id', $scorecard->over_id);
+    $this_over_list = $scorecard->this_over;
+    $current_over_id = $scorecard->over_id;
 ?>
-<html lang="">
-    <head>
-        <title><?php echo $match_name?></title>
-        <link rel="stylesheet" type="text/css" href="../styles/style.css?version=<?php echo time(); ?>">
-        <meta charset="utf-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
-        <script src="../scripts.js"></script>
-    </head>
-    <body onload="fill_scorecard_data()">
+    <body>
         <div class="scorecard-container">
             <div class="sub-title">Scorecard</div>
             <div class="gap"></div>
@@ -86,3 +91,11 @@ $current_over_id = $scorecard->over_id;
         </div>
     </body>
 </html>
+<?php }
+else{ ?>
+    <html>
+        <body>
+            <div>Invalid ScoreCard</div>
+        </body>
+    </html>
+<?php } ?>
