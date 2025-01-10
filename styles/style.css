@@ -725,3 +725,6 @@ td.session{
     text-align: left;
     font-weight: bold;
 }
+tr.row_placed{
+    background-color: lightgrey;
+}

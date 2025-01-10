@@ -490,5 +490,20 @@ class Common {
         return json_decode($this->get_response_from_url($url));
     }
 
+    public function withdraw_amount(string $ref_user_id, string $amount){
+        $url = $this->amazon_api_end_point . "/withdraw/" . $ref_user_id . "/". $amount;
+        return json_decode($this->get_response_from_url($url));
+    }
 
+    public function get_all_withdraws(string $ref_user_id):array {
+        $url = $this->amazon_api_end_point . "/get_all_withdraws";
+        $all_withdraw_by_user= json_decode($this->get_response_from_url($url));
+        $temp=array();
+        foreach($all_withdraw_by_user as $withdraw){
+            if($withdraw->ref_id==$ref_user_id){
+                $temp[]=$withdraw;
+            }
+        }
+        return $temp;
+    }
 }

@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' &&
     if (!isset($user->error)){
         $to_ref_id = $user->ref_id;
         $response = $common->recharge_user($recharge_id, $from_ref_id, $to_ref_id, $amount);
-        header('Location:recharge.php?msg='.$response->recharge_status);
+        header('Location:recharge.php?msg='.$response->recharge_msg);
     }else{
         header('Location:recharge.php?msg='.$user->error);
     }

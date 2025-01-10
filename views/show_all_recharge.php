@@ -32,7 +32,7 @@ else{
             <table>
                 <thead>
                 <tr>
-                    <th>REF ID</th>
+
                     <th>FROM</th>
                     <th>ID</th>
                     <th>AMOUNT</th>
@@ -43,14 +43,30 @@ else{
                     $flag = "others";
                     if ($bids->amount<0)
                         $flag="loss";
+                        $flag1=-1;
                     if($bids->amount>0)
                         $flag="win";
                     ?>
                     <tr class="row_<?php echo $flag;?>">
-                        <td><?php echo $bids->to_user_id; ?></td>
-                        <td><?php echo $bids->from; ?></td>
+
+                        <td><?php
+                            if(preg_match("/bidder_return/",$bids->from)){
+                                echo "Bid Settled";
+                            }
+                            else if(preg_match("/bidder/",$bids->from)){
+                                echo "Bid Placed";
+                            }
+                            else{
+                                echo "Withdraw";
+                            }
+                            ?></td>
                         <td><?php echo $bids->id; ?></td>
-                        <td><?php echo $bids->amount; ?></td>
+                        <td><?php
+                            if($bids->amount<0){
+                                echo (int)($bids->amount*-1); }
+                            else {
+                                echo (int)$bids->amount;
+                            }?></td>
                     </tr>
                 <?php endforeach; ?>
                 </tbody>

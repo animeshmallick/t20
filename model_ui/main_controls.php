@@ -18,6 +18,7 @@
         ?>
         <a class="control-button" href="../views/show_all_bids.php">Show My Bids</a>
         <a class="control-button" href="../views/show_all_recharge.php">All Transactions</a>
+        <a class="control-button" href="../views/withdraw_funds.php">Withdraw</a>
         <a class="control-button" href="../index/index.php">Go Home</a>
         <div class="small-separator"></div>
         <a class="control-button" href="../logout.php">Logout</a>
