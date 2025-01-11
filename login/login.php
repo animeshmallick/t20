@@ -45,10 +45,9 @@ else if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$common->is_user_logged_in())
                 $common->set_cookie('lname', $user->lname);
                 header("Location: ../matches/index.php");
         } else { ?>
-            <body onload="fill_header();fill_footer();fill_account_status('<?php echo $user->status?>');fill_controls()">
+            <body onload="fill_header();fill_footer();fill_account_status('<?php echo $user->status?>');">
             <div id="header"></div>
             <div id="account_status"></div>
-            <div id="main_controls"></div>
             <div id="footer"></div>
             <?php
         }
@@ -57,10 +56,9 @@ else if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$common->is_user_logged_in())
     if($common->is_user_logged_in())
         header("Location: ../matches/index.php");
    else{ ?>
-        <body onload="fill_header();fill_footer();fill_account_status('Something Went Wrong.');fill_controls();">
+        <body onload="fill_header();fill_footer();fill_account_status('Something Went Wrong.');">
             <div id="header"></div>
             <div id="account_status"></div>
-            <div id="main_controls"></div>
             <div id="footer"></div>
         <?php
         }

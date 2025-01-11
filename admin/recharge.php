@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && $common->is_user_an_admin()){ ?>
         <link rel="icon" type="image/x-icon" href="../cricket.ico">
         <script src = "../scripts.js"></script>
     </head>
-    <body onload="fill_header();fill_footer();fill_controls()">
+    <body onload="fill_header();fill_footer();">
     <div id="header"></div>
     <div class="main_container">
         <div class="sub-title">Recharge User Balance</div>
@@ -28,8 +28,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && $common->is_user_an_admin()){ ?>
         </form>
         <p class="error" id="msg"><?php if(isset($_GET['msg'])) { echo $_GET['msg']; } ?></p>
     </div>
-    <div class="separator"></div>
-    <div id="main_controls"></div>
     <div class="separator"></div>
     <div id="footer"></div>
     </body>

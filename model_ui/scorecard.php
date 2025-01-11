@@ -16,11 +16,11 @@ $common = new Common($data->get_path(), $data->get_amazon_api_endpoint());
 $match_id = $common->get_cookie('match_id');
 $series_id = $common->get_cookie('series_id');
 $match_name = $common->get_cookie('match_name');
-
-$scorecard = $common->get_scorecard_latest($series_id, $match_id);
+$scorecard = $common->get_preloaded_scorecard();
+if ($scorecard == null)
+    $scorecard = $common->get_scorecard_latest($series_id, $match_id, "Scorecard");
 
 if($common->is_valid_scorecard($scorecard)){
-    $common->set_cookie('current_over_id', $scorecard->over_id);
     $this_over_list = $scorecard->this_over;
     $current_over_id = $scorecard->over_id;
 ?>

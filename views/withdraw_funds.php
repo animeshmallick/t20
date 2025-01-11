@@ -27,7 +27,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && $common->is_valid_user($data->get_au
         }
 }
 ?>
-<body onload="fill_header();fill_profile(); fill_controls();fill_footer();">
+<body onload="fill_header();fill_profile();fill_footer();">
 <div id="header"></div>
 <div id="profile"></div>
 <div class="separator"></div>
@@ -74,6 +74,5 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && $common->is_valid_user($data->get_au
     </div>
 </div>
 <div class="separator"></div>
-<div id="main_controls"></div>
 <div id="footer"><</div>
 </body>

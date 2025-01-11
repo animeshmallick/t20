@@ -26,10 +26,17 @@ class Common {
         $url = $this->amazon_api_end_point . '/get_all_matches';
         return json_decode($this->get_response_from_url($url));
     }
-    public function get_scorecard_latest($series_id, $match_id)
+    public function get_scorecard_latest($series_id, $match_id, $from)
     {
-        $url = $this->amazon_api_end_point . '/scores/' . $series_id . '/' . $match_id . '/latest';
-        return json_decode($this->get_response_from_url($url));
+        $preloaded_scorecard = $this->get_preloaded_scorecard();
+        if ($preloaded_scorecard == null) {
+            $url = $this->amazon_api_end_point . '/scores/' . $series_id . '/' . $match_id . '/latest';
+            $scorecard = json_decode($this->get_response_from_url($url));
+            $this->set_cookie('current_over_id', $scorecard->over_id);
+            setcookie('scorecard', json_encode($scorecard), time() + 5, "/");
+            return $scorecard;
+        }
+        return $preloaded_scorecard;
     }
     public function validate_unique_ref_id($ref_id): string
     {
@@ -119,16 +126,16 @@ class Common {
         return isset($user->type) && $user->type == "admin";
     }
 
-    public function delete_cookie(string $get_auth_cookie_name): void
+    public function delete_cookie(string $cookie_name): void
     {
-        setcookie($get_auth_cookie_name, "", time() - (3600), "/");
+        setcookie($cookie_name, "", time() - (3600), "/");
     }
 
     public function is_eligible_for_winner_bid($session): bool {
         if ($session != 'winner')
             return false;
         $scorecard = $this->get_scorecard_latest($this->get_cookie('series_id'),
-                                                $this->get_cookie('match_id'));
+                                                $this->get_cookie('match_id'), "winner slot");
         return !isset($scorecard->closing_soon);
     }
     public function is_eligible_for_session_bid($session): bool {
@@ -543,5 +550,42 @@ class Common {
             property_exists($bid_bookie_response,'rate_2') &&
             property_exists($bid_bookie_response,'team_a') &&
             property_exists($bid_bookie_response, 'team_b');
+    }
+
+    public function is_session_enabled(string $session): bool
+    {
+        if ($session == 'winner'){
+            $scorecard = $this->get_preloaded_scorecard();
+            return true;
+        }
+        elseif(strlen($session) == 2){
+            if ($session[0] == 'a')
+                $over_id = '06';
+            elseif ($session[0] == 'b')
+                $over_id = '10';
+            elseif ($session[0] == 'c')
+                $over_id = '16';
+            elseif ($session[0] == 'd')
+                $over_id = '20';
+            else
+                $over_id = '00';
+            $over_id = (int)($session[1].$over_id);
+            if ((int)($this->get_cookie('current_over_id')) < $over_id)
+                return true;
+            return false;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public function get_preloaded_scorecard()
+    {
+        try {
+            return json_decode($this->get_cookie('scorecard'));
+        }catch (Exception){
+            echo 'preload scorecard error';
+            return null;
+        }
     }
 }

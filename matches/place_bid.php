@@ -23,8 +23,8 @@ if ($common->is_user_logged_in()){
                 <body onload="fill_header();fill_profile();
                         fill_scorecard('<?php echo $series_id;?>', '<?php echo $match_id;?>');
                         update_session_slot_details('<?php echo $session;?>', 100);
-                        update_winner_slot_details('<?php echo $session; ?>', 100)
-                        fill_controls();fill_footer();">
+                        update_winner_slot_details('<?php echo $session; ?>', 100);
+                        fill_footer();">
                     <div id="header"></div>
                     <i class="fa fa-refresh refresh-button" onclick="location.reload();"></i>
                     <div id="scorecard"></div>
@@ -131,8 +131,6 @@ if ($common->is_user_logged_in()){
                     <?php }?>
                     <div class="bid_button_div" style="margin-left: 25%"><a class="button" href="match.php?match_id=<?php echo $common->get_cookie('match_id'); ?>&series_id=<?php echo $common->get_cookie('series_id'); ?>&match_name=<?php echo $common->get_cookie('match_name'); ?>">Go Back</a></div>
                     </div>
-                    <div class="separator"></div>
-                    <div id="main_controls"></div>
                     <div class="separator"></div>
                     <div id="footer"></div>
                 </body>

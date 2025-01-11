@@ -11,7 +11,7 @@ $bid_id = (int)$_POST["bid_id"];
 $series_id = $common->get_cookie("series_id");
 $match_id = $common->get_cookie("match_id");
 $match_name = $common->get_cookie("match_name");
-$scorecard = $common->get_scorecard_latest($series_id, $match_id);
+$scorecard = $common->get_scorecard_latest($series_id, $match_id, "Place Bid To DB");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" &&
     isset($_POST["amount"]) && isset($_POST["slot"]) && isset($_POST["session"])) { ?>
@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" &&
     </head>
     <body onload="fill_header();fill_profile();
         fill_scorecard('<?php echo $series_id;?>','<?php echo $match_id;?>');
-        fill_controls();fill_footer();">
+        fill_footer();">
         <div id="header"></div>
         <div id="scorecard"></div>
         <div class="separator"></div>
@@ -156,7 +156,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" &&
         } else {
             header("Location: ".$data->get_path());
         } ?>
-        <div id="main_controls"></div>
         <div id="footer"></div>
     </body>
     </html>

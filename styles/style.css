@@ -279,8 +279,10 @@ div.small-separator {
 }
 div.title-container {
     background-color: #3369cc;
+    padding-top: 0.5rem;
+    padding-left: 0.5rem;
+    height: 6rem;
     border-radius: 1rem;
-    text-align: center;
     display: block;
     color: #edcf08;
     font-size: 2rem;
@@ -435,6 +437,13 @@ a.bid_button {
     font-weight: bolder;
     white-space: nowrap;
 }
+a.disabled {
+    pointer-events: none;
+    cursor: default;
+    text-decoration: none;
+    color: black;
+    background: grey;
+}
 div.title {
     padding-top: 0.5rem;
     text-align: center;
@@ -445,6 +454,7 @@ div.title {
     box-shadow: 0 0.8rem 0.5rem rgba(250, 4, 4, 0.34);
     padding-bottom: 0.3rem;
     margin-bottom: 0.5rem;
+    color: black;
 }
 span.profile {
     margin: 0.2rem 0.5rem;
@@ -727,4 +737,10 @@ td.session{
 }
 tr.row_placed{
     background-color: lightgrey;
+}
+a.nav_item {
+    display: block;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 3rem rgba(7, 7, 7, 0.31), 0 0 3rem rgba(0,0,0,0.24);
+    white-space: nowrap;
 }

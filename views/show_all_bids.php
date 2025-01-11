@@ -48,7 +48,7 @@ usort($bids_type_winner, function($a, $b) {
         <script src="../scripts.js"></script>
         <link rel="stylesheet" href="../styles/style.css">
     </head>
-    <body onload="fill_header(); fill_profile(); fill_controls();fill_footer()">
+    <body onload="fill_header(); fill_profile();fill_footer()">
     <div id="header"></div>
     <div id="profile"></div>
     <div class="separator"></div>
@@ -170,7 +170,6 @@ usort($bids_type_winner, function($a, $b) {
             <div class="gap"></div>
         </div>
         <div class="separator"></div>
-        <div id="main_controls"></div>
         <div id="footer"></div>
     </body>
 </html>

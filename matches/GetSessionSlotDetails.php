@@ -12,7 +12,9 @@ $series_id = $_GET["series_id"];
 $session = $_GET["session"];
 $amount = (float)$_GET['amount'];
 
-$scorecard = $common->get_scorecard_latest($series_id, $match_id);
+$scorecard = $common->get_preloaded_scorecard();
+if ($scorecard == null)
+    $scorecard = $common->get_scorecard_latest($series_id, $match_id, "GetSessionSlotDetails");
 
 if($common->is_eligible_for_session_bid($session)){
     $bid_innings = $session[1];

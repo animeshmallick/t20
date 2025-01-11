@@ -33,16 +33,6 @@ function getCookie(name) {
     }
     return null;
 }
-function fill_controls() {
-    const xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function() {
-        if (this.readyState === 4 && this.status === 200) {
-            document.getElementById("main_controls").innerHTML = this.responseText;
-        }
-    };
-    xmlhttp.open("GET", "../model_ui/main_controls.php", true);
-    xmlhttp.send();
-}
 function fill_scorecard(series_id, match_id) {
     const xmlhttp = new XMLHttpRequest();
     xmlhttp.onload = function() {
@@ -54,30 +44,56 @@ function fill_scorecard(series_id, match_id) {
     xmlhttp.open("GET", "../model_ui/scorecard.php", true);
     xmlhttp.send();
 }
+function get_preloaded_scorecard() {
+    let jsonStr = this.getCookie('scorecard');
+    jsonStr = jsonStr.replaceAll('%7B','{')
+        .replaceAll('%7D', '}')
+        .replaceAll('%22', '"')
+        .replaceAll('%3A', ':')
+        .replaceAll('%2C', ',')
+        .replaceAll('%20', ' ')
+        .replaceAll('%5B', '[')
+        .replaceAll('%5D', ']')
+        .replaceAll('%2A', '*')
+        .replaceAll('%5Cu2022', '.');
+    try {
+        return JSON.parse(jsonStr);
+    }catch (Exception){
+        return null;
+    }
+}
 function fill_scorecard_data(series_id, match_id){
-    const xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function () {
-        if (this.readyState === 4 && this.status === 200) {
-            let scorecard = JSON.parse(this.responseText);
-            document.getElementById("team1_name").innerHTML = scorecard.teams[0];
-            let team1_score = scorecard.team1_score.runs + "/" + scorecard.team1_score.wickets + " (" + scorecard.team1_score.overs + ")";
-            document.getElementById("team1_score").innerHTML = team1_score;
-            document.getElementById("team2_name").innerHTML = scorecard.teams[1];
-            let team2_score = scorecard.team2_score.runs + "/" + scorecard.team2_score.wickets + " (" + scorecard.team2_score.overs + ")";
-            document.getElementById("team2_score").innerHTML = team2_score;
-            document.getElementById("match_additional_details").innerHTML = scorecard.match_additional_details[0];
-            document.getElementById('bowler').innerHTML = scorecard.bowler;
-            document.getElementById('batsman1').innerHTML = scorecard.batsmen[0];
-            document.getElementById('batsman2').innerHTML = scorecard.batsmen[1];
-            for (let i = 1; i <= scorecard.this_over.length; i++) {
-                document.getElementById('ball_id_' + i).innerHTML = scorecard.this_over[i - 1];
+    let scorecard = this.get_preloaded_scorecard();
+    if (scorecard == null) {
+        const xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
+                scorecard = JSON.parse(this.responseText);
+                fill_scorecard_content(scorecard);
             }
-            document.getElementById('this_over_summary').innerHTML =
-                "Over " + scorecard.over + "  :  " + scorecard.this_over_summary;
-        }
-    };
-    xmlhttp.open("GET", "https://om8zdfeo2h.execute-api.ap-south-1.amazonaws.com/scores/" + series_id + "/" + match_id + "/latest", true);
-    xmlhttp.send();
+        };
+        xmlhttp.open("GET", "https://om8zdfeo2h.execute-api.ap-south-1.amazonaws.com/scores/" + series_id + "/" + match_id + "/latest", true);
+        xmlhttp.send();
+    }else{
+        fill_scorecard_content(scorecard);
+    }
+}
+function fill_scorecard_content(scorecard){
+    document.getElementById("team1_name").innerHTML = scorecard.teams[0];
+    let team1_score = scorecard.team1_score.runs + "/" + scorecard.team1_score.wickets + " (" + scorecard.team1_score.overs + ")";
+    document.getElementById("team1_score").innerHTML = team1_score;
+    document.getElementById("team2_name").innerHTML = scorecard.teams[1];
+    let team2_score = scorecard.team2_score.runs + "/" + scorecard.team2_score.wickets + " (" + scorecard.team2_score.overs + ")";
+    document.getElementById("team2_score").innerHTML = team2_score;
+    document.getElementById("match_additional_details").innerHTML = scorecard.match_additional_details[0];
+    document.getElementById('bowler').innerHTML = scorecard.bowler;
+    document.getElementById('batsman1').innerHTML = scorecard.batsmen[0];
+    document.getElementById('batsman2').innerHTML = scorecard.batsmen[1];
+    for (let i = 1; i <= scorecard.this_over.length; i++) {
+        document.getElementById('ball_id_' + i).innerHTML = scorecard.this_over[i - 1];
+    }
+    document.getElementById('this_over_summary').innerHTML =
+        "Over " + scorecard.over + "  :  " + scorecard.this_over_summary;
 }
 function fill_header() {
     const xmlhttp = new XMLHttpRequest();
@@ -194,10 +210,8 @@ function update_session_slot_details(session, amount) {
     if (session === 'winner')
         return false;
     const xmlhttp = new XMLHttpRequest();
-    console.log("Session = " + session);
     xmlhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
-            console.log(this.responseText);
             let responseText = '{'+this.responseText.split('{')[1];
             let bid_master = JSON.parse(responseText);
             document.getElementById("slot_a_runs").innerHTML =
@@ -234,7 +248,6 @@ function update_winner_slot_details(session, amount) {
     if(session === 'winner') {
         xmlhttp.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
-                console.log(this.responseText);
                 let responseText = '{'+this.responseText.split('{')[1]
                 let bid_master = JSON.parse(responseText);
                 document.getElementById("winner_a").innerHTML =
@@ -269,4 +282,18 @@ function decrease_amount(amount){
     amount = parseFloat(amount_element.value) - parseFloat(amount);
     amount_element.value = Math.max(amount, 100);
     this.update_slot_details(amount_element.value);
+}
+document.addEventListener('click', function(e) {
+    let sidebar = document.getElementById('side-bar-container');
+    const sidebarIcon = document.getElementById('side-bar-icon');
+    if (!sidebar.contains(e.target) && !sidebarIcon.contains(e.target)) {
+        w3_close();
+    }
+});
+function w3_open() {
+    document.getElementById("side-bar-container").style.display = "block";
+}
+
+function w3_close() {
+    document.getElementById("side-bar-container").style.display = "none";
 }

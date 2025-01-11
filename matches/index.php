@@ -15,7 +15,7 @@ if($common->is_user_logged_in()) {
         <link rel="icon" type="image/x-icon" href="../cricket.ico">
         <script src="../scripts.js"></script>
     </head>
-    <body onload="fill_header();fill_profile();fill_footer();fill_controls();">
+    <body onload="fill_header();fill_profile();fill_footer();">
     <div id="header"></div>
     <div id="profile"></div>
     <div class="separator"></div>
@@ -29,8 +29,6 @@ if($common->is_user_logged_in()) {
     }
     ?>
     </div>
-    <div class="separator"></div>
-    <div id="main_controls"></div>
     <div class="separator"></div>
     <div id="footer"></div>
     </body>
