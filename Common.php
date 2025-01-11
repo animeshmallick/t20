@@ -514,7 +514,7 @@ class Common {
         $this->delete_session();
     }
     public function withdraw_amount(string $ref_user_id, string $amount){
-        $url = $this->amazon_api_end_point . "/withdraw/" . $ref_user_id . "/". $amount;
+        $url = $this->amazon_api_end_point . "/withdraw/" . $ref_user_id . "/". $amount."/".date('Y-m-d H:i:s');
         return json_decode($this->get_response_from_url($url));
     }
 
