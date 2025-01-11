@@ -36,6 +36,9 @@ if ($common->is_user_logged_in()){
                 <?php if ($common->is_user_an_admin()){ ?>
                         <div class="scorecard-container">
                             <div class="title">Admins Only</div>
+                            <?php if ($common->get_cookie('match_id') != "" && $common->get_cookie('series_id') != ""){ ?>
+                                <a href="../views/admin_match_dashboard.php" onclick="w3_close()" class="w3-mobile w3-bar-item w3-center nav_item">Match Dashboard</a>
+                            <?php } ?>
                             <a href="../admin/activate_user.php" onclick="w3_close()" class="w3-mobile w3-bar-item w3-center nav_item">Activate New User</a>
                             <a href="../admin/recharge.php" onclick="w3_close()" class="w3-mobile w3-bar-item w3-center nav_item">Recharge User Account</a>
                         </div>
@@ -49,7 +52,7 @@ if ($common->is_user_logged_in()){
         <a href="javascript:void(0)" id='side-bar-icon' class="w3-left w3-button w3-white" onclick="w3_open()" style="border-radius: 1rem; height: 6rem">☰</a>
     <div class="profile">
         <span style="display: block;font-size: 1.2rem">&nbsp;Hi, <?php echo $common->get_cookie('fname') . " " . $common->get_cookie('lname'); ?>.</span>
-        <span style="display: block;font-size: 1rem">&nbsp;Your available balance is ₹<?php echo $balance;?></span>
+        <span style="display: block;font-size: 1rem">&nbsp;Available Balance ₹<?php echo $balance;?></span>
     </div>
 <?php } ?>
 </div>

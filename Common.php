@@ -32,8 +32,10 @@ class Common {
         if ($preloaded_scorecard == null) {
             $url = $this->amazon_api_end_point . '/scores/' . $series_id . '/' . $match_id . '/latest';
             $scorecard = json_decode($this->get_response_from_url($url));
-            $this->set_cookie('current_over_id', $scorecard->over_id);
-            setcookie('scorecard', json_encode($scorecard), time() + 5, "/");
+            if ($this->is_valid_scorecard($scorecard)){
+                setcookie('current_over_id', $scorecard->over_id, time() + 5, "/");
+                setcookie('scorecard', json_encode($scorecard), time() + 5, "/");
+            }
             return $scorecard;
         }
         return $preloaded_scorecard;
@@ -552,7 +554,7 @@ class Common {
             property_exists($bid_bookie_response, 'team_b');
     }
 
-    public function is_session_enabled(string $session): bool
+    public function is_session_enabled(int $cur_over_id, string $session): bool
     {
         if ($session == 'winner'){
             $scorecard = $this->get_preloaded_scorecard();
@@ -570,7 +572,7 @@ class Common {
             else
                 $over_id = '00';
             $over_id = (int)($session[1].$over_id);
-            if ((int)($this->get_cookie('current_over_id')) < $over_id)
+            if ($cur_over_id < $over_id)
                 return true;
             return false;
         }
@@ -587,5 +589,21 @@ class Common {
             echo 'preload scorecard error';
             return null;
         }
+    }
+
+    public function get_user_from_users($all_users, $ref_id)
+    {
+        foreach ($all_users as $user) {
+            if ($user->ref_id == $ref_id) {
+                return $user->fname;
+            }
+        }
+        return null;
+    }
+
+    public function get_all_users()
+    {
+        $url = $this->amazon_api_end_point . "/get_all_users";
+        return json_decode($this->get_response_from_url($url));
     }
 }

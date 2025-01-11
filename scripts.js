@@ -297,3 +297,21 @@ function w3_open() {
 function w3_close() {
     document.getElementById("side-bar-container").style.display = "none";
 }
+function settle_bid(bid_id, session){
+    const userResponse = confirm("Did This Bid Win?");
+    let bid_result = "";
+    if (userResponse) {
+        bid_result = "win";
+    } else {
+        bid_result = "loss";
+    }
+    const xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            console.log(this.responseText);
+            window.location.href = "http://localhost/t20/admin/admin_match_session_dashboard.php?session=" + session;
+        }
+    };
+    xmlhttp.open("GET", "https://om8zdfeo2h.execute-api.ap-south-1.amazonaws.com/settle_bid/"+bid_id+"/"+bid_result, true);
+    xmlhttp.send();
+}

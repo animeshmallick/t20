@@ -8,9 +8,7 @@ if ($common->is_user_logged_in()){
         $session = $_GET['session'];
         $series_id = $common->get_cookie("series_id");
         $match_id = $common->get_cookie("match_id");
-        if ($common->is_valid_match()) {
-            ?>
-
+        ?>
             <html lang="">
                 <head>
                     <title>Place Your Bid</title>
@@ -134,7 +132,6 @@ if ($common->is_user_logged_in()){
         } else {
             header("Location: ".$data->get_path()."/index.php");
         }
-    }else {header("Location: index.php");}
 
 } else {header("Location: ../index.php");}
 ?>

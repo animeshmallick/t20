@@ -8,6 +8,7 @@ if($common->is_user_logged_in()) {
     $common->delete_cookie('match_id');
     $common->delete_cookie('series_id');
     $common->delete_cookie('match_name');
+    $common->delete_cookie('current_over_id');
     ?>
     <!DOCTYPE html>
     <html lang="en">
