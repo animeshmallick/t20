@@ -1,11 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
 .bid_container{
-    margin: 0.2rem 1rem;
     display: block;
     align-content: center;
     background: rgba(7, 7, 7, 0.08);
     border-radius: 1rem;
     box-shadow: 0 1rem 1rem rgba(230, 6, 6, 0.3);
+    margin: 0.2rem 1rem 0.5rem;
 }
 .main_container{
     margin: 0.2rem 0;
@@ -14,9 +14,7 @@
     background: rgba(7, 7, 7, 0.08);
     border-radius: 1rem;
     box-shadow: 0 2rem 1rem rgba(0,0,0,0.3);
-    padding-left: 2rem;
-    padding-right: 2rem;
-    padding-bottom: 0.5rem;
+    padding: 0.5rem 2rem;
 }
 div.main-control-container {
     margin: 0.2rem 1rem;
@@ -172,6 +170,11 @@ div.small-gap {
     margin-bottom: 0.5rem;
     height: 0.5rem;
 }
+div.smaller-gap {
+    width: 100%;
+    margin-bottom: 0.25rem;
+    height: 0.25rem;
+}
 .hr {
     display: block;
     margin: 0.5em auto;
@@ -214,10 +217,10 @@ tr.cancel {
     color: #0f1060;
 }
 a.play {
-    border-radius: 50px;
-    display: block;
     background-color: #24f104;
-    color: black;
+}
+a.play:hover {
+    background-color: #edcf08;
 }
 a.live {
     border-radius: 50px;
@@ -271,22 +274,22 @@ a.button {
 
 div.separator {
     border: 0.01rem solid #000000;
-    margin: 1rem;
+    margin: 0.5rem;
 }
 div.small-separator {
     border: 0.01rem solid #000000;
     margin: 0.25rem 1.5rem;
 }
 div.title-container {
-    background-color: #3369cc;
+    background-color: rgba(51, 105, 204, 0.9);
+    box-shadow: 0 0.5rem 0.5rem rgb(4, 221, 241);
     padding-top: 0.5rem;
     padding-left: 0.5rem;
-    height: 6rem;
     border-radius: 1rem;
     display: block;
     color: #edcf08;
     font-size: 2rem;
-    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
 }
 
 div.scorecard-container {
@@ -344,7 +347,7 @@ div.players_container {
 }
 div.batsmen {
     width: 50%;
-    padding: 1rem;
+    padding: 0 1rem;
 }
 div.current-over {
     width: 60%;
@@ -411,9 +414,11 @@ div.play-container {
     border-radius: 1rem;
     text-align: center;
     font-weight: bold;
-    margin-top: 0.2rem;
-    margin-bottom: 0.2rem;
-    box-shadow: 0 1rem 1rem rgba(250, 4, 4, 0.5);
+    margin: 0.2rem 0.5rem;
+    box-shadow: 0 2rem 1rem rgba(250, 4, 4, 0.5);
+    display: block;
+    align-content: center;
+    padding: 0.5rem;
 }
 
 div.bid_slot {
@@ -421,6 +426,7 @@ div.bid_slot {
 }
 span.title {
     font-weight: bolder;
+    padding: 0;
 }
 iframe {
     height: 100%;
@@ -455,16 +461,15 @@ div.title {
     padding-bottom: 0.3rem;
     margin-bottom: 0.5rem;
     color: black;
+    background: rgba(250, 0, 0, 0.4);
 }
-span.profile {
-    margin: 0.2rem 0.5rem;
-    padding-top: 0.5rem;
-    padding-left: 0.5rem;
+div.profile {
+    font-size: 1rem;
+    color: black;
     text-align: left;
-    font-weight: bold;
+    font-weight: normal;
     letter-spacing: 0.15rem;
     border-radius: 1rem;
-    padding-bottom: 0.3rem;
     display: block;
 }
 div.bid-failure-title {
@@ -574,14 +579,16 @@ input[type="radio"]:checked + div.slot {
 div.slot {
     font-weight: bold;
     letter-spacing: 0.1rem;
-    box-shadow: 0 1rem 2rem rgba(250, 4, 4, 0.5);
+    box-shadow: 1rem 1rem 2rem rgba(250, 4, 4, 0.5);
     border-radius: 2rem;
+    padding: 0.3rem;
     color: red;
 }
 
 label.container {
     margin-right: 1rem;
     margin-left: 1rem;
+    margin-top: 1rem;
     text-align: center;
     display: block;
     position: relative;
@@ -681,7 +688,6 @@ i.refresh-button:hover {
 }
 
 .bids_heading {
-    padding-top: 0.5rem;
     text-align: center;
     font-weight: bold;
     letter-spacing: 0.15rem;
@@ -743,4 +749,5 @@ a.nav_item {
     border-radius: 0.5rem;
     box-shadow: 0 0 3rem rgba(7, 7, 7, 0.31), 0 0 3rem rgba(0,0,0,0.24);
     white-space: nowrap;
+    margin-bottom: 0.3rem;
 }

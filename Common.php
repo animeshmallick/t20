@@ -59,7 +59,7 @@ class Common {
 
     public function get_user_from_db(string $phone, string $password)
     {
-        $url = $this->amazon_api_end_point . "/login/".$phone."/".$password;
+        $url = $this->amazon_api_end_point . "/login/".$phone."/".$password."/".date('Y-m-d H:i:s');
         return json_decode($this->get_response_from_url($url));
     }
     public function get_user_from_ref_id(string $ref_id)
@@ -262,7 +262,7 @@ class Common {
             "amount" => $amount,
             "status" => "placed",
             'type' => 'session',
-            "timestamp" => time()
+            "timestamp" => date('Y-m-d H:i:s')
         );
         $url = $this->amazon_api_end_point . '/save_new_bid';
         $json_bid_data = json_encode($bid_data);
@@ -295,7 +295,7 @@ class Common {
             "amount" => $amount,
             "status" => "placed",
             'type' => 'winner',
-            "timestamp" => time()
+            "timestamp" => date('Y-m-d H:i:s')
         );
         $url = $this->amazon_api_end_point . '/save_new_bid';
         $json_bid_data = json_encode($bid_data);

@@ -23,14 +23,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" &&
         <link rel="stylesheet" type="text/css" href="../styles/style.css?version=<?php echo time(); ?>">
         <script src="../scripts.js"></script>
     </head>
-    <body onload="fill_header();fill_profile();
+    <body onload="fill_header();
         fill_scorecard('<?php echo $series_id;?>','<?php echo $match_id;?>');
         fill_footer();">
         <div id="header"></div>
-        <div id="scorecard"></div>
-        <div class="separator"></div>
-        <div id="profile"></div>
-        <div class="separator"></div>
     <?php
         if ($common->is_user_logged_in() &&
         $common->is_eligible_for_session_bid($session)) {
@@ -50,54 +46,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" &&
                 $bid_place_response = $common->insert_new_session_bid_to_db($bid_id, $ref_id, $series_id, $match_id, $session,
                                                         $slot, $run_min, $run_max, $rate, $amount);
                 $bid_place_response = json_decode($bid_place_response);
-
-                if($bid_place_response->recharge_status){ ?>
-                    <div class="bid_container">
-                        <div class="bid-success-title">Bid Placed : Success</div>
-                        <div class="gap"></div>
-                        <div class="bid_details_success"><span>
-                            <?php echo $bid_runs_string;?>
-                        </span></div>
-                        <div class="bid_details_success"><span>
-                            Bid Placed For Amount ₹<?php echo $amount; ?>
-                        </span></div>
-                        <div class="bid_details_success"><span>
-                            On Winning You will receive ₹<?php echo (int)($amount * $rate); ?>
-                        </span></div>
-                        <div class="small-separator"></div>
-                        <a class="button" href="match.php?match_id=<?php echo $match_id ?>&series_id=<?php echo $series_id ?>&match_name=<?php echo $match_name; ?>">Place Another Bid</a>
-                    </div>
-                <?php }
-                else { ?>
-                <div class="bid_container">
-                    <div class="bid-failure-title">Bid Placed : Failure</div>
-                    <div class="bid_details_failure"><span>
-                        <?php echo $bid_place_response->recharge_msg; ?>
-                    </span></div>
-                    <div class="bid_details_failure"><span>
-                        Bid Amount ₹<?php echo $amount; ?>
-                    </span></div>
-                    <div class="small-gap"></div>
-                    <div class="bid-failure-title">Bid Placed : Failure</div>
-                    <div class="small-separator"></div>
-                    <a class="button" href="match.php?match_id=<?php echo $match_id ?>&series_id=<?php echo $series_id ?>&match_name=<?php echo $match_name; ?>">Place Another Bid</a>
-                </div>
-    <?php  }
-            } else { ?>
-                <div class="bid_container">
-                    <div class="bid-failure-title">Bid Placed : Failure</div>
-                    <div class="bid_details_failure"><span>Error Response from Local Server</span></div>
-                    <div class="bid_details_failure"><span>
-                        Bid Amount ₹<?php echo $amount; ?>
-                    </span></div>
-                    <div class="small-gap"></div>
-                    <div class="small-separator"></div>
-                    <a class="button" href="match.php?match_id=<?php echo $match_id ?>&series_id=<?php echo $series_id ?>&match_name=<?php echo $match_name; ?>">Place Another Bid</a>
-                </div>
-    <?php   }
+                if($bid_place_response->recharge_status){
+                    $status = true;
+                    $status_title = "Bid Placed : Success";
+                    $status_msg_1 = $bid_runs_string;
+                    $status_msg_2 = "Bid Placed For Amount ₹".$amount;
+                    $status_msg_3 = "On Winning You will receive ₹".(int)($amount * $rate);
+                } else {
+                    $status = false;
+                    $status_title = "Bid Placed : Failure";
+                    $status_msg_1 = $bid_place_response->recharge_msg;;
+                    $status_msg_2 = "Bid Amount ₹".$amount;
+                    $status_msg_3 = "Bid Placed : Failure";
+                }
+            } else {
+                $status = false;
+                $status_title = "Bid Placed : Failure";
+                $status_msg_1 = "Error Response from Local Server";
+                $status_msg_2 = "Bid Amount ₹".$amount;
+                $status_msg_3 = "Bid Placed : Failure";
+            }
         } elseif ($common->is_user_logged_in() &&
         $common->is_eligible_for_winner_bid($session)) {
-
             $bid_bookie_response = $common->get_match_winner_bid_bookie_details($series_id, $match_id, $amount);
             $rate = $slot == 'T1' ? $bid_bookie_response->rate_1 : ($slot == 'T2' ? $bid_bookie_response->rate_2 : 0);
             $bid_runs_string = $slot == 'T1' ? $scorecard->teams[0]." Wins The Match " :
@@ -108,54 +78,55 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" &&
                                                         $rate, $amount);
                 $bid_place_response = json_decode($bid_place_response);
                 if ($bid_place_response->recharge_status) {
-                ?>
-                    <div class="bid_container">
-                        <div class="bid-success-title">Bid Placed : Success</div>
-                        <div class="gap"></div>
-                        <div class="bid_details_success"><span>
-                        <?php echo $bid_runs_string;?>
-                    </span></div>
-                        <div class="bid_details_success"><span>
-                        Bid Placed For Amount ₹<?php echo $amount; ?>
-                    </span></div>
-                        <div class="bid_details_success"><span>
-                        On Winning You will receive ₹<?php echo (int)($amount * $rate); ?>
-                    </span></div>
-                        <div class="small-separator"></div>
-                        <a class="button" href="match.php?match_id=<?php echo $match_id ?>&series_id=<?php echo $series_id ?>&match_name=<?php echo $match_name; ?>">Place Another Bid</a>
-                    </div>
-
-                <?php }
-                else { ?>
-                <div class="bid_container">
-                    <div class="bid-failure-title">Bid Placed : Failure</div>
-                    <div class="bid_details_failure"><span>
-                    <?php echo $bid_place_response->recharge_msg;;?>
-                </span></div>
-                    <div class="bid_details_failure"><span>
-                    Bid Amount ₹<?php echo $amount; ?>
-                </span></div>
-                    <div class="small-gap"></div>
-                    <div class="bid-failure-title">Bid Placed : Failure</div>
-                    <div class="small-separator"></div>
-                    <a class="button" href="match.php?match_id=<?php echo $match_id ?>&series_id=<?php echo $series_id ?>&match_name=<?php echo $match_name; ?>">Place Another Bid</a>
-                </div>
-                    <?php }
-            } else { ?>
-                <div class="bid_container">
-                    <div class="bid-failure-title">Bid Placed : Failure</div>
-                    <div class="bid_details_failure"><span>Error Response from Local Server</span></div>
-                    <div class="bid_details_failure"><span>
-                        Bid Amount ₹<?php echo $amount; ?>
-                    </span></div>
-                    <div class="small-gap"></div>
-                    <div class="small-separator"></div>
-                    <a class="button" href="match.php?match_id=<?php echo $match_id ?>&series_id=<?php echo $series_id ?>&match_name=<?php echo $match_name; ?>">Place Another Bid</a>
-                </div>
-            <?php }
+                    $status = true;
+                    $status_title = "Bid Placed : Success";
+                    $status_msg_1 = $bid_runs_string;
+                    $status_msg_2 = "Bid Placed For Amount ₹".$amount;
+                    $status_msg_3 = "On Winning You will receive ₹".(int)($amount * $rate);
+                } else {
+                    $status = false;
+                    $status_title = "Bid Placed : Failure";
+                    $status_msg_1 = $bid_place_response->recharge_msg;;
+                    $status_msg_2 = "Bid Amount ₹".$amount;
+                    $status_msg_3 = "Bid Placed : Failure";
+                }
+            } else {
+                $status = false;
+                $status_title = "Bid Placed : Failure";
+                $status_msg_1 = "Error Response from Local Server";
+                $status_msg_2 = "Bid Amount ₹".$amount;
+                $status_msg_3 = "Bid Placed : Failure";
+            }
         } else {
             header("Location: ".$data->get_path());
-        } ?>
+            $status = false;
+            $status_title = "";
+            $status_msg_1 = "";
+            $status_msg_2 = "";
+            $status_msg_3 = "";
+        }
+        if ($status){
+        ?>
+            <div class="bid_container">
+                <div class="bid-success-title"><?php echo $status_title; ?></div>
+                <div class="bid_details_success"><span><?php echo $status_msg_1;?></span></div>
+                <div class="bid_details_success"><span><?php echo $status_msg_2;?></span></div>
+                <div class="bid_details_success"><span><?php echo $status_msg_3;?></span></div>
+    <?php } else { ?>
+            <div class="bid_container">
+                <div class="bid-failure-title"><?php echo $status_title; ?></div>
+                <div class="bid_details_failure"><span><?php echo $status_msg_1;?></span></div>
+                <div class="bid_details_failure"><span><?php echo $status_msg_2;?></span></div>
+                <div class="bid_details_failure"><span><?php echo $status_msg_3;?></span></div>
+        <?php } ?>
+                <div class="small-separator"></div>
+                <a class="button" style="margin-left: 12.5%; width: 75%" href="match.php?match_id=<?php echo $match_id ?>&series_id=<?php echo $series_id ?>&match_name=<?php echo $match_name; ?>">Place Another Bid</a>
+                <div class="separator"></div>
+                <a class="button" style="margin-left: 12.5%; width: 75%" href="../views/show_all_bids.php">Show Your Bids</a>
+            </div>
+        <div class="separator"></div>
+        <div id="scorecard"></div>
+        <div class="separator"></div>
         <div id="footer"></div>
     </body>
     </html>

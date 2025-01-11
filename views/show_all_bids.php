@@ -37,7 +37,7 @@ usort($bids_type_session, function($a, $b) {
 usort($bids_type_winner, function($a, $b) {
     return strcmp($a->series_id.'&&'.$a->match_id, $b->series_id.'&&'.$b->match_id);
 });
-
+$match_name = $common->get_match_name_match_id($all_matches, $match_id, $series_id);
 ?>
 <html lang="">
     <head>
@@ -53,9 +53,11 @@ usort($bids_type_winner, function($a, $b) {
     <div id="profile"></div>
     <div class="separator"></div>
         <div class="bid_container">
-        <div class="bids_heading">ALL BIDS</div>
+        <div class="bids_heading">Your Bids</div>
             <div class="bid_container">
-                <div class ="title">BIDS-SESSION</div>
+                <div class ="title"><?php echo $match_name;?></div>
+                <a class="button" style="font-weight: normal; margin-left: 12.5%; width: 75%" href="../matches/match.php?match_id=<?php echo $match_id ?>&series_id=<?php echo $series_id ?>&match_name=<?php echo $match_name; ?>">See Match Details</a>
+                <div class ="sub-title">Bids For Session</div>
                 <table>
                     <tbody>
                     <?php
@@ -68,15 +70,8 @@ usort($bids_type_winner, function($a, $b) {
                             $flag="win";
                         if($bids->status=="loss")
                             $flag="loss";
-                        $match_name = $common->get_match_name_match_id($all_matches, $bids->match_id, $bids->series_id);
-                        if ($last_match_name != $match_name){
-                            $last_match_name = $match_name; ?>
-                            <tr><td colspan="3" style="border: 0; padding-top: <?php echo $start; $start=2;?>rem"></td></tr>
-                            <tr><td colspan="3" class="match_name"><?php echo $match_name; ?></td></tr>
-                        <?php }
                         if($last_session != $bids->innings.'&'.$bids->session){
-                            $last_session = $bids->innings.'&'.$bids->session; ?>
-                            <tr><td colspan="3" style="border: 0; padding-top: 0.5rem"></td></tr>
+                             ?>
                             <tr><td colspan="3" class="session">
                                     <?php if($bids->session=='a'){
                                         echo "Innings ".$bids->innings." : Over (1 to 6)";}
@@ -87,8 +82,10 @@ usort($bids_type_winner, function($a, $b) {
                                     else if($bids->session=='d'){
                                         echo "Innings ".$bids->innings." : Over (17 to 20)";}
                                     ?>
-                                </td></tr>
+                                </td>
+                            </tr>
                         <?php }
+                        $last_session = $bids->innings.'&'.$bids->session;
                         ?>
                         <tr class="row_<?php echo $flag;?>">
                             <td><?php if ($bids->slot == 'x')
@@ -120,7 +117,7 @@ usort($bids_type_winner, function($a, $b) {
             </div>
         <div class="gap"></div>
             <div class="bid_container">
-                <div class="title">BIDS-WINNER</div>
+                <div class="sub-title">Bids For Match Winner</div>
                 <table>
                     <tbody>
                     <?php
@@ -133,12 +130,6 @@ usort($bids_type_winner, function($a, $b) {
                             $flag="win";
                         if($bids->status=="loss")
                             $flag="loss";
-                        $match_name = $common->get_match_name_match_id($all_matches, $bids->match_id, $bids->series_id);
-                        if ($last_match_name != $match_name){
-                            $last_match_name = $match_name; ?>
-                            <tr><td colspan="3" style="border: 0; padding-top: <?php echo $start; $start=2;?>rem"></td></tr>
-                            <tr><td colspan="3" class="match_name"><?php echo $match_name; ?></td></tr>
-                        <?php }
                         ?>
                         <tr class="row_<?php echo $flag;?>">
                             <td><?php $result=explode(" VS ", $common->get_match_name_match_id($all_matches, $bids->match_id, $bids->series_id));
@@ -167,7 +158,6 @@ usort($bids_type_winner, function($a, $b) {
                     </tbody>
                 </table>
             </div>
-            <div class="gap"></div>
         </div>
         <div class="separator"></div>
         <div id="footer"></div>

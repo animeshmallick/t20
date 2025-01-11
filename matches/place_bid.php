@@ -20,16 +20,13 @@ if ($common->is_user_logged_in()){
                     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
                     <script src="../scripts.js"></script>
                 </head>
-                <body onload="fill_header();fill_profile();
+                <body onload="fill_header();
                         fill_scorecard('<?php echo $series_id;?>', '<?php echo $match_id;?>');
                         update_session_slot_details('<?php echo $session;?>', 100);
                         update_winner_slot_details('<?php echo $session; ?>', 100);
                         fill_footer();">
                     <div id="header"></div>
                     <i class="fa fa-refresh refresh-button" onclick="location.reload();"></i>
-                    <div id="scorecard"></div>
-                    <div class="separator"></div>
-                    <div id="profile"></div>
                     <div class="separator"></div>
                     <div class="bid_container">
                     <?php
@@ -51,38 +48,34 @@ if ($common->is_user_logged_in()){
                                 <div style="width: 33%"></div>
                                 <a style="width: 5rem" class="button" onclick="decrease_amount(100);"> - ₹100 </a>
                             </div>
-                            <div class="small-gap"></div>
                             <div class="slot_container">
                                 <div class="title">Choose your Slot :</div>
                                 <label class="container">
                                     <input type="radio" name="slot" value="x" id="slot_a">
                                     <div class="slot">
                                         <div id="slot_a_runs">Slot1</div>
-                                        <div class="small-gap"></div>
+                                        <div class="smaller-gap"></div>
                                         <div id="slot_a_amount">Slot1</div>
                                     </div>
                                 </label>
-                                <div class="gap"></div>
                                 <label class="container">
                                     <input type="radio" name="slot" value="y" id="slot_b">
                                     <div class="slot">
                                         <div id="slot_b_runs">Slot2</div>
-                                        <div class="small-gap"></div>
+                                        <div class="smaller-gap"></div>
                                         <div id="slot_b_amount">Slot2</div>
                                     </div>
                                 </label>
-                                <div class="gap"></div>
                                 <label class="container">
                                     <input type="radio" name="slot" value="z" id="slot_c">
                                     <div class="slot">
                                         <div id="slot_c_runs">Slot3</div>
-                                        <div class="small-gap"></div>
+                                        <div class="smaller-gap"></div>
                                         <div id="slot_c_amount">Slot3</div>
                                     </div>
                                 </label>
-                                <div class="gap"></div>
                                 <input type="submit" value="Place Bid">
-                                <div class="small-gap"></div>
+                                <div class="smaller-gap"></div>
                             </div>
                         </form>
                     <?php } else if ($common->is_eligible_for_winner_bid($session)) { ?>
@@ -131,6 +124,8 @@ if ($common->is_user_logged_in()){
                     <?php }?>
                     <div class="bid_button_div" style="margin-left: 25%"><a class="button" href="match.php?match_id=<?php echo $common->get_cookie('match_id'); ?>&series_id=<?php echo $common->get_cookie('series_id'); ?>&match_name=<?php echo $common->get_cookie('match_name'); ?>">Go Back</a></div>
                     </div>
+                    <div class="separator"></div>
+                    <div id="scorecard"></div>
                     <div class="separator"></div>
                     <div id="footer"></div>
                 </body>

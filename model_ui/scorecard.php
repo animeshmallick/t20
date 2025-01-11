@@ -27,7 +27,6 @@ if($common->is_valid_scorecard($scorecard)){
     <body>
         <div class="scorecard-container">
             <div class="sub-title">Scorecard</div>
-            <div class="gap"></div>
             <div class="match-detail">
                 <div style="display: flex">
                     <div class="teams_details" style="margin-right: 0.05rem">
@@ -43,7 +42,6 @@ if($common->is_valid_scorecard($scorecard)){
                     <span id="match_additional_details"></span>
                 </div>
             </div>
-            <div class="gap"></div>
             <div class="match-detail">
                 <div class="sub-title">Player Details</div>
                 <div class="players">
@@ -56,7 +54,6 @@ if($common->is_valid_scorecard($scorecard)){
                     </div>
                 </div>
             </div>
-            <div class="gap"></div>
             <div class="match-detail">
                 <div class="sub-title">Current Over : <?php echo $scorecard->over; ?></div>
                 <div style="display: flex">
@@ -64,7 +61,7 @@ if($common->is_valid_scorecard($scorecard)){
                     <div class="get-previous-over">
                         <a class="show-more-over" id="get-previous-over"
                            onclick="add_new_over_data()">
-                            Previous Over
+                            Last Over
                         </a> </div>
                 </div>
                 <div class="over-container" id="over-container">
@@ -85,7 +82,6 @@ if($common->is_valid_scorecard($scorecard)){
                             </div>
                         <?php } ?>
                     </div>
-                    <div class="gap"></div>
                 </div>
             </div>
         </div>
