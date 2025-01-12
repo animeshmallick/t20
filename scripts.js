@@ -318,7 +318,7 @@ function settle_bid(bid_id, session){
                     window.location.href = "https://www.crickett20.in/T20/admin/admin_match_session_dashboard.php?session=" + session;
                 }
             };
-            xmlhttp.open("GET", "https://om8zdfeo2h.execute-api.ap-south-1.amazonaws.com/settle_bid/" + bid_id + "/" + bid_result, true);
+            xmlhttp.open("GET", "https://om8zdfeo2h.execute-api.ap-south-1.amazonaws.com/settle_bid/" + bid_id + "/" + userResponse, true);
             xmlhttp.send();
         }
     }
