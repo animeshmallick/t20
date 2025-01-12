@@ -562,7 +562,7 @@ class Common {
     {
         if ($session == 'winner'){
             $scorecard = $this->get_preloaded_scorecard();
-            return true;
+            return property_exists($scorecard,'is_live') && $scorecard->is_live == true;
         }
         elseif(strlen($session) == 2){
             if ($session[0] == 'a')
