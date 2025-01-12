@@ -8,6 +8,7 @@ if ($common->is_user_logged_in()){
         $session = $_GET['session'];
         $series_id = $common->get_cookie("series_id");
         $match_id = $common->get_cookie("match_id");
+        $scorecard = $common->get_scorecard_latest($series_id, $match_id, "Place Bid page");
         ?>
             <html lang="">
                 <head>
@@ -28,7 +29,7 @@ if ($common->is_user_logged_in()){
                     <div class="separator"></div>
                     <div class="bid_container">
                     <?php
-                    if ($common->is_eligible_for_session_bid($session)) {
+                    if ($common->is_eligible_for_session_bid($session, $scorecard->over_id)) {
                     ?>
                         <div class="sub-title">Place New Bid</div>
                         <form action="place_bid_to_db.php" method="post" name="bid_form">

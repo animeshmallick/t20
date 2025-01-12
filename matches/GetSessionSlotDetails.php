@@ -16,7 +16,7 @@ $scorecard = $common->get_preloaded_scorecard();
 if ($scorecard == null)
     $scorecard = $common->get_scorecard_latest($series_id, $match_id, "GetSessionSlotDetails");
 
-if($common->is_eligible_for_session_bid($session)){
+if($common->is_eligible_for_session_bid($session, $scorecard->over_id)){
     $bid_innings = $session[1];
     $session = $session[0];
     $predicted_runs = $scores->get_slot_runs($bid_innings,$scorecard,$session);

@@ -140,7 +140,7 @@ class Common {
                                                 $this->get_cookie('match_id'), "winner slot");
         return !isset($scorecard->closing_soon);
     }
-    public function is_eligible_for_session_bid($session): bool {
+    public function is_eligible_for_session_bid($session, $current_over_id): bool {
         if (!in_array($session[1], [1,2]))
             return false;
         if(!in_array($session[0], ['a', 'b', 'c', 'd']))
@@ -160,11 +160,10 @@ class Common {
             $eligible_overID = ($bid_innings * 100) + 16;}
         elseif ($session == 'd'){
             $eligible_overID = ($bid_innings * 100) + 20;}
-        $current_over_id_cookie = $this->get_cookie('current_over_id_cookie');
-        if($current_over_id_cookie == ""){
-            $current_over_id_cookie = '999';
+        if($current_over_id == ""){
+            $current_over_id = '999';
         }
-        if((int)$current_over_id_cookie <= $eligible_overID){
+        if((int)$current_over_id <= $eligible_overID){
             return true;}
         else{
             return false;}

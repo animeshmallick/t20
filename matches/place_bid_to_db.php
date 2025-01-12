@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" &&
         <div id="header"></div>
     <?php
         if ($common->is_user_logged_in() &&
-        $common->is_eligible_for_session_bid($session)) {
+        $common->is_eligible_for_session_bid($session, $scorecard->over_id)) {
 
             $bid_bookie_response = $common->get_bid_bookie_details($series_id, $match_id, $session, $amount);
             $rate = $slot == 'x' ? $bid_bookie_response->rate_1 :
