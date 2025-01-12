@@ -28,17 +28,12 @@ class Common {
     }
     public function get_scorecard_latest($series_id, $match_id, $from)
     {
-        $preloaded_scorecard = $this->get_preloaded_scorecard();
-        if ($preloaded_scorecard == null) {
-            $url = $this->amazon_api_end_point . '/scores/' . $series_id . '/' . $match_id . '/latest';
-            $scorecard = json_decode($this->get_response_from_url($url));
-            if ($this->is_valid_scorecard($scorecard)){
-                setcookie('current_over_id', $scorecard->over_id, time() + 5, "/");
-                setcookie('scorecard', json_encode($scorecard), time() + 5, "/");
-            }
-            return $scorecard;
+        $url = $this->amazon_api_end_point . '/scores/' . $series_id . '/' . $match_id . '/latest';
+        $scorecard = json_decode($this->get_response_from_url($url));
+        if ($this->is_valid_scorecard($scorecard)){
+            setcookie('current_over_id', $scorecard->over_id, time() + 5, "/");
         }
-        return $preloaded_scorecard;
+        return $scorecard;
     }
     public function validate_unique_ref_id($ref_id): string
     {
@@ -163,7 +158,7 @@ class Common {
         if($current_over_id == ""){
             $current_over_id = '999';
         }
-        if((int)$current_over_id <= $eligible_overID){
+        if((int)$current_over_id < $eligible_overID){
             return true;}
         else{
             return false;}

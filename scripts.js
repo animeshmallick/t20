@@ -1,3 +1,4 @@
+let timer;
 function validate_register_form() {
     let fname = document.forms["register_form"]["fname"].value;
     let phone = document.forms["register_form"]["phone"].value;
@@ -34,6 +35,12 @@ function getCookie(name) {
     return null;
 }
 function fill_scorecard(series_id, match_id) {
+    fill_scorecard_ui(series_id, match_id);
+    timer = setInterval(function (){
+        fill_scorecard_ui(series_id, match_id);
+    }, 10000);
+}
+function fill_scorecard_ui(series_id, match_id){
     const xmlhttp = new XMLHttpRequest();
     xmlhttp.onload = function() {
         if (this.readyState === 4 && this.status === 200) {
@@ -41,42 +48,19 @@ function fill_scorecard(series_id, match_id) {
             fill_scorecard_data(series_id, match_id);
         }
     };
-    xmlhttp.open("GET", "../model_ui/scorecard.php", true);
+    xmlhttp.open("GET", "../model_ui/scorecard.php?series_id="+series_id+"&match_id="+match_id, true);
     xmlhttp.send();
 }
-function get_preloaded_scorecard() {
-    let jsonStr = this.getCookie('scorecard');
-    jsonStr = jsonStr.replaceAll('%7B','{')
-        .replaceAll('%7D', '}')
-        .replaceAll('%22', '"')
-        .replaceAll('%3A', ':')
-        .replaceAll('%2C', ',')
-        .replaceAll('%20', ' ')
-        .replaceAll('%5B', '[')
-        .replaceAll('%5D', ']')
-        .replaceAll('%2A', '*')
-        .replaceAll('%5Cu2022', '.');
-    try {
-        return JSON.parse(jsonStr);
-    }catch (Exception){
-        return null;
-    }
-}
 function fill_scorecard_data(series_id, match_id){
-    let scorecard = this.get_preloaded_scorecard();
-    if (scorecard == null) {
-        const xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function () {
-            if (this.readyState === 4 && this.status === 200) {
-                scorecard = JSON.parse(this.responseText);
-                fill_scorecard_content(scorecard);
-            }
-        };
-        xmlhttp.open("GET", "https://om8zdfeo2h.execute-api.ap-south-1.amazonaws.com/scores/" + series_id + "/" + match_id + "/latest", true);
-        xmlhttp.send();
-    }else{
-        fill_scorecard_content(scorecard);
-    }
+    const xmlhttp = new XMLHttpRequest();
+    xmlhttp.onload = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            let scorecard = JSON.parse(this.responseText);
+            fill_scorecard_content(scorecard);
+        }
+    };
+    xmlhttp.open("GET", "https://om8zdfeo2h.execute-api.ap-south-1.amazonaws.com/scores/" + series_id + "/" + match_id + "/latest", true);
+    xmlhttp.send();
 }
 function fill_scorecard_content(scorecard){
     document.getElementById("team1_name").innerHTML = scorecard.teams[0];
@@ -89,11 +73,31 @@ function fill_scorecard_content(scorecard){
     document.getElementById('bowler').innerHTML = scorecard.bowler;
     document.getElementById('batsman1').innerHTML = scorecard.batsmen[0];
     document.getElementById('batsman2').innerHTML = scorecard.batsmen[1];
-    for (let i = 1; i <= scorecard.this_over.length; i++) {
-        document.getElementById('ball_id_' + i).innerHTML = scorecard.this_over[i - 1];
-    }
+    document.getElementById('current-over-id').innerHTML = "Current Over : "+scorecard.over;
+    document.getElementById("over-container")
+            .appendChild(create_balls_container(scorecard.this_over));
     document.getElementById('this_over_summary').innerHTML =
         "Over " + scorecard.over + "  :  " + scorecard.this_over_summary;
+    console.log("Scorecard Updated");
+}
+function create_balls_container(balls){
+    let res = document.createElement("div");
+    res.setAttribute("style","display: flex");
+
+    let width = balls.length < 4 ? 33.3 : 100 / balls.length;
+    for(let i=0;i<balls.length;i++) {
+        const div = document.createElement("div");
+        div.setAttribute("class", "balls");
+        div.setAttribute("style", "align-content: center;width: "+width+"%;")
+
+        const span = document.createElement("span");
+        span.setAttribute("id", "balls_id_"+i);
+        span.innerHTML = balls[i];
+        div.appendChild(span);
+
+        res.appendChild(div);
+    }
+    return res;
 }
 function fill_header() {
     const xmlhttp = new XMLHttpRequest();
@@ -144,9 +148,6 @@ function fill_account_status(status) {
     };
     xmlhttp.open("GET", "../model_ui/account_status.php?status=" + status, true);
     xmlhttp.send();
-}
-function get_scorecard($series_id, $match_id) {
-
 }
 function add_new_over_data() {
     let existing_overs_element = document.getElementsByName("over_id");
@@ -204,17 +205,29 @@ function create_no_more_overs() {
     p.innerHTML = "Only Last 4 overs allowed";
     return p;
 }
-function update_session_slot_details(session, amount) {
+function update_session_slot_details(session) {
+    update_session_slot_details_actual(session);
+    timer = setInterval(function (){
+        update_session_slot_details_actual(session);
+    }, 10000);
+}
+function update_session_slot_details_actual(session){
     let series_id = this.getCookie('series_id');
     let match_id = this.getCookie('match_id');
+    let amount = document.getElementById('amount').value;
     if (session === 'winner')
         return false;
     const xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
-            console.log(this.responseText);
+            console.log("Slots Updated");
             let responseText = '{'+this.responseText.split('{')[1];
             let bid_master = JSON.parse(responseText);
+            if (bid_master.hasOwnProperty('error')) {
+                alert("Session Closed For Biding. !!")
+                window.location.href = "https://www.crickett20.in/T20/matches/match.php?" +
+                    "match_id=" + getCookie('match_id') + "&series_id=" + getCookie('series_id') + "&match_name=" + getCookie('match_name');
+            }
             document.getElementById("slot_a_runs").innerHTML =
                 "Runs Less Than " + bid_master.predicted_runs_a;
             document.getElementById("slot_a_amount").innerHTML = "₹" + amount +
@@ -242,13 +255,21 @@ function update_session_slot_details(session, amount) {
     xmlhttp.open("GET", "../matches/GetSessionSlotDetails.php?series_id=" + series_id + "&match_id=" + match_id + "&session=" + session + "&amount=" + amount, true);
     xmlhttp.send();
 }
-function update_winner_slot_details(session, amount) {
+function update_winner_slot_details(session){
+    update_winner_slot_details_actual(session);
+    timer = setInterval(function (){
+        update_winner_slot_details_actual(session);
+    }, 10000);
+}
+function update_winner_slot_details_actual(session) {
     let series_id = this.getCookie('series_id');
     let match_id = this.getCookie('match_id');
+    let amount = document.getElementById('amount').value;
     const xmlhttp = new XMLHttpRequest();
     if(session === 'winner') {
         xmlhttp.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
+                console.log("Winner Slots Updated");
                 let responseText = '{'+this.responseText.split('{')[1]
                 let bid_master = JSON.parse(responseText);
                 document.getElementById("winner_a").innerHTML =

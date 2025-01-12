@@ -12,9 +12,7 @@ $series_id = $_GET["series_id"];
 $session = $common->get_cookie("session");
 $amount = (float)$_GET['amount'];
 
-$scorecard = $common->get_preloaded_scorecard();
-if ($scorecard == null)
-    $scorecard = $common->get_scorecard_latest($series_id, $match_id, "GetWinnerSlotDetails");
+$scorecard = $common->get_scorecard_latest($series_id, $match_id, "GetWinnerSlotDetails");
 
 $all_bids = $common->get_all_bids_from_match($series_id, $match_id, 'winner');
 $rates = $common->get_winner_rates($all_bids, $amount);

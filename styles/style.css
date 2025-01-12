@@ -370,7 +370,6 @@ a.show-more-over {
     padding: 0.2rem 0.75rem;
 }
 div.balls-container {
-    display: flex;
     padding-bottom: 0.2rem;
 }
 div.balls-container-extra {

@@ -19,10 +19,10 @@ if ($common->is_user_logged_in()){
                     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
                     <script src="../scripts.js"></script>
                 </head>
-                <body onload="fill_header();
+                <body onload="update_session_slot_details('<?php echo $session;?>');
+                        update_winner_slot_details('<?php echo $session; ?>');
+                        fill_header();
                         fill_scorecard('<?php echo $series_id;?>', '<?php echo $match_id;?>');
-                        update_session_slot_details('<?php echo $session;?>', 100);
-                        update_winner_slot_details('<?php echo $session; ?>', 100);
                         fill_footer();">
                     <div id="header"></div>
                     <i class="fa fa-refresh refresh-button" onclick="location.reload();"></i>
@@ -40,7 +40,7 @@ if ($common->is_user_logged_in()){
                             <div style="display: flex">
                                 <label class="amount_span" for="amount">Bid Amount:</label>
                                 <input type="number" id="amount" name="amount" value="100"
-                                       onkeyup="update_session_slot_details('<?php echo $session;?>', this.value)" required />
+                                       onkeyup="update_session_slot_details_actual('<?php echo $session;?>')" required />
 
                             </div>
                             <div class="plux_minus_container">
@@ -94,7 +94,7 @@ if ($common->is_user_logged_in()){
                                 <div style="display: flex">
                                     <label class="amount_span" for="amount">Bid Amount:</label>
                                     <input type="number" id="amount" name="amount" value="100"
-                                           onkeyup="update_winner_slot_details('<?php echo $session; ?>', this.value)" required />
+                                           onkeyup="update_winner_slot_details('<?php echo $session; ?>')" required />
                                 </div>
                                 <div class="plux_minus_container">
                                     <a style="width: 5rem" class="button" onclick="increase_amount(100);"> + ₹100 </a>
