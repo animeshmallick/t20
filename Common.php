@@ -571,7 +571,8 @@ class Common {
             else
                 $over_id = '00';
             $over_id = (int)($session[1].$over_id);
-            if ($cur_over_id < $over_id)
+
+            if ($cur_over_id < $over_id && floor($cur_over_id/100) == floor($over_id/100))
                 return true;
             return false;
         }

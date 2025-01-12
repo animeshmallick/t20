@@ -13,11 +13,10 @@ if ($common->is_user_logged_in()){
             <html lang="">
                 <head>
                     <title>Place Your Bid</title>
-                    <meta charset="utf-8"/>
                     <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
                     <link rel="stylesheet" type="text/css" href="../styles/style.css?version=<?php echo time(); ?>">
-                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-                    <script src="../scripts.js"></script>
+                    <link rel="icon" type="image/x-icon" href="../cricket.ico">
+                    <script src="../scripts.js?version=<?php echo time(); ?>"></script>
                 </head>
                 <body onload="update_session_slot_details('<?php echo $session;?>');
                         update_winner_slot_details('<?php echo $session; ?>');

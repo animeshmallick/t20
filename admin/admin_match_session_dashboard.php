@@ -23,11 +23,10 @@ if ($common->is_user_logged_in() && $common->is_user_an_admin()){
 <html lang="">
 <head>
     <title>All Bids</title>
-    <link rel="stylesheet" type="text/css" href="../styles/style.css?version=<?php echo time(); ?>">
-    <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
-    <script src="../scripts.js"></script>
-    <link rel="stylesheet" href="../styles/style.css">
+    <link rel="stylesheet" type="text/css" href="../styles/style.css?version=<?php echo time(); ?>">
+    <link rel="icon" type="image/x-icon" href="../cricket.ico">
+    <script src="../scripts.js?version=<?php echo time(); ?>"></script>
 </head>
 <body onload="fill_header();fill_footer()">
     <div id="header"></div>

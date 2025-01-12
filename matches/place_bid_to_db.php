@@ -18,12 +18,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" &&
     isset($_POST["amount"]) && isset($_POST["slot"]) && isset($_POST["session"])) { ?>
     <html lang="en">
     <head>
-        <title>Confirm Bid Placed</title>
-        <meta charset="utf-8"/>
+        <title>Bid Placed Confirmation</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
         <link rel="stylesheet" type="text/css" href="../styles/style.css?version=<?php echo time(); ?>">
+        <title>Home</title>
         <link rel="icon" type="image/x-icon" href="../cricket.ico">
-        <script src="../scripts.js"></script>
+        <script src="../scripts.js?version=<?php echo time(); ?>"></script>
     </head>
     <body onload="fill_header();
         fill_scorecard('<?php echo $series_id;?>','<?php echo $match_id;?>');

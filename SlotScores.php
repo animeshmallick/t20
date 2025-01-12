@@ -38,6 +38,7 @@ class Scores {
 	}
 	
 	public function get_r($r1, $r2, $curr_balls, $slot): float{
+        $curr_balls %= 120;
 		$r = $r2 - (($r2 - $r1) * $curr_balls) / $this->datahelper->get_maxballs_for_slot($slot);
 		return $r;
 	}
@@ -46,11 +47,14 @@ class Scores {
             $curr_balls_played = $this->get_curr_balls($scorecard);
             if($curr_balls_played == 0)
                 return $this->datahelper->get_default_runs($slot);
+            if ($bid_innings == 2 && $curr_balls_played < 121)
+                $curr_balls_played = 120;
             $curr_runs = $this->get_curr_runs($bid_innings, $scorecard);
             $r1 = $this->get_r1($curr_runs, $curr_balls_played, $slot);
             $r2 = $this->get_r2_without_wickets($slot);
             $r2 = $this->update_r2_with_wickets($r2, $scorecard, $bid_innings);
             $r = $this->get_r($r1, $r2, $curr_balls_played, $slot);
+            echo $r1." ".$r2." ".$r;
             return $r;
     }
 }

@@ -1,12 +1,11 @@
 <html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="../styles/style.css?version=<?php echo time(); ?>">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
-    <script src="../scripts.js">
-
-    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
+    <link rel="icon" type="image/x-icon" href="../cricket.ico">
+    <script src="../scripts.js?version=<?php echo time(); ?>"></script>
 </head>
 <body>
 <div class="title-container">
@@ -28,7 +27,7 @@ if ($common->is_user_logged_in()){
                     <?php if ($common->get_cookie('match_id') != "" && $common->get_cookie('series_id') != ""){ ?>
                     <a href="../views/show_all_bids.php" onclick="w3_close()" class="w3-mobile w3-bar-item w3-center nav_item">Show My Bids</a>
                     <?php } ?>
-                    <a href="../views/show_all_recharge.php" onclick="w3_close()" class="w3-mobile w3-bar-item w3-center nav_item">All Transactions</a>
+                    <a href="../views/show_all_recharge.php" onclick="w3_close()" class="w3-mobile w3-bar-item w3-center nav_item">My Transactions</a>
                     <a href="../views/withdraw_funds.php" onclick="w3_close()" class="w3-mobile w3-bar-item w3-center nav_item">Withdraw</a>
                     <div class="separator"></div>
                     <a href="../logout.php" onclick="w3_close()" class="w3-mobile w3-bar-item w3-center nav_item" style="font-weight: bolder;">Logout</a>
