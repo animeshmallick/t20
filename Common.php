@@ -160,7 +160,11 @@ class Common {
             $eligible_overID = ($bid_innings * 100) + 16;}
         elseif ($session == 'd'){
             $eligible_overID = ($bid_innings * 100) + 20;}
-        if((int)$this->get_cookie('current_over_id') <= $eligible_overID){
+        $current_over_id_cookie = $this->get_cookie('current_over_id_cookie');
+        if($current_over_id_cookie == ""){
+            $current_over_id_cookie = '999';
+        }
+        if((int)$current_over_id_cookie <= $eligible_overID){
             return true;}
         else{
             return false;}
