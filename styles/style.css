@@ -616,15 +616,13 @@ label.amount_span {
     font-weight: bold;
     font-size: 1.3rem;
     padding-top: 1rem;
-    margin-left: 1rem;
+    margin-left: 0.5rem;
     margin-right: 1rem;
     white-space: nowrap;
 }
 div.plux_minus_container {
     display: flex;
-    margin-left: 1rem;
-    margin-right: 1rem;
-    width: 100%;
+    justify-content: space-between;
 }
 input[id=amount] {
     margin-top: 0.5rem;

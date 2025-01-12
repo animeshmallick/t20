@@ -245,7 +245,7 @@ class Common {
         return json_decode($response);
     }
     public function insert_new_session_bid_to_db($bid_id, $ref_id, $series_id, $match_id, $session, $slot,
-                                                 $runs_min, $runs_max, $rate, $amount): bool|string
+                                                 $runs_min, $runs_max, $rate, $amount, $bid_name): bool|string
     {
         if ($rate == null)
             return false;
@@ -264,6 +264,7 @@ class Common {
             "amount" => $amount,
             "status" => "placed",
             'type' => 'session',
+            'bid_name' => $bid_name,
             "timestamp" => date('Y-m-d H:i:s')
         );
         $url = $this->amazon_api_end_point . '/save_new_bid';
@@ -284,7 +285,7 @@ class Common {
     }
 
     public function insert_new_winner_bid_to_db($bid_id, $ref_id, $series_id, $match_id, $slot,
-                                                $rate, $amount): bool|string
+                                                $rate, $amount, $bid_name): bool|string
     {
         $bid_data = array(
             "id" => $bid_id,

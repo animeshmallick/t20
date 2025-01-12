@@ -35,6 +35,7 @@ if ($common->is_user_logged_in()){
                             <input type="text" name="bid_id" value="<?php echo $common->get_unique_bid_id();?>" hidden="hidden">
                             <input type="text" name="session" value="<?php echo $session;?>" hidden="hidden">
                             <div class="title">For Innings <?php echo $session[1];?>, <br />End Of <?php echo ($data->get_maxballs_for_slot($session[0])/6)?>th Over</div>
+
                             <div style="display: flex">
                                 <label class="amount_span" for="amount">Bid Amount:</label>
                                 <input type="number" id="amount" name="amount" value="100"
@@ -42,10 +43,17 @@ if ($common->is_user_logged_in()){
 
                             </div>
                             <div class="plux_minus_container">
-                                <a style="width: 5rem" class="button" onclick="increase_amount(100);"> + ₹100 </a>
-                                <div style="width: 33%"></div>
-                                <a style="width: 5rem" class="button" onclick="decrease_amount(100);"> - ₹100 </a>
+                                <a style="padding: 0.2rem 0.5rem; margin: 0" class="button" onclick="increase_amount(100);"> + ₹100 </a>
+                                <a style="padding: 0.2rem 0.5rem; margin: 0" class="button" onclick="decrease_amount(100);"> - ₹100 </a>
                             </div>
+                            <?php if ($common->is_user_an_agent()){ ?>
+                                <div class="separator"></div>
+                                <div class="bid_name">
+                                    <label class="amount_span" for="bid_name">Bid Name :</label>
+                                    <input type="text" id="bid_name" name="bid_name" placeholder="Bid Name/Notes"/>
+                                </div>
+                            <?php } ?>
+                            <div class="separator"></div>
                             <div class="slot_container">
                                 <div class="title">Choose your Slot :</div>
                                 <label class="container">
