@@ -25,8 +25,9 @@ if ($common->is_user_logged_in()) {
             <link rel="icon" type="image/x-icon" href="../cricket.ico">
             <script src="../scripts.js"></script>
         </head>
-        <body onload="fill_header();fill_footer();
-                fill_scorecard('<?php echo $series_id;?>', '<?php echo $match_id;?>');">
+        <body onload="fill_header();
+                fill_scorecard('<?php echo $series_id;?>', '<?php echo $match_id;?>');
+                fill_footer();">
             <div id="header"></div>
             <i class="fa fa-refresh refresh-button" onclick="location.reload();"></i>
             <div id="scorecard">Loading Scorecard</div>

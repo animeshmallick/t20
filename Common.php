@@ -561,7 +561,7 @@ class Common {
     public function is_session_enabled(int $cur_over_id, string $session): bool
     {
         if ($session == 'winner'){
-            $scorecard = $this->get_preloaded_scorecard();
+            $scorecard = $this->get_scorecard_latest($this->get_cookie('series_id'), $this->get_cookie('match_id'), "From Is Session Enabled Checker");
             return property_exists($scorecard,'is_live') && $scorecard->is_live == true;
         }
         elseif(strlen($session) == 2){
