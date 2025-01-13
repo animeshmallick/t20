@@ -12,11 +12,11 @@
         <div class="match-detail">
             <div style="display: flex">
                 <div class="teams_details" style="margin-right: 0.05rem">
-                    <div style="padding-bottom: 0.4rem"><span id="team1_name">&nbsp;</span></div>
+                    <div><span id="team1_name">&nbsp;</span></div>
                     <span id="team1_score">&nbsp;</span>
                 </div>
                 <div class="teams_details" style="margin-left: 0.05rem">
-                    <div style="padding-bottom: 0.4rem"><span id="team2_name">&nbsp;</span></div>
+                    <div><span id="team2_name">&nbsp;</span></div>
                     <span id="team2_score">&nbsp;</span>
                 </div>
             </div>
@@ -28,7 +28,7 @@
             <div class="sub-title">Player Details</div>
             <div class="players">
                 <div class="batsmen">
-                    <div style="padding-bottom: 0.3rem;text-align: left"><span id="batsman1">&nbsp;</span></div>
+                    <div style="padding-bottom: 0.1rem;text-align: left"><span id="batsman1">&nbsp;</span></div>
                     <div style="padding-bottom: 0.2rem;text-align: left"><span id="batsman2">&nbsp;</span></div>
                 </div>
                 <div class="batsmen">

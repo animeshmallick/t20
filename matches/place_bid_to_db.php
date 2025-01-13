@@ -37,9 +37,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" &&
             $rate = $slot == 'x' ? $bid_bookie_response->rate_1 :
                         ($slot == 'y' ? $bid_bookie_response->rate_2 :
                             ($slot == 'z' ? $bid_bookie_response->rate_3 : 0));
-            $bid_runs_string = $slot == 'x' ? "Runs Less Than ".$bid_bookie_response->predicted_runs_a :
-                                    ($slot == 'y' ? "Runs between [".$bid_bookie_response->predicted_runs_a." to ".$bid_bookie_response->predicted_runs_b."]" :
-                                        ($slot == 'z' ? "Runs More Than ".$bid_bookie_response->predicted_runs_b : 0));
+            $bid_runs_string = $slot == 'x' ? "Runs 0 to ".$bid_bookie_response->predicted_runs_a :
+                                    ($slot == 'y' ? "Runs [".$bid_bookie_response->predicted_runs_a." to ".$bid_bookie_response->predicted_runs_b."]" :
+                                        ($slot == 'z' ? "Runs ".$bid_bookie_response->predicted_runs_b." or more" : 0));
             $run_min = $slot == 'x' ? 0 : ($slot == 'y' ? $bid_bookie_response->predicted_runs_a : ($slot == 'z' ? $bid_bookie_response->predicted_runs_b + 1 : 9999));
             $run_max = $slot == 'x' ? $bid_bookie_response->predicted_runs_a - 1 : ($slot == 'y' ? $bid_bookie_response->predicted_runs_b : ($slot == 'z' ? 9999 : -1));
 
@@ -50,30 +50,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" &&
                 $bid_place_response = json_decode($bid_place_response);
                 if($bid_place_response->recharge_status){
                     $status = true;
-                    $status_title = "Bid Placed : Success";
                     $status_msg_1 = $bid_runs_string;
-                    $status_msg_2 = "Bid Placed For Amount ₹".$amount;
-                    $status_msg_3 = "On Winning You will receive ₹".floor((int)($amount * $rate));
-                    $status_msg_4 = "You got refund of ₹".floor((int)$amount/10);
+                    $status_msg_2 = "PUT &#8377;".$amount." Take &#8377;".floor((int)($amount * $rate));
+                    $status_msg_3 = "Agent's Refund &#8377;".floor((int)$amount/10);
                     if ($common->is_user_an_agent()) {
                         $common->recharge_user($common->get_unique_recharge_id(),
                             "bidder_refund_agent_".$bid_id, $ref_id, floor((int)$amount / 10));
                     }
                 } else {
                     $status = false;
-                    $status_title = "Bid Placed : Failure";
                     $status_msg_1 = $bid_place_response->recharge_msg;;
-                    $status_msg_2 = "Bid Amount ₹".$amount;
-                    $status_msg_3 = "Bid Placed : Failure";
-                    $status_msg_4 = " -- ";
+                    $status_msg_2 = "Bid Amount &#8377;".$amount;
+                    $status_msg_3 = " -- ";
                 }
             } else {
                 $status = false;
-                $status_title = "Bid Placed : Failure";
                 $status_msg_1 = "Error Response from Local Server";
-                $status_msg_2 = "Bid Amount ₹".$amount;
-                $status_msg_3 = "Bid Placed : Failure";
-                $status_msg_4 = " -- ";
+                $status_msg_2 = "Bid Amount &#8377;".$amount;
+                $status_msg_3 = " -- ";
             }
         } elseif ($common->is_user_logged_in() &&
         $common->is_eligible_for_winner_bid($session)) {
@@ -89,63 +83,54 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" &&
                 $bid_place_response = json_decode($bid_place_response);
                 if ($bid_place_response->recharge_status) {
                     $status = true;
-                    $status_title = "Bid Placed : Success";
                     $status_msg_1 = $bid_runs_string;
-                    $status_msg_2 = "Bid Placed For Amount ₹".$amount;
-                    $status_msg_3 = "On Winning You will receive ₹".(int)($amount * $rate);
-                    $status_msg_4 = "You got refund of ₹".$refund;
-                    $status_msg_3 = "On Winning You will receive ₹".floor((int)($amount * $rate));
-                    $status_msg_4 = "You got refund of ₹".floor((int)$amount/10);
+                    $status_msg_2 = "PUT &#8377;".$amount." Take &#8377;".floor((int)($amount * $rate));
+                    $status_msg_3 = "You got refund of &#8377;".floor((int)$amount/10);
                     if ($common->is_user_an_agent()) {
                         $common->recharge_user($common->get_unique_recharge_id(),
                             "bidder_refund_agent_".$bid_id, $ref_id, $amount);
                     }
                 } else {
                     $status = false;
-                    $status_title = "Bid Placed : Failure";
                     $status_msg_1 = $bid_place_response->recharge_msg;;
-                    $status_msg_2 = "Bid Amount ₹".$amount;
-                    $status_msg_3 = "Bid Placed : Failure";
-                    $status_msg_4 = " -- ";
+                    $status_msg_2 = "Bid Amount &#8377;".$amount;
+                    $status_msg_3 = " -- ";
                 }
             } else {
                 $status = false;
-                $status_title = "Bid Placed : Failure";
                 $status_msg_1 = "Error Response from Local Server";
-                $status_msg_2 = "Bid Amount ₹".$amount;
-                $status_msg_3 = "Bid Placed : Failure";
-                $status_msg_4 = " -- ";
+                $status_msg_2 = "Bid Amount &#8377;".$amount;
+                $status_msg_3 = " -- ";
             }
         } else {
             header("Location: ".$data->get_path());
             $status = false;
-            $status_title = "";
             $status_msg_1 = "";
             $status_msg_2 = "";
             $status_msg_3 = "";
-            $status_msg_4 = "";
         }
         if ($status){
         ?>
             <div class="bid_container">
-                <div class="bid-success-title"><?php echo $status_title; ?></div>
+                <div class="bid-success-title"><p class="confirm">&#9989; Placed</p></div>
                 <div class="bid_details_success"><span><?php echo $status_msg_1;?></span></div>
                 <div class="bid_details_success"><span><?php echo $status_msg_2;?></span></div>
-                <div class="bid_details_success"><span><?php echo $status_msg_3;?></span></div>
                 <?php if ($common->is_user_an_agent()){?>
-                    <div class="bid_details_success"><span><?php echo $status_msg_4;?></span></div>
+                    <div class="bid_details_success"><span><?php echo $status_msg_3;?></span></div>
                 <?php }
         } else { ?>
             <div class="bid_container">
-                <div class="bid-failure-title"><?php echo $status_title; ?></div>
+                <div class="bid-failure-title"><p class="confirm">&#10060; Failed</p></div>
                 <div class="bid_details_failure"><span><?php echo $status_msg_1;?></span></div>
                 <div class="bid_details_failure"><span><?php echo $status_msg_2;?></span></div>
-                <div class="bid_details_failure"><span><?php echo $status_msg_3;?></span></div>
-        <?php } ?>
+                <?php if ($common->is_user_an_agent()){?>
+                    <div class="bid_details_failure"><span><?php echo $status_msg_3;?></span></div>
+            <?php   }
+            } ?>
                 <div class="small-separator"></div>
-                <a class="button" style="margin-left: 12.5%; width: 75%" href="match.php?match_id=<?php echo $match_id ?>&series_id=<?php echo $series_id ?>&match_name=<?php echo $match_name; ?>">Place Another Bid</a>
+                <a class="button" style="margin-left: 12.5%; width: 75%" href="match.php?match_id=<?php echo $match_id ?>&series_id=<?php echo $series_id ?>&match_name=<?php echo $match_name; ?>">New Bid</a>
                 <div class="separator"></div>
-                <a class="button" style="margin-left: 12.5%; width: 75%" href="../views/show_all_bids.php">Show Your Bids</a>
+                <a class="button secondary" style="margin-left: 12.5%; width: 75%" href="../views/show_all_bids.php">All Bids</a>
             </div>
         <div class="separator"></div>
         <div id="scorecard"></div>

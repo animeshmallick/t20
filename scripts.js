@@ -278,19 +278,19 @@ function update_session_slot_details_actual(session, update_selected){
                         "match_id=" + getCookie('match_id') + "&series_id=" + getCookie('series_id') + "&match_name=" + getCookie('match_name');
             }
             document.getElementById("slot_a_runs").innerHTML =
-                "Runs Less Than " + bid_master.predicted_runs_a;
-            document.getElementById("slot_a_amount").innerHTML = "₹" + amount +
-                " will give you ₹" + Math.trunc(amount * bid_master.rate_1);
+                "Runs 0 to " + bid_master.predicted_runs_a;
+            document.getElementById("slot_a_amount").innerHTML = "Put &#8377;" + amount +
+                " & Take &#8377;" + Math.trunc(amount * bid_master.rate_1);
 
             document.getElementById("slot_b_runs").innerHTML =
-                "Runs between [" + bid_master.predicted_runs_a + " to " + bid_master.predicted_runs_b + "]";
-            document.getElementById("slot_b_amount").innerHTML = "₹" + amount +
-                " will give you ₹" + Math.trunc(amount * bid_master.rate_2);
+                "Runs [" + bid_master.predicted_runs_a + " to " + bid_master.predicted_runs_b + "]";
+            document.getElementById("slot_b_amount").innerHTML = "Put &#8377;" + amount +
+                " and Take &#8377;" + Math.trunc(amount * bid_master.rate_2);
 
             document.getElementById("slot_c_runs").innerHTML =
-                "Runs More Than " + bid_master.predicted_runs_b;
-            document.getElementById("slot_c_amount").innerHTML = "₹" + amount +
-                " will give you ₹" + Math.trunc(amount * bid_master.rate_3);
+                "Runs " + bid_master.predicted_runs_b + " or More";
+            document.getElementById("slot_c_amount").innerHTML = "Put &#8377;" + amount +
+                " and Take &#8377;" + Math.trunc(amount * bid_master.rate_3);
 
             if(update_selected) {
                 let max_rate = Math.max(bid_master.rate_1, bid_master.rate_2, bid_master.rate_3);
@@ -326,14 +326,14 @@ function update_winner_slot_details_actual(session, update_checked) {
                 let responseText = '{'+this.responseText.split('{')[1]
                 let bid_master = JSON.parse(responseText);
                 document.getElementById("winner_a").innerHTML =
-                    bid_master.team_a + " Will Win The Match";
-                document.getElementById("winner_a_amount").innerHTML = "₹" + amount +
-                    " will give you ₹" + Math.trunc(amount * bid_master.rate_1);
+                    bid_master.team_a + " Wins";
+                document.getElementById("winner_a_amount").innerHTML = "Put &#8377;" + amount +
+                    " Take &#8377;" + Math.trunc(amount * bid_master.rate_1);
 
                 document.getElementById("winner_b").innerHTML =
-                    bid_master.team_b + " Will Win The Match";
-                document.getElementById("winner_b_amount").innerHTML = "₹" + amount +
-                    " will give you ₹" + Math.trunc(amount * bid_master.rate_2);
+                    bid_master.team_b + " Wins";
+                document.getElementById("winner_b_amount").innerHTML = "Put &#8377;" + amount +
+                    " Take &#8377;" + Math.trunc(amount * bid_master.rate_2);
 
                 if(update_checked) {
                     let max_rate = Math.max(bid_master.rate_1, bid_master.rate_2);

@@ -75,11 +75,11 @@ form input:hover {
     color: black;
 }
 .form input:focus{
-    box-shadow: 0 1px 0 rgba(0,0,0,0.2);
+    box-shadow: 0 0.1rem 0 rgba(0,0,0,0.2);
 
 }
 .form a{
-    font-size: 16px;
+    font-size: 2rem;
     color: #009579;
     text-decoration: none;
 }
@@ -101,13 +101,13 @@ html {
 .header {
     background-color: #9933cc;
     color: #ffffff;
-    padding: 15px;
+    padding: 2rem;
     margin-bottom: 0.5rem;
 }
 .sub-header {
     background-color: #34a5d5;
     color: #ffffff;
-    padding: 1px;
+    padding: 0.2rem;
     margin-bottom: 0.5rem;
 }
 .footer {
@@ -126,8 +126,8 @@ html {
 a:link, a:visited {
     background-color: wheat;
     color: black;
-    border: 2px solid green;
-    padding: 10px 20px;
+    border: 0.2rem solid green;
+    padding: 0.3rem 1rem;
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -146,19 +146,19 @@ a:hover, a:active {
 .innings {
     background-color: cadetblue;
     color: #ffffff;
-    padding: 15px;
+    padding: 2rem;
     margin-bottom: 0.5rem;
 }
 .play_container {
     background-color: mediumseagreen;
     color: #ffffff;
-    padding: 15px;
+    padding: 2rem;
     margin-bottom: 0.5rem;
 }
 .sub-header-2 {
     background-color: #3369cc;
     color: #ffffff;
-    padding: 1px;
+    padding: 0.2rem;
     margin-bottom: 0.5rem;
 }
 .gap {
@@ -180,8 +180,8 @@ div.smaller-gap {
     display: block;
     margin: 0.5em auto;
     border-style: inset;
-    border-width: 1px;
-    height:2px;
+    border-width: 0.1rem;
+    height:0.1rem;
     color:gray;
     background-color:gray
 }
@@ -191,13 +191,13 @@ div.smaller-gap {
     background-color: #cccccc;
 }
 .form label[name=slot] {
-    height: 35px;
+    height: 4rem;
     width: 100%;
-    padding: 5px;
-    font-size: 17px;
+    padding: 1rem;
+    font-size: 2rem;
     margin-bottom: 1.3rem;
-    border: 2px solid #ddd;
-    border-radius: 10px;
+    border: 0.5rem solid #ddd;
+    border-radius: 1rem;
     outline: none;
     display: block;
 }
@@ -224,33 +224,24 @@ a.play:hover {
     background-color: #edcf08;
 }
 a.live {
-    border-radius: 50px;
+    border-radius: 6rem;
     background-color: #83fa04;
     display: block;
     margin-bottom: 0.75rem;
 }
-div.bid_details_success {
-    border-radius: 10px;
-    padding: 15px;
-    display: block;
-    background-color: darkseagreen;
-    color: black;
-    margin-bottom: 0.5rem;
-    font-size: 17px;
-}
 a.cancel_bid {
-    border-radius: 50px;
+    border-radius: 6rem;
     background-color: #fa0404;
     display: block;
     margin-bottom: 0.5rem;
-    font-size: 17px;
+    font-size: 2rem;
 }
 .scorecard {
     background-color: #24f104;
     color: #104d9e;
-    padding: 15px;
+    padding: 2rem;
     margin-bottom: 0.5rem;
-    font-size: 20px;
+    font-size: 2.5rem;
     display: flex;
 }
 .team1 {
@@ -269,8 +260,8 @@ a.button {
     box-shadow: 0 0 3rem rgba(7, 7, 7, 0.31), 0 0 3rem rgba(0,0,0,0.24);
     font-weight: bolder;
     white-space: nowrap;
-    padding: 0.7rem;
-    margin: 0.5rem;
+    padding: 0.5rem;
+    margin: 0.4rem;
 }
 
 div.separator {
@@ -282,12 +273,12 @@ div.small-separator {
     margin: 0.25rem 1.5rem;
 }
 div.title-container {
+    display: flex;
     background-color: rgba(51, 105, 204, 0.9);
     box-shadow: 0 0.5rem 0.5rem rgb(4, 221, 241);
     padding-top: 0.5rem;
     padding-left: 0.5rem;
     border-radius: 1rem;
-    display: block;
     color: #edcf08;
     font-size: 2rem;
     padding-bottom: 0.5rem;
@@ -384,8 +375,8 @@ div.balls {
     text-align: center;
     color: #070707;
     font-weight: bolder;
-    padding-top: 0.2rem;
-    padding-bottom: 0.2rem;
+    padding-top: 0.1rem;
+    padding-bottom: 0.1rem;
     margin-bottom: 0.2rem;
 }
 div.balls-extra {
@@ -401,7 +392,7 @@ div.balls-extra {
 }
 div.controls {
     background-color: #21cd07;
-    border-radius: 20px;
+    border-radius: 2.5rem;
     text-align: center;
     display: block;
     font-size: 1.2rem;
@@ -451,7 +442,7 @@ a.disabled {
     background: grey;
 }
 div.title {
-    padding-top: 0.5rem;
+    padding-top: 0.35rem;
     text-align: center;
     font-weight: bold;
     letter-spacing: 0.15rem;
@@ -459,7 +450,7 @@ div.title {
     border-bottom: 0.2rem solid #f90606;
     box-shadow: 0 0.8rem 0.5rem rgba(250, 4, 4, 0.34);
     padding-bottom: 0.3rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.3rem;
     color: black;
     background: rgba(250, 0, 0, 0.4);
 }
@@ -473,7 +464,7 @@ div.profile {
     display: block;
 }
 div.bid-failure-title {
-    font-size: 1.5rem;
+    font-size: 2.5rem;
     background: rgba(255, 0, 0, 0.35);;
     padding-top: 0.5rem;
     text-align: center;
@@ -487,16 +478,15 @@ div.bid-failure-title {
 }
 div.bid-success-title {
     background: rgba(33, 205, 7, 0.5);
-    font-size: 1.3rem;
+    font-size: 2.5rem;
     padding-top: 0.5rem;
     text-align: center;
     font-weight: bold;
-    letter-spacing: 0.15rem;
+    letter-spacing: 0.2rem;
     border-radius: 1rem;
     border-bottom: 0.2rem solid #1a8c09;
     box-shadow: 0 0.8rem 0.5rem rgba(250, 4, 4, 0.43);
     padding-bottom: 0.3rem;
-    margin-bottom: 0.5rem;
 }
 div.sub-title {
     text-align: center;
@@ -568,13 +558,13 @@ div.slot_container {
 }
 input[type="radio"]:checked + div.slot {
     font-weight: bold;
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     color: #21cd07;
     width: 100%;
     text-shadow: 0 1rem 2rem rgba(204, 184, 51);
     letter-spacing: 0.1rem;
     box-shadow: 0 1rem 2rem rgba(33, 205, 7, 0.63);
-    border-radius: 2rem;
+    border-radius: 1rem;
     border-color: red;
     background: grey;
 }
@@ -582,10 +572,10 @@ input[type="radio"]:checked + div.slot {
 div.slot {
     width: 90%;
     font-weight: bold;
-    font-size: 1.3rem;
+    font-size: 1rem;
     letter-spacing: 0.1rem;
     box-shadow: 1rem 1rem 2rem rgb(237, 207, 8);
-    border-radius: 2rem;
+    border-radius: 1rem;
     padding: 0.3rem;
     color: wheat;
     background: rgba(128, 128, 128, 0.5);
@@ -594,14 +584,14 @@ div.slot {
 label.container {
     margin-right: 1rem;
     margin-left: 1rem;
-    margin-top: 1rem;
+    margin-top: 0.7rem;
     text-align: center;
     display: block;
     position: relative;
     cursor: pointer;
     font-size: 1rem;
     user-select: none;
-    border-radius: 2rem;
+    border-radius: 1rem;
     padding: 0.4rem;
     box-shadow: 0 1rem 1rem rgba(7, 7, 7, 0.64);
 }
@@ -621,7 +611,7 @@ label.container div.slot:after ~ input:checked{
 label.amount_span {
     font-weight: bold;
     font-size: 1.3rem;
-    padding-top: 1rem;
+    padding-top: 0.75rem;
     margin-left: 0.5rem;
     margin-right: 1rem;
     white-space: nowrap;
@@ -753,43 +743,18 @@ a.nav_item {
     white-space: nowrap;
     margin-bottom: 0.3rem;
 }
-.flip-card-front, .flip-card-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-}
-.flip-card-front {
-    background-color: #bbb;
-    color: black;
-}
-
-.flip-card-back {
-    background-color: #2980b9;
-    color: white;
-    transform: rotateY(180deg);
-}
-.flip-card {
-    background-color: transparent;
-    width: 50%;
-    height: 300px;
-    perspective: 1000px;
-}
-
-.flip-card-inner {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    transition: transform 0.6s;
-    transform-style: preserve-3d;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-}
-.flip-card:hover .flip-card-inner {
-    transform: rotateY(180deg);
-}
 div.timer {
     float: right;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
+}
+p.confirm {
+    margin: 0;
+}
+a.secondary {
+    background: rgba(51, 117, 204, 0.55);
+    padding: 0.2rem;
+}
+a.nav {
+    padding: 1rem 0.8rem;
+    background: burlywood;
 }

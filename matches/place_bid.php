@@ -37,7 +37,7 @@ if ($common->is_user_logged_in()){
                             <div class="title">For Innings <?php echo $session[1];?>, <br />End Of <?php echo ($data->get_maxballs_for_slot($session[0])/6)?>th Over</div>
 
                             <div style="display: flex">
-                                <label class="amount_span" for="amount">Bid Amount:</label>
+                                <label class="amount_span" for="amount">Amount:</label>
                                 <input type="number" id="amount" name="amount" value="100"
                                        onkeyup="update_session_slot_details_actual('<?php echo $session;?>')" required />
 
@@ -60,7 +60,6 @@ if ($common->is_user_logged_in()){
                                     <input type="radio" name="slot" value="x" id="slot_a">
                                     <div class="slot">
                                         <div id="slot_a_runs">Slot1</div>
-                                        <div class="smaller-gap"></div>
                                         <div id="slot_a_amount">Slot1</div>
                                     </div>
                                 </label>
@@ -68,7 +67,6 @@ if ($common->is_user_logged_in()){
                                     <input type="radio" name="slot" value="y" id="slot_b">
                                     <div class="slot">
                                         <div id="slot_b_runs">Slot2</div>
-                                        <div class="smaller-gap"></div>
                                         <div id="slot_b_amount">Slot2</div>
                                     </div>
                                 </label>
@@ -76,14 +74,12 @@ if ($common->is_user_logged_in()){
                                     <input type="radio" name="slot" value="z" id="slot_c">
                                     <div class="slot">
                                         <div id="slot_c_runs">Slot3</div>
-                                        <div class="smaller-gap"></div>
                                         <div id="slot_c_amount">Slot3</div>
                                     </div>
                                 </label>
-                                <div class="gap"></div>
+                                <div class="small-gap"></div>
                                 <div class="separator"></div>
                                 <input type="submit" value="Place Bid" id="place_bid" onclick="place_bid_text()">
-                                <div class="smaller-gap"></div>
                                 <div class="timer" id="timer_slots">&nbsp;</div>
                             </div>
                         </form>
@@ -117,19 +113,17 @@ if ($common->is_user_logged_in()){
                                         <input type="radio" name="slot" value="T1" id="slot_a">
                                         <div class="slot">
                                             <div id="winner_a">Slot1</div>
-                                            <div class="small-gap"></div>
                                             <div id="winner_a_amount">Slot1</div>
                                         </div>
                                     </label>
-                                    <div class="small-gap"></div>
                                     <label class="container">
                                         <input type="radio" name="slot" value="T2" id="slot_b">
                                         <div class="slot">
                                             <div id="winner_b">Slot1</div>
-                                            <div class="small-gap"></div>
                                             <div id="winner_b_amount">Slot1</div>
                                         </div>
                                     </label>
+                                    <div class="small-gap"></div>
                                     <div class="separator"></div>
                                     <input type="submit" value="Place Bid" id="place_bid" onclick="place_bid_text()">
                                     <div class="small-gap"></div>
@@ -141,7 +135,6 @@ if ($common->is_user_logged_in()){
                     <?php }?>
                     <div class="bid_button_div" style="margin-left: 25%"><a class="button" href="match.php?match_id=<?php echo $common->get_cookie('match_id'); ?>&series_id=<?php echo $common->get_cookie('series_id'); ?>&match_name=<?php echo $common->get_cookie('match_name'); ?>">Go Back</a></div>
                     </div>
-                    <div class="gap"></div>
                     <div class="separator"></div>
                     <div id="scorecard"></div>
                     <div class="separator"></div>
