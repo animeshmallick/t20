@@ -63,21 +63,33 @@ function fill_scorecard_data(series_id, match_id){
     xmlhttp.send();
 }
 function fill_scorecard_content(scorecard){
+    let over_str_1 = scorecard.team1_score.overs;
+    let over_str_2 = scorecard.team2_score.overs;
+    if(scorecard.innings === 1){
+        over_str_1 -= 1;
+        let bls = get_valid_balls(scorecard.this_over);
+        over_str_1 = over_str_1+"."+bls;
+    }
+    if(scorecard.innings === 2){
+        over_str_2 -= 1;
+        let bls = get_valid_balls(scorecard.this_over);
+        over_str_2 = over_str_2+"."+bls;
+    }
     document.getElementById("team1_name").innerHTML = scorecard.teams[0];
-    let team1_score = scorecard.team1_score.runs + "/" + scorecard.team1_score.wickets + " (" + scorecard.team1_score.overs + ")";
+    let team1_score = scorecard.team1_score.runs + "/" + scorecard.team1_score.wickets + " (" + over_str_1 + ")";
     document.getElementById("team1_score").innerHTML = team1_score;
     document.getElementById("team2_name").innerHTML = scorecard.teams[1];
-    let team2_score = scorecard.team2_score.runs + "/" + scorecard.team2_score.wickets + " (" + scorecard.team2_score.overs + ")";
+    let team2_score = scorecard.team2_score.runs + "/" + scorecard.team2_score.wickets + " (" + over_str_2 + ")";
     document.getElementById("team2_score").innerHTML = team2_score;
     document.getElementById("match_additional_details").innerHTML = scorecard.match_additional_details[0];
     document.getElementById('bowler').innerHTML = scorecard.bowler;
     document.getElementById('batsman1').innerHTML = scorecard.batsmen[0];
     document.getElementById('batsman2').innerHTML = scorecard.batsmen[1];
-    document.getElementById('current-over-id').innerHTML = "Current Over : "+scorecard.over;
+    document.getElementById('current-over-id').innerHTML = "Innings "+scorecard.innings+" | Over : "+(scorecard.over-1)+"."+get_valid_balls(scorecard.this_over);
     document.getElementById("over-container")
             .appendChild(create_balls_container(scorecard.this_over));
     document.getElementById('this_over_summary').innerHTML =
-        "Over " + scorecard.over + "  :  " + scorecard.this_over_summary;
+        "Over " + (scorecard.over-1)+"."+get_valid_balls(scorecard.this_over)+"  :  " + scorecard.this_over_summary;
     console.log("Scorecard Updated");
 }
 function create_balls_container(balls){
@@ -98,6 +110,15 @@ function create_balls_container(balls){
         res.appendChild(div);
     }
     return res;
+}
+function get_valid_balls(this_over){
+    let count = 0;
+    for (let i=0;i<this_over.length;i++){
+        if(this_over[i].includes('w') || this_over[i].includes('nb'))
+            continue;
+        count++;
+    }
+    return count;
 }
 function fill_header() {
     const xmlhttp = new XMLHttpRequest();
