@@ -557,7 +557,7 @@ class Common {
     {
         if ($session == 'winner'){
             $scorecard = $this->get_scorecard_latest($this->get_cookie('series_id'), $this->get_cookie('match_id'), "From Is Session Enabled Checker");
-            return property_exists($scorecard,'is_live') && $scorecard->is_live == true;
+            return property_exists($scorecard,'is_live') && $scorecard->is_live == true && !str_contains('won',$scorecard->match_additional_details);
         }
         elseif(strlen($session) == 2){
             if ($session[0] == 'a')
@@ -572,8 +572,12 @@ class Common {
                 $over_id = '00';
             $over_id = (int)($session[1].$over_id);
 
-            if ($cur_over_id < $over_id && floor($cur_over_id/100) == floor($over_id/100))
+            if ($cur_over_id < $over_id) {
+                if($session[1] == 2){
+                    return $cur_over_id > 110;
+                }
                 return true;
+            }
             return false;
         }
         else {

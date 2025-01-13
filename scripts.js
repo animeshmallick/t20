@@ -74,11 +74,15 @@ function fill_scorecard_content(scorecard){
         over_str_1 -= 1;
         let bls = get_valid_balls(scorecard.this_over);
         over_str_1 = over_str_1+"."+bls;
+        if(bls === 6)
+            over_str_1 = scorecard.team1_score.overs;
     }
     if(scorecard.innings === 2){
         over_str_2 -= 1;
         let bls = get_valid_balls(scorecard.this_over);
         over_str_2 = over_str_2+"."+bls;
+        if(bls === 6)
+            over_str_2 = scorecard.team2_score.overs;
     }
     document.getElementById("team1_name").innerHTML = scorecard.teams[0];
     let team1_score = scorecard.team1_score.runs + "/" + scorecard.team1_score.wickets + " (" + over_str_1 + ")";
@@ -90,7 +94,10 @@ function fill_scorecard_content(scorecard){
     document.getElementById('bowler').innerHTML = scorecard.bowler;
     document.getElementById('batsman1').innerHTML = scorecard.batsmen[0];
     document.getElementById('batsman2').innerHTML = scorecard.batsmen[1];
-    document.getElementById('current-over-id').innerHTML = "Innings "+scorecard.innings+" | Over : "+(scorecard.over-1)+"."+get_valid_balls(scorecard.this_over);
+    if(get_valid_balls(scorecard.this_over) === 6)
+        document.getElementById('current-over-id').innerHTML = "Innings "+scorecard.innings+" | Over : "+(scorecard.over);
+    else
+        document.getElementById('current-over-id').innerHTML = "Innings "+scorecard.innings+" | Over : "+(scorecard.over - 1)+"."+get_valid_balls(scorecard.this_over);
     document.getElementById("over-container")
             .appendChild(create_balls_container(scorecard.over_id, scorecard.this_over));
     document.getElementById('this_over_summary').innerHTML =
@@ -236,16 +243,16 @@ function create_no_more_overs() {
     return p;
 }
 function update_session_slot_details(session) {
-    update_session_slot_details_actual(session);
+    update_session_slot_details_actual(session, true);
     setInterval(function (){
         document.getElementById('timer_slots').innerHTML = "Updated "+slots_time+" sec ago";
         slots_time++;
     }, 1000);
     slots_timer = setInterval(function (){
-        update_session_slot_details_actual(session);
+        update_session_slot_details_actual(session, false);
     }, 10000);
 }
-function update_session_slot_details_actual(session){
+function update_session_slot_details_actual(session, update_selected){
     let series_id = this.getCookie('series_id');
     let match_id = this.getCookie('match_id');
     let amount = document.getElementById('amount').value;
@@ -276,13 +283,15 @@ function update_session_slot_details_actual(session){
             document.getElementById("slot_c_amount").innerHTML = "₹" + amount +
                 " will give you ₹" + Math.trunc(amount * bid_master.rate_3);
 
-            let max_rate = Math.max(bid_master.rate_1, bid_master.rate_2, bid_master.rate_3);
-            if (bid_master.rate_3 === max_rate)
-                document.getElementById("slot_c").checked = true;
-            if (bid_master.rate_2 === max_rate)
-                document.getElementById("slot_b").checked = true;
-            if (bid_master.rate_1 === max_rate)
-                document.getElementById("slot_a").checked = true;
+            if(update_selected) {
+                let max_rate = Math.max(bid_master.rate_1, bid_master.rate_2, bid_master.rate_3);
+                if (bid_master.rate_3 === max_rate)
+                    document.getElementById("slot_c").checked = true;
+                if (bid_master.rate_2 === max_rate)
+                    document.getElementById("slot_b").checked = true;
+                if (bid_master.rate_1 === max_rate)
+                    document.getElementById("slot_a").checked = true;
+            }
             slots_time = 0;
             console.log("Slots Updated");
         }
@@ -291,12 +300,12 @@ function update_session_slot_details_actual(session){
     xmlhttp.send();
 }
 function update_winner_slot_details(session){
-    update_winner_slot_details_actual(session);
-    timer = setInterval(function (){
-        update_winner_slot_details_actual(session);
+    update_winner_slot_details_actual(session, true);
+    slots_timer = setInterval(function (){
+        update_winner_slot_details_actual(session, false);
     }, 10000);
 }
-function update_winner_slot_details_actual(session) {
+function update_winner_slot_details_actual(session, update_checked) {
     let series_id = this.getCookie('series_id');
     let match_id = this.getCookie('match_id');
     let amount = document.getElementById('amount').value;
@@ -304,7 +313,6 @@ function update_winner_slot_details_actual(session) {
     if(session === 'winner') {
         xmlhttp.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
-                console.log("Winner Slots Updated");
                 let responseText = '{'+this.responseText.split('{')[1]
                 let bid_master = JSON.parse(responseText);
                 document.getElementById("winner_a").innerHTML =
@@ -317,11 +325,15 @@ function update_winner_slot_details_actual(session) {
                 document.getElementById("winner_b_amount").innerHTML = "₹" + amount +
                     " will give you ₹" + Math.trunc(amount * bid_master.rate_2);
 
-                let max_rate = Math.max(bid_master.rate_1, bid_master.rate_2);
-                if (bid_master.rate_2 === max_rate)
-                    document.getElementById("slot_b").checked = true;
-                if (bid_master.rate_1 === max_rate)
-                    document.getElementById("slot_a").checked = true;
+                if(update_checked) {
+                    let max_rate = Math.max(bid_master.rate_1, bid_master.rate_2);
+                    if (bid_master.rate_2 === max_rate)
+                        document.getElementById("slot_b").checked = true;
+                    if (bid_master.rate_1 === max_rate)
+                        document.getElementById("slot_a").checked = true;
+                }
+                console.log("Winner Slots Updated");
+                slots_time = 0;
             }
         };
         xmlhttp.open("GET", "../matches/GetWinnerSlotDetails.php?series_id=" + series_id + "&match_id=" + match_id + "&amount=" + amount, true);

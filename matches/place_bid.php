@@ -132,6 +132,7 @@ if ($common->is_user_logged_in()){
                                     <input type="submit" value="Place Bid">
                                     <div class="small-gap"></div>
                                 </div>
+                                <div class="timer" id="timer_slots">&nbsp;</div>
                             </form>
                     <?php }else { ?>
                             <div class="title">Biding closed for this Slot</div>
