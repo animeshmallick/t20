@@ -57,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" &&
                     $status_msg_4 = "You got refund of ₹".floor((int)$amount/10);
                     if ($common->is_user_an_agent()) {
                         $common->recharge_user($common->get_unique_recharge_id(),
-                            "bidder_refund_agent_".$bid_id, $ref_id, $amount);
+                            "bidder_refund_agent_".$bid_id, $ref_id, floor((int)$amount / 10));
                     }
                 } else {
                     $status = false;
