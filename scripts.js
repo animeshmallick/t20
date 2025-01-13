@@ -1,4 +1,4 @@
-let scorecard_timer, slots_timer;
+let scorecard_timer, update_scorecard_timer, slots_timer, update_slots_timer;
 let scorecard_time = 5, slots_time = 5;
 function validate_register_form() {
     let fname = document.forms["register_form"]["fname"].value;
@@ -37,7 +37,7 @@ function getCookie(name) {
 }
 function fill_scorecard(series_id, match_id) {
     fill_scorecard_ui(series_id, match_id);
-    setInterval(function (){
+    update_scorecard_timer = setInterval(function (){
         scorecard_time+= 5;
         document.getElementById('timer').innerHTML = "Updated "+scorecard_time+" sec ago";
     }, 5000);
@@ -248,7 +248,7 @@ function create_no_more_overs() {
 }
 function update_session_slot_details(session) {
     update_session_slot_details_actual(session, true);
-    setInterval(function (){
+    update_slots_timer = setInterval(function (){
         slots_time += 5;
         document.getElementById('timer_slots').innerHTML = "Updated "+slots_time+" sec ago";
     }, 5000);
@@ -269,8 +269,12 @@ function update_session_slot_details_actual(session, update_selected){
             let bid_master = JSON.parse(responseText);
             if (bid_master.hasOwnProperty('error')) {
                 alert("Session Closed For Biding. !!")
-                window.location.href = "https://www.crickett20.in/T20/matches/match.php?" +
-                    "match_id=" + getCookie('match_id') + "&series_id=" + getCookie('series_id') + "&match_name=" + getCookie('match_name');
+                if (window.location.hostname.includes('localhost'))
+                    window.location.href = "http://localhost/t20/matches/match.php?" +
+                        "match_id=" + getCookie('match_id') + "&series_id=" + getCookie('series_id') + "&match_name=" + getCookie('match_name');
+                else
+                    window.location.href = "https://www.crickett20.in/T20/matches/match.php?" +
+                        "match_id=" + getCookie('match_id') + "&series_id=" + getCookie('series_id') + "&match_name=" + getCookie('match_name');
             }
             document.getElementById("slot_a_runs").innerHTML =
                 "Runs Less Than " + bid_master.predicted_runs_a;
@@ -387,7 +391,10 @@ function settle_bid(bid_id, session){
             xmlhttp.onreadystatechange = function () {
                 if (this.readyState === 4 && this.status === 200) {
                     console.log(this.responseText);
-                    window.location.href = "https://www.crickett20.in/T20/admin/admin_match_session_dashboard.php?session=" + session;
+                    if (window.location.hostname.includes('localhost'))
+                        window.location.href = "http://localhost/t20/admin/admin_match_session_dashboard.php?session=" + session;
+                    else
+                        window.location.href = "https://www.crickett20.in/T20/admin/admin_match_session_dashboard.php?session=" + session;
                 }
             };
             xmlhttp.open("GET", "https://om8zdfeo2h.execute-api.ap-south-1.amazonaws.com/settle_bid/" + bid_id + "/" + userResponse.toLowerCase(), true);
@@ -395,3 +402,16 @@ function settle_bid(bid_id, session){
         }
     }
 }
+function redirect_to_home(){
+    if (window.location.hostname.includes('localhost'))
+        window.location.href = "http://localhost/t20/";
+    else
+        window.location.href = "https://www.crickett20.in/T20/";
+}
+setTimeout(function (){
+    clearInterval(scorecard_timer);
+    clearInterval(update_scorecard_timer);
+    clearInterval(slots_timer);
+    clearInterval(update_slots_timer);
+    console.log("All background timers cleared.");
+}, 1800);

@@ -5,11 +5,12 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
     <link rel="icon" type="image/x-icon" href="../cricket.ico">
-    <script src="../scripts.js?version=<?php echo time(); ?>"></script>
+    <script src="../scripts.js?version=<?php echo time(); ?>">
+    </script>
 </head>
 <body>
 <div class="title-container">
-    <span class="title">&nbsp;CricketT20</span>
+    <span class="title" onclick="redirect_to_home()" style="cursor: grab">&nbsp;CricketT20</span>
 <?php
 include "../data.php";
 include "../Common.php";
@@ -49,7 +50,7 @@ if ($common->is_user_logged_in()){
             </div>
         </nav>
         <a href="javascript:void(0)" id='side-bar-icon' class="w3-left w3-button w3-white" onclick="w3_open()" style="border-radius: 1rem; height: 6rem">☰</a>
-    <div class="profile">
+    <div class="profile" onclick="redirect_to_home()" style="cursor: grab">
         <span style="display: block;font-size: 1.2rem">&nbsp;Hi, <?php echo $common->get_cookie('fname') . " " . $common->get_cookie('lname'); ?>.</span>
         <span style="display: block;font-size: 1rem">&nbsp;Available Balance ₹<?php echo $balance;?></span>
     </div>
