@@ -1,5 +1,5 @@
 let scorecard_timer, slots_timer;
-let scorecard_time = 0, slots_time = 0;
+let scorecard_time = 5, slots_time = 5;
 function validate_register_form() {
     let fname = document.forms["register_form"]["fname"].value;
     let phone = document.forms["register_form"]["phone"].value;
@@ -38,12 +38,12 @@ function getCookie(name) {
 function fill_scorecard(series_id, match_id) {
     fill_scorecard_ui(series_id, match_id);
     setInterval(function (){
+        scorecard_time+= 5;
         document.getElementById('timer').innerHTML = "Updated "+scorecard_time+" sec ago";
-        scorecard_time++;
-    }, 1000);
+    }, 5000);
     scorecard_timer = setInterval(function (){
         fill_scorecard_ui(series_id, match_id);
-    }, 10000);
+    }, 19000);
 }
 function fill_scorecard_ui(series_id, match_id){
     const xmlhttp = new XMLHttpRequest();
@@ -106,6 +106,10 @@ function fill_scorecard_content(scorecard){
     console.log("Scorecard Updated");
 }
 function create_balls_container(over_id, balls){
+    let old = document.getElementsByName("over_id");
+    for(let i=0;i<old.length;i++){
+        old[i].remove();
+    }
     let res = document.createElement("div");
     res.setAttribute("style","display: flex");
     res.setAttribute('name', 'over_id');
@@ -245,12 +249,12 @@ function create_no_more_overs() {
 function update_session_slot_details(session) {
     update_session_slot_details_actual(session, true);
     setInterval(function (){
+        slots_time += 5;
         document.getElementById('timer_slots').innerHTML = "Updated "+slots_time+" sec ago";
-        slots_time++;
-    }, 1000);
+    }, 5000);
     slots_timer = setInterval(function (){
         update_session_slot_details_actual(session, false);
-    }, 10000);
+    }, 19000);
 }
 function update_session_slot_details_actual(session, update_selected){
     let series_id = this.getCookie('series_id');
@@ -303,7 +307,7 @@ function update_winner_slot_details(session){
     update_winner_slot_details_actual(session, true);
     slots_timer = setInterval(function (){
         update_winner_slot_details_actual(session, false);
-    }, 10000);
+    }, 19000);
 }
 function update_winner_slot_details_actual(session, update_checked) {
     let series_id = this.getCookie('series_id');
