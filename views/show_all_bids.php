@@ -87,6 +87,9 @@ $match_name = $common->get_match_name_match_id($all_matches, $match_id, $series_
                         $last_session = $bids->innings.'&'.$bids->session;
                         ?>
                         <tr class="row_<?php echo $flag;?>">
+                            <?php if(property_exists($bids, $bids->bid_name)){ ?>
+                                <td><?php echo $bids->bid_name; ?></td>
+                            <?php } ?>
                             <td><?php if ($bids->slot == 'x')
                                         echo 'Runs '.$bids->runs_max." or Less";
                                       else if($bids->slot == 'y')
