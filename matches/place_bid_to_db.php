@@ -45,8 +45,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" &&
 
             $ref_id = $common->get_cookie($data->get_auth_cookie_name());
             if ($common->is_valid_bookie_response_session($bid_bookie_response)){
-                $bid_place_response = $common->insert_new_session_bid_to_db($bid_id, $ref_id, $series_id, $match_id, $session,
-                                                        $slot, $run_min, $run_max, $rate, $amount, $bid_name);
+                $refund = 0;
+                if ($common->is_user_an_agent()) {
+                    $refund = floor($amount / 10);
+                    $bid_place_response = $common->insert_new_session_bid_to_db($bid_id, $ref_id, $series_id, $match_id, $session,
+                        $slot, $run_min, $run_max, $rate, ($amount*0.9), $bid_name);
+                }else {
+                    $bid_place_response = $common->insert_new_session_bid_to_db($bid_id, $ref_id, $series_id, $match_id, $session,
+                        $slot, $run_min, $run_max, $rate, $amount, $bid_name);
+                }
                 $bid_place_response = json_decode($bid_place_response);
                 if($bid_place_response->recharge_status){
                     $status = true;
@@ -54,12 +61,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" &&
                     $status_msg_1 = $bid_runs_string;
                     $status_msg_2 = "Bid Placed For Amount ₹".$amount;
                     $status_msg_3 = "On Winning You will receive ₹".(int)($amount * $rate);
+                    $status_msg_4 = "You got refund of ₹".$refund;
                 } else {
                     $status = false;
                     $status_title = "Bid Placed : Failure";
                     $status_msg_1 = $bid_place_response->recharge_msg;;
                     $status_msg_2 = "Bid Amount ₹".$amount;
                     $status_msg_3 = "Bid Placed : Failure";
+                    $status_msg_4 = "You got refund of ₹".$refund;
                 }
             } else {
                 $status = false;
@@ -67,6 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" &&
                 $status_msg_1 = "Error Response from Local Server";
                 $status_msg_2 = "Bid Amount ₹".$amount;
                 $status_msg_3 = "Bid Placed : Failure";
+                $status_msg_4 = " -- ";
             }
         } elseif ($common->is_user_logged_in() &&
         $common->is_eligible_for_winner_bid($session)) {
@@ -76,8 +86,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" &&
                 ($slot == 'T2' ? $scorecard->teams[1]." Wins The Match " : 0);
             if($common->is_valid_bookie_response_winner($bid_bookie_response)) {
                 $ref_id = $common->get_cookie($data->get_auth_cookie_name());
-                $bid_place_response = $common->insert_new_winner_bid_to_db($bid_id, $ref_id, $series_id, $match_id, $slot,
-                                                        $rate, $amount, $bid_name);
+                $refund = 0;
+                if ($common->is_user_an_agent()) {
+                    $refund = floor($amount / 10);
+                    $bid_place_response = $common->insert_new_winner_bid_to_db($bid_id, $ref_id, $series_id, $match_id, $slot,
+                        $rate, ($amount*0.9), $bid_name);
+                }else {
+                    $bid_place_response = $common->insert_new_winner_bid_to_db($bid_id, $ref_id, $series_id, $match_id, $slot,
+                        $rate, $amount, $bid_name);
+                }
                 $bid_place_response = json_decode($bid_place_response);
                 if ($bid_place_response->recharge_status) {
                     $status = true;
@@ -85,12 +102,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" &&
                     $status_msg_1 = $bid_runs_string;
                     $status_msg_2 = "Bid Placed For Amount ₹".$amount;
                     $status_msg_3 = "On Winning You will receive ₹".(int)($amount * $rate);
+                    $status_msg_4 = "You got refund of ₹".$refund;
                 } else {
                     $status = false;
                     $status_title = "Bid Placed : Failure";
                     $status_msg_1 = $bid_place_response->recharge_msg;;
                     $status_msg_2 = "Bid Amount ₹".$amount;
                     $status_msg_3 = "Bid Placed : Failure";
+                    $status_msg_4 = "You got refund of ₹".$refund;
                 }
             } else {
                 $status = false;
@@ -98,6 +117,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" &&
                 $status_msg_1 = "Error Response from Local Server";
                 $status_msg_2 = "Bid Amount ₹".$amount;
                 $status_msg_3 = "Bid Placed : Failure";
+                $status_msg_4 = " -- ";
             }
         } else {
             header("Location: ".$data->get_path());
@@ -106,6 +126,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" &&
             $status_msg_1 = "";
             $status_msg_2 = "";
             $status_msg_3 = "";
+            $status_msg_4 = "";
         }
         if ($status){
         ?>
@@ -114,7 +135,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" &&
                 <div class="bid_details_success"><span><?php echo $status_msg_1;?></span></div>
                 <div class="bid_details_success"><span><?php echo $status_msg_2;?></span></div>
                 <div class="bid_details_success"><span><?php echo $status_msg_3;?></span></div>
-    <?php } else { ?>
+                <?php if ($common->is_user_an_agent()){?>
+                    <div class="bid_details_success"><span><?php echo $status_msg_4;?></span></div>
+                <?php }
+        } else { ?>
             <div class="bid_container">
                 <div class="bid-failure-title"><?php echo $status_title; ?></div>
                 <div class="bid_details_failure"><span><?php echo $status_msg_1;?></span></div>
