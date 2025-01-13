@@ -5,8 +5,18 @@ include "../data.php";
 $data = new Data();
 $common = new Common($data->get_path(), $data->get_amazon_api_endpoint());
 $ref_user_id = $common->get_cookie($data->get_auth_cookie_name());
-if($ref_user_id!=null) {
+if($common->is_user_logged_in()) {
     $transactions = $common->get_all_transactions($ref_user_id);
+    $all_transactions = array();
+    foreach($transactions as $transaction) {
+        if($common->get_cookie("user_type") == 'user') {
+            if (!str_contains($transaction->from, 'bidder')) {
+                $all_transactions[] = $transaction;
+            }
+        }else{
+            $all_transactions[] = $transaction;
+        }
+    }
 }
 else{
     header("Location: ".$data->get_path());
@@ -39,34 +49,34 @@ else{
                 </tr>
                 </thead>
                 <tbody>
-                <?php foreach ($transactions as $bids) :
+                <?php foreach ($all_transactions as $trans) :
                     $flag = "others";
-                    if ($bids->amount<0)
+                    if ($trans->amount<0)
                         $flag="loss";
                         $flag1=-1;
-                    if($bids->amount>0)
+                    if($trans->amount>0)
                         $flag="win";
                     ?>
                     <tr class="row_<?php echo $flag;?>">
-                        <td><?php if(property_exists($bids, 'time')){echo $bids->time;}?></td>
+                        <td><?php if(property_exists($trans, 'time')){echo $trans->time;}?></td>
                         <td>
                             <?php
-                            if(str_contains($bids->from, "bidder_return")){
+                            if(str_contains($trans->from, "bidder_return")){
                                 echo "Bid Settled";
-                            } else if(str_contains($bids->from, "bidder_refund_agent")){
+                            } else if(str_contains($trans->from, "bidder_refund_agent")){
                                 echo "Agent Refund";
-                            } else if(str_contains($bids->from, "bidder")){
+                            } else if(str_contains($trans->from, "bidder")){
                                 echo "Bid Placed";
                             } else{
                                 echo "Withdraw";
                             }
                             ?></td>
-                        <td><?php echo $bids->id; ?></td>
+                        <td><?php echo $trans->id; ?></td>
                         <td><?php
-                            if($bids->amount<0){
-                                echo (int)($bids->amount*-1); }
+                            if($trans->amount<0){
+                                echo (int)($trans->amount*-1); }
                             else {
-                                echo (int)$bids->amount;
+                                echo (int)$trans->amount;
                             }?></td>
                     </tr>
                 <?php endforeach; ?>
