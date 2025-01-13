@@ -43,7 +43,7 @@ function fill_scorecard(series_id, match_id) {
     }, 5000);
     scorecard_timer = setInterval(function (){
         fill_scorecard_ui(series_id, match_id);
-    }, 19000);
+    }, 14000);
 }
 function fill_scorecard_ui(series_id, match_id){
     const xmlhttp = new XMLHttpRequest();
@@ -254,7 +254,7 @@ function update_session_slot_details(session) {
     }, 5000);
     slots_timer = setInterval(function (){
         update_session_slot_details_actual(session, false);
-    }, 19000);
+    }, 14000);
 }
 function update_session_slot_details_actual(session, update_selected){
     let series_id = this.getCookie('series_id');
@@ -311,7 +311,7 @@ function update_winner_slot_details(session){
     update_winner_slot_details_actual(session, true);
     slots_timer = setInterval(function (){
         update_winner_slot_details_actual(session, false);
-    }, 19000);
+    }, 14000);
 }
 function update_winner_slot_details_actual(session, update_checked) {
     let series_id = this.getCookie('series_id');
@@ -414,4 +414,4 @@ setTimeout(function (){
     clearInterval(slots_timer);
     clearInterval(update_slots_timer);
     console.log("All background timers cleared.");
-}, 1800);
+}, 1800000);
