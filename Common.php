@@ -178,7 +178,7 @@ class Common {
              "phone" => $phone,
              "ref_id" => $ref_id,
              "status" => $status,
-             "timestamp" => date('Y-m-d H:i:s'),
+             "timestamp" => date('Y-m-d-H:i:s'),
              "balance" => 0,
             "type" => 'user'
         );
@@ -263,7 +263,7 @@ class Common {
             "status" => "placed",
             'type' => 'session',
             'bid_name' => $bid_name,
-            "timestamp" => date('Y-m-d H:i:s')
+            "timestamp" => date('Y-m-d-H:i:s')
         );
         $url = $this->amazon_api_end_point . '/save_new_bid';
         $json_bid_data = json_encode($bid_data);
@@ -296,7 +296,7 @@ class Common {
             "amount" => $amount,
             "status" => "placed",
             'type' => 'winner',
-            "timestamp" => date('Y-m-d H:i:s')
+            "timestamp" => date('Y-m-d-H:i:s')
         );
         $url = $this->amazon_api_end_point . '/save_new_bid';
         $json_bid_data = json_encode($bid_data);

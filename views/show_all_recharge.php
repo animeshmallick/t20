@@ -26,16 +26,16 @@ else{
     <div id="profile"></div>
     <div class="separator"></div>
     <div class="bid_container">
-        <div class="bids_heading">ALL TRANSACTIONS</div>
+        <div class="bids_heading">My Wallet Transaction</div>
         <div class="bid_container">
-            <div class ="title">ALL RECHARGES</div>
+            <div class ="title">All Transactions</div>
             <table>
                 <thead>
                 <tr>
-
-                    <th>FROM</th>
-                    <th>ID</th>
-                    <th>AMOUNT</th>
+                    <th>Time</th>
+                    <th>From</th>
+                    <th>Recharge ID</th>
+                    <th>Amount</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -48,15 +48,16 @@ else{
                         $flag="win";
                     ?>
                     <tr class="row_<?php echo $flag;?>">
-
-                        <td><?php
-                            if(preg_match("/bidder_return/",$bids->from)){
+                        <td><?php if(property_exists($bids, 'time')){echo $bids->time;}?></td>
+                        <td>
+                            <?php
+                            if(str_contains($bids->from, "bidder_return")){
                                 echo "Bid Settled";
-                            }
-                            else if(preg_match("/bidder/",$bids->from)){
+                            } else if(str_contains($bids->from, "bidder_refund_agent")){
+                                echo "Agent Refund";
+                            } else if(str_contains($bids->from, "bidder")){
                                 echo "Bid Placed";
-                            }
-                            else{
+                            } else{
                                 echo "Withdraw";
                             }
                             ?></td>

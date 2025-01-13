@@ -71,7 +71,7 @@ $match_name = $common->get_match_name_match_id($all_matches, $match_id, $series_
                             $flag="loss";
                         if($last_session != $bids->innings.'&'.$bids->session){
                              ?>
-                            <tr><td colspan="3" class="session">
+                            <tr><td colspan="4" class="session">
                                     <?php if($bids->session=='a'){
                                         echo "Innings ".$bids->innings." : Over (1 to 6)";}
                                     else if($bids->session=='b'){
@@ -87,6 +87,7 @@ $match_name = $common->get_match_name_match_id($all_matches, $match_id, $series_
                         $last_session = $bids->innings.'&'.$bids->session;
                         ?>
                         <tr class="row_<?php echo $flag;?>">
+                            <td><?php echo $bids->timestamp?></td>
                             <?php if($common->is_user_an_agent() && property_exists($bids, 'bid_name')){ ?>
                                 <td><?php echo $bids->bid_name; ?></td>
                             <?php } ?>
@@ -134,6 +135,7 @@ $match_name = $common->get_match_name_match_id($all_matches, $match_id, $series_
                             $flag="loss";
                         ?>
                         <tr class="row_<?php echo $flag;?>">
+                            <td><?php echo $bids->timestamp?></td>
                             <td><?php $result=explode(" VS ", $common->get_match_name_match_id($all_matches, $bids->match_id, $bids->series_id));
                                 if($bids->slot=="T1"){
                                             echo $result[0]." Wins";
