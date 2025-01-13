@@ -55,7 +55,7 @@ if ($common->is_user_logged_in()) {
                 </div>
                 <div class="bid_container">
                     <div class="title"><span>Match Winner</span></div>
-                    <div class="bid_button_div" style="margin-left: 10%; width: 80%"><a class="play bid_button <?php if(!$common->is_session_enabled($over_id, 'winner')){echo "disabled";}?>" href="place_bid.php?session=winner">Who will win the match?</a></div>
+                    <div class="bid_button_div" style="margin-left: 10%; width: 80%"><a class="play bid_button <?php if(!$scorecard->is_live || (int)$scorecard->over_id < 220){echo "disabled";}?>" href="place_bid.php?session=winner">Who will win the match?</a></div>
                 </div>
                 <div class="separator"></div>
                 <div class="bid_button_div" style="margin-left: 25%"><a class="button" href="index.php">Go Back</a></div>
