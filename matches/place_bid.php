@@ -31,7 +31,7 @@ if ($common->is_user_logged_in()){
                     if ($common->is_eligible_for_session_bid($session, $scorecard->over_id)) {
                     ?>
                         <div class="sub-title">Place New Bid</div>
-                        <form action="place_bid_to_db.php" method="post" name="bid_form">
+                        <form action="place_bid_to_db.php" method="post" name="bid_form" id="bid_form">
                             <input type="text" name="bid_id" value="<?php echo $common->get_unique_bid_id();?>" hidden="hidden">
                             <input type="text" name="session" value="<?php echo $session;?>" hidden="hidden">
                             <div class="title">For Innings <?php echo $session[1];?>, <br />End Of <?php echo ($data->get_maxballs_for_slot($session[0])/6)?>th Over</div>
@@ -80,14 +80,16 @@ if ($common->is_user_logged_in()){
                                         <div id="slot_c_amount">Slot3</div>
                                     </div>
                                 </label>
-                                <input type="submit" value="Place Bid">
+                                <div class="gap"></div>
+                                <div class="separator"></div>
+                                <input type="submit" value="Place Bid" id="place_bid" onclick="place_bid_text()">
                                 <div class="smaller-gap"></div>
                                 <div class="timer" id="timer_slots">&nbsp;</div>
                             </div>
                         </form>
                     <?php } else if ($common->is_eligible_for_winner_bid($session)) { ?>
                             <div class="sub-title">Place New Bid</div>
-                            <form action="place_bid_to_db.php" method="post" name="bid_form">
+                            <form action="place_bid_to_db.php" method="post" name="bid_form" id="bid_form">
                                 <input type="text" name="bid_id" value="<?php echo $common->get_unique_bid_id();?>" hidden="hidden">
                                 <input type="text" name="session" value="<?php echo $session;?>" hidden="hidden">
                                 <div class="title">For Match Winner</div>
@@ -128,8 +130,8 @@ if ($common->is_user_logged_in()){
                                             <div id="winner_b_amount">Slot1</div>
                                         </div>
                                     </label>
-                                    <div class="gap"></div>
-                                    <input type="submit" value="Place Bid">
+                                    <div class="separator"></div>
+                                    <input type="submit" value="Place Bid" id="place_bid" onclick="place_bid_text()">
                                     <div class="small-gap"></div>
                                 </div>
                                 <div class="timer" id="timer_slots">&nbsp;</div>
@@ -139,6 +141,7 @@ if ($common->is_user_logged_in()){
                     <?php }?>
                     <div class="bid_button_div" style="margin-left: 25%"><a class="button" href="match.php?match_id=<?php echo $common->get_cookie('match_id'); ?>&series_id=<?php echo $common->get_cookie('series_id'); ?>&match_name=<?php echo $common->get_cookie('match_name'); ?>">Go Back</a></div>
                     </div>
+                    <div class="gap"></div>
                     <div class="separator"></div>
                     <div id="scorecard"></div>
                     <div class="separator"></div>

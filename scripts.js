@@ -42,7 +42,7 @@ function fill_scorecard(series_id, match_id) {
         document.getElementById('timer').innerHTML = "Updated "+scorecard_time+" sec ago";
     }, 5000);
     scorecard_timer = setInterval(function (){
-        fill_scorecard_ui(series_id, match_id);
+        fill_scorecard_data(series_id, match_id);
     }, 14000);
 }
 function fill_scorecard_ui(series_id, match_id){
@@ -102,6 +102,7 @@ function fill_scorecard_content(scorecard){
             .appendChild(create_balls_container(scorecard.over_id, scorecard.this_over));
     document.getElementById('this_over_summary').innerHTML =
         "Over " + (scorecard.over-1)+"."+get_valid_balls(scorecard.this_over)+"  :  " + scorecard.this_over_summary;
+    document.getElementById('timer').innerHTML = "&nbsp";
     scorecard_time = 0;
     console.log("Scorecard Updated");
 }
@@ -300,6 +301,7 @@ function update_session_slot_details_actual(session, update_selected){
                 if (bid_master.rate_1 === max_rate)
                     document.getElementById("slot_a").checked = true;
             }
+            document.getElementById('timer_slots').innerHTML = "&nbsp";
             slots_time = 0;
             console.log("Slots Updated");
         }
@@ -415,3 +417,10 @@ setTimeout(function (){
     clearInterval(update_slots_timer);
     console.log("All background timers cleared.");
 }, 1800000);
+function place_bid_text(){
+    let place_bid_btn = document.getElementById('place_bid');
+    place_bid_btn.style.color = 'wheat';
+    place_bid_btn.value = "Placing Bid . . . ";
+    place_bid_btn.disabled = true;
+    document.getElementById("bid_form").submit();
+}

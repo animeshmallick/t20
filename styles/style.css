@@ -53,24 +53,25 @@ form input[type=number], input[type=password], input[type=text], input[type=emai
 }
 form input[type=submit]{
     color: #fff;
-    width: 75%;
-    margin-left: 12.5%;
+    width: 85%;
+    margin-left: 7.5%;
     padding: 0.4rem;
-    background: #009579;
-    font-size: 1rem;
+    background: green;
+    font-size: 2rem;
     margin-top: 1rem;
     cursor: pointer;
     transition: 0.4s;
     display: block;
     border-radius: 1rem;
-    box-shadow: 0 0 3rem rgba(7, 7, 7, 0.31), 0 0 3rem rgba(0,0,0,0.24);
+    border-width: 0.5rem;
     font-weight: bolder;
+    box-shadow: 0 1rem 2rem rgba(33, 205, 7, 0.63);
 }
 form input[type=radio] {
 
 }
 form input:hover {
-    background-color: rgba(244, 60, 5, 0.4);
+    background-color: rgb(33, 205, 7);
     color: black;
 }
 .form input:focus{
@@ -568,20 +569,26 @@ div.slot_container {
 input[type="radio"]:checked + div.slot {
     font-weight: bold;
     font-size: 1.3rem;
-    color: #1a8c09;
+    color: #21cd07;
+    width: 100%;
     text-shadow: 0 1rem 2rem rgba(204, 184, 51);
     letter-spacing: 0.1rem;
     box-shadow: 0 1rem 2rem rgba(33, 205, 7, 0.63);
     border-radius: 2rem;
+    border-color: red;
+    background: grey;
 }
 
 div.slot {
+    width: 90%;
     font-weight: bold;
+    font-size: 1.3rem;
     letter-spacing: 0.1rem;
-    box-shadow: 1rem 1rem 2rem rgba(250, 4, 4, 0.5);
+    box-shadow: 1rem 1rem 2rem rgb(237, 207, 8);
     border-radius: 2rem;
     padding: 0.3rem;
-    color: red;
+    color: wheat;
+    background: rgba(128, 128, 128, 0.5);
 }
 
 label.container {
@@ -781,4 +788,8 @@ a.nav_item {
 }
 .flip-card:hover .flip-card-inner {
     transform: rotateY(180deg);
+}
+div.timer {
+    float: right;
+    font-size: 0.8rem;
 }
