@@ -45,30 +45,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" &&
 
             $ref_id = $common->get_cookie($data->get_auth_cookie_name());
             if ($common->is_valid_bookie_response_session($bid_bookie_response)){
-                $refund = 0;
-                if ($common->is_user_an_agent()) {
-                    $refund = floor($amount / 10);
-                    $bid_place_response = $common->insert_new_session_bid_to_db($bid_id, $ref_id, $series_id, $match_id, $session,
-                        $slot, $run_min, $run_max, $rate, ($amount*0.9), $bid_name);
-                }else {
-                    $bid_place_response = $common->insert_new_session_bid_to_db($bid_id, $ref_id, $series_id, $match_id, $session,
-                        $slot, $run_min, $run_max, $rate, $amount, $bid_name);
-                }
+                $bid_place_response = $common->insert_new_session_bid_to_db($bid_id, $ref_id, $series_id, $match_id, $session,
+                    $slot, $run_min, $run_max, $rate, $amount, $bid_name);
                 $bid_place_response = json_decode($bid_place_response);
                 if($bid_place_response->recharge_status){
                     $status = true;
                     $status_title = "Bid Placed : Success";
                     $status_msg_1 = $bid_runs_string;
                     $status_msg_2 = "Bid Placed For Amount ₹".$amount;
-                    $status_msg_3 = "On Winning You will receive ₹".(int)($amount * $rate);
-                    $status_msg_4 = "You got refund of ₹".$refund;
+                    $status_msg_3 = "On Winning You will receive ₹".floor((int)($amount * $rate));
+                    $status_msg_4 = "You got refund of ₹".floor((int)$amount/10);
+                    if ($common->is_user_an_agent()) {
+                        $common->recharge_user($common->get_unique_recharge_id(),
+                            "bidder_refund_agent_".$bid_id, $ref_id, $amount);
+                    }
                 } else {
                     $status = false;
                     $status_title = "Bid Placed : Failure";
                     $status_msg_1 = $bid_place_response->recharge_msg;;
                     $status_msg_2 = "Bid Amount ₹".$amount;
                     $status_msg_3 = "Bid Placed : Failure";
-                    $status_msg_4 = "You got refund of ₹".$refund;
+                    $status_msg_4 = " -- ";
                 }
             } else {
                 $status = false;
@@ -87,14 +84,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" &&
             if($common->is_valid_bookie_response_winner($bid_bookie_response)) {
                 $ref_id = $common->get_cookie($data->get_auth_cookie_name());
                 $refund = 0;
-                if ($common->is_user_an_agent()) {
-                    $refund = floor($amount / 10);
-                    $bid_place_response = $common->insert_new_winner_bid_to_db($bid_id, $ref_id, $series_id, $match_id, $slot,
-                        $rate, ($amount*0.9), $bid_name);
-                }else {
-                    $bid_place_response = $common->insert_new_winner_bid_to_db($bid_id, $ref_id, $series_id, $match_id, $slot,
-                        $rate, $amount, $bid_name);
-                }
+                $bid_place_response = $common->insert_new_winner_bid_to_db($bid_id, $ref_id, $series_id, $match_id, $slot,
+                    $rate, $amount, $bid_name);
                 $bid_place_response = json_decode($bid_place_response);
                 if ($bid_place_response->recharge_status) {
                     $status = true;
@@ -103,13 +94,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" &&
                     $status_msg_2 = "Bid Placed For Amount ₹".$amount;
                     $status_msg_3 = "On Winning You will receive ₹".(int)($amount * $rate);
                     $status_msg_4 = "You got refund of ₹".$refund;
+                    $status_msg_3 = "On Winning You will receive ₹".floor((int)($amount * $rate));
+                    $status_msg_4 = "You got refund of ₹".floor((int)$amount/10);
+                    if ($common->is_user_an_agent()) {
+                        $common->recharge_user($common->get_unique_recharge_id(),
+                            "bidder_refund_agent_".$bid_id, $ref_id, $amount);
+                    }
                 } else {
                     $status = false;
                     $status_title = "Bid Placed : Failure";
                     $status_msg_1 = $bid_place_response->recharge_msg;;
                     $status_msg_2 = "Bid Amount ₹".$amount;
                     $status_msg_3 = "Bid Placed : Failure";
-                    $status_msg_4 = "You got refund of ₹".$refund;
+                    $status_msg_4 = " -- ";
                 }
             } else {
                 $status = false;
