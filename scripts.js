@@ -92,15 +92,17 @@ function fill_scorecard_content(scorecard){
     document.getElementById('batsman2').innerHTML = scorecard.batsmen[1];
     document.getElementById('current-over-id').innerHTML = "Innings "+scorecard.innings+" | Over : "+(scorecard.over-1)+"."+get_valid_balls(scorecard.this_over);
     document.getElementById("over-container")
-            .appendChild(create_balls_container(scorecard.this_over));
+            .appendChild(create_balls_container(scorecard.over_id, scorecard.this_over));
     document.getElementById('this_over_summary').innerHTML =
         "Over " + (scorecard.over-1)+"."+get_valid_balls(scorecard.this_over)+"  :  " + scorecard.this_over_summary;
     scorecard_time = 0;
     console.log("Scorecard Updated");
 }
-function create_balls_container(balls){
+function create_balls_container(over_id, balls){
     let res = document.createElement("div");
     res.setAttribute("style","display: flex");
+    res.setAttribute('name', 'over_id');
+    res.setAttribute("over_no", over_id);
 
     let width = balls.length < 4 ? 33.3 : 100 / balls.length;
     for(let i=0;i<balls.length;i++) {
@@ -179,7 +181,7 @@ function fill_account_status(status) {
 function add_new_over_data() {
     let existing_overs_element = document.getElementsByName("over_id");
     if (existing_overs_element.length < 4) {
-        let last_showing_over_id = Number(existing_overs_element.item(existing_overs_element.length - 1).getAttribute("id"));
+        let last_showing_over_id = Number(existing_overs_element.item(existing_overs_element.length - 1).getAttribute("over_no"));
         let series_id = getCookie("series_id");
         let match_id = getCookie("match_id");
         const xmlhttp = new XMLHttpRequest();
@@ -202,6 +204,7 @@ function create_new_over_element(this_over, over_id) {
     div.setAttribute("class", "balls-container-extra");
     div.setAttribute("name", "over_id");
     div.setAttribute("id", over_id);
+    div.setAttribute('over_no', over_id);
 
     const more_over_div = document.createElement("div");
     more_over_div.setAttribute("class", "more_over_div");
