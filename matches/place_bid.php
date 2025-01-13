@@ -100,7 +100,14 @@ if ($common->is_user_logged_in()){
                                     <div style="width: 33%"></div>
                                     <a style="width: 5rem" class="button" onclick="decrease_amount(100);"> - ₹100 </a>
                                 </div>
-                                <div class="small-gap"></div>
+                                <?php if ($common->is_user_an_agent()){ ?>
+                                    <div class="separator"></div>
+                                    <div class="bid_name">
+                                        <label class="amount_span" for="bid_name">Bid Name :</label>
+                                        <input type="text" id="bid_name" name="bid_name" placeholder="Bid Name/Notes"/>
+                                    </div>
+                                <?php } ?>
+                                <div class="separator"></div>
                                 <div class="slot_container">
                                     <div class="title">Choose your Slot :</div>
                                     <label class="container">
