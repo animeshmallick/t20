@@ -82,6 +82,7 @@ if ($common->is_user_logged_in()){
                                 </label>
                                 <input type="submit" value="Place Bid">
                                 <div class="smaller-gap"></div>
+                                <div class="timer" id="timer_slots">&nbsp;</div>
                             </div>
                         </form>
                     <?php } else if ($common->is_eligible_for_winner_bid($session)) { ?>

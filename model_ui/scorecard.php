@@ -49,6 +49,7 @@
             <div class="over-container" id="over-container">
             </div>
         </div>
+        <div class="timer" id="timer">&nbsp;</div>
     </div>
 </body>
 </html>

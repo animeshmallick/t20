@@ -1,4 +1,5 @@
-let timer;
+let scorecard_timer, slots_timer;
+let scorecard_time = 0, slots_time = 0;
 function validate_register_form() {
     let fname = document.forms["register_form"]["fname"].value;
     let phone = document.forms["register_form"]["phone"].value;
@@ -36,7 +37,11 @@ function getCookie(name) {
 }
 function fill_scorecard(series_id, match_id) {
     fill_scorecard_ui(series_id, match_id);
-    timer = setInterval(function (){
+    setInterval(function (){
+        document.getElementById('timer').innerHTML = "Updated "+scorecard_time+" sec ago";
+        scorecard_time++;
+    }, 1000);
+    scorecard_timer = setInterval(function (){
         fill_scorecard_ui(series_id, match_id);
     }, 10000);
 }
@@ -90,6 +95,7 @@ function fill_scorecard_content(scorecard){
             .appendChild(create_balls_container(scorecard.this_over));
     document.getElementById('this_over_summary').innerHTML =
         "Over " + (scorecard.over-1)+"."+get_valid_balls(scorecard.this_over)+"  :  " + scorecard.this_over_summary;
+    scorecard_time = 0;
     console.log("Scorecard Updated");
 }
 function create_balls_container(balls){
@@ -228,7 +234,11 @@ function create_no_more_overs() {
 }
 function update_session_slot_details(session) {
     update_session_slot_details_actual(session);
-    timer = setInterval(function (){
+    setInterval(function (){
+        document.getElementById('timer_slots').innerHTML = "Updated "+slots_time+" sec ago";
+        slots_time++;
+    }, 1000);
+    slots_timer = setInterval(function (){
         update_session_slot_details_actual(session);
     }, 10000);
 }
@@ -241,7 +251,6 @@ function update_session_slot_details_actual(session){
     const xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
-            console.log("Slots Updated");
             let responseText = '{'+this.responseText.split('{')[1];
             let bid_master = JSON.parse(responseText);
             if (bid_master.hasOwnProperty('error')) {
@@ -271,6 +280,8 @@ function update_session_slot_details_actual(session){
                 document.getElementById("slot_b").checked = true;
             if (bid_master.rate_1 === max_rate)
                 document.getElementById("slot_a").checked = true;
+            slots_time = 0;
+            console.log("Slots Updated");
         }
     };
     xmlhttp.open("GET", "../matches/GetSessionSlotDetails.php?series_id=" + series_id + "&match_id=" + match_id + "&session=" + session + "&amount=" + amount, true);
