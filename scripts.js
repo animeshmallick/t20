@@ -419,7 +419,8 @@ setTimeout(function (){
 }, 1800000);
 function place_bid_text(){
     let place_bid_btn = document.getElementById('place_bid');
-    place_bid_btn.style.color = 'wheat';
+    place_bid_btn.style.color = 'black';
+    place_bid_btn.style.background = 'wheat';
     place_bid_btn.value = "Placing Bid . . . ";
     place_bid_btn.disabled = true;
     document.getElementById("bid_form").submit();

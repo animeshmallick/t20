@@ -128,7 +128,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" &&
             <?php   }
             } ?>
                 <div class="small-separator"></div>
-                <a class="button" style="margin-left: 12.5%; width: 75%" href="match.php?match_id=<?php echo $match_id ?>&series_id=<?php echo $series_id ?>&match_name=<?php echo $match_name; ?>">New Bid</a>
+                <a class="button" style="margin-left: 12.5%; width: 75%" href="place_bid.php?session=<?php echo $session; ?>">New Bid</a>
                 <div class="separator"></div>
                 <a class="button secondary" style="margin-left: 12.5%; width: 75%" href="../views/show_all_bids.php">All Bids</a>
             </div>
