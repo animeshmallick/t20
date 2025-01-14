@@ -25,7 +25,7 @@ if($common->is_user_logged_in()) {
         <div class="sub-title">Matches</div>
     <?php
     foreach($result as $match){ ?>
-            <a class="match-button" href='match.php?match_id=<?php echo $match->match_id; ?>&series_id=<?php echo $match->series_id; ?>&match_name=<?php echo $match->match_name; ?>'><?php echo $match->match_name;?></a>
+            <a class="match-button <?php if(!$match->is_live){echo 'disabled';}?>" href='match.php?match_id=<?php echo $match->match_id; ?>&series_id=<?php echo $match->series_id; ?>&match_name=<?php echo $match->match_name; ?>'><?php echo $match->match_name;?></a>
     <?php
     }
     ?>
