@@ -34,7 +34,7 @@ if ($common->is_user_logged_in()){
                         <form action="place_bid_to_db.php" method="post" name="bid_form" id="bid_form">
                             <input type="text" name="bid_id" value="<?php echo $common->get_unique_bid_id();?>" hidden="hidden">
                             <input type="text" name="session" value="<?php echo $session;?>" hidden="hidden">
-                            <div class="title">For Innings <?php echo $session[1];?>, <br />End Of <?php echo ($data->get_maxballs_for_slot($session[0])/6)?>th Over</div>
+                            <div class="title">For Innings <?php echo $session[1];?>, End Of <?php echo ($data->get_maxballs_for_slot($session[0])/6)?>th Over</div>
 
                             <div style="display: flex">
                                 <label class="amount_span" for="amount">Amount:</label>
@@ -56,27 +56,29 @@ if ($common->is_user_logged_in()){
                             <div class="separator"></div>
                             <div class="slot_container">
                                 <div class="title">Choose your Slot :</div>
-                                <label class="container">
-                                    <input type="radio" name="slot" value="x" id="slot_a">
-                                    <div class="slot">
-                                        <div id="slot_a_runs">Slot1</div>
-                                        <div id="slot_a_amount">Slot1</div>
-                                    </div>
-                                </label>
-                                <label class="container">
-                                    <input type="radio" name="slot" value="y" id="slot_b">
-                                    <div class="slot">
-                                        <div id="slot_b_runs">Slot2</div>
-                                        <div id="slot_b_amount">Slot2</div>
-                                    </div>
-                                </label>
-                                <label class="container">
-                                    <input type="radio" name="slot" value="z" id="slot_c">
-                                    <div class="slot">
-                                        <div id="slot_c_runs">Slot3</div>
-                                        <div id="slot_c_amount">Slot3</div>
-                                    </div>
-                                </label>
+                                <div class="slot_container_inner">
+                                    <label class="container">
+                                        <input type="radio" name="slot" value="x" id="slot_a">
+                                        <div class="slot">
+                                            <div id="slot_a_runs">Loading Slots</div>
+                                            <div id="slot_a_amount">&nbsp;</div>
+                                        </div>
+                                    </label>
+                                    <label class="container">
+                                        <input type="radio" name="slot" value="y" id="slot_b">
+                                        <div class="slot">
+                                            <div id="slot_b_runs">Loading Slots</div>
+                                            <div id="slot_b_amount">&nbsp;</div>
+                                        </div>
+                                    </label>
+                                    <label class="container">
+                                        <input type="radio" name="slot" value="z" id="slot_c">
+                                        <div class="slot">
+                                            <div id="slot_c_runs">Loading Slots</div>
+                                            <div id="slot_c_amount">&nbsp;</div>
+                                        </div>
+                                    </label>
+                                </div>
                                 <div class="small-gap"></div>
                                 <div class="separator"></div>
                                 <input type="submit" value="Place Bid" id="place_bid" onclick="place_bid_text()">
@@ -112,15 +114,15 @@ if ($common->is_user_logged_in()){
                                     <label class="container">
                                         <input type="radio" name="slot" value="T1" id="slot_a">
                                         <div class="slot">
-                                            <div id="winner_a">Slot1</div>
-                                            <div id="winner_a_amount">Slot1</div>
+                                            <div id="winner_a">Loading Slots</div>
+                                            <div id="winner_a_amount">&nbsp;</div>
                                         </div>
                                     </label>
                                     <label class="container">
                                         <input type="radio" name="slot" value="T2" id="slot_b">
                                         <div class="slot">
-                                            <div id="winner_b">Slot1</div>
-                                            <div id="winner_b_amount">Slot1</div>
+                                            <div id="winner_b">Loading Slots</div>
+                                            <div id="winner_b_amount">&nbsp;</div>
                                         </div>
                                     </label>
                                     <div class="small-gap"></div>

@@ -25,16 +25,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' &&
                 <label class="label" for="lname">Last Name:</label>
                 <input type="text" id="lname" name="lname" placeholder="Your Last Name">
                 <label class="label" for="phone">Phone Number:</label>
-                <input type="number" id="phone" name="phone" placeholder="9998887776" required>
+                <input type="number" id="phone" name="phone" placeholder="Enter 10 digit phone number" required>
                 <label class="label" for="email">Email:</label>
-                <input type="email" id="email" name="email" placeholder="email@domain.com" required>
-                <label class="label" for="password">Password:</label>
+                <input type="email" id="email" name="email" placeholder="Your Email ID" required>
+                <label class="label" for="password">Create New Password:</label>
                 <input type="password" id="password" name="password" placeholder="Password" required>
                 <label class="label" for="confirm_password">Confirm Password:</label>
                 <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm Password" required>
-                <label class="label" for="ref_id">Your Reference ID (unique):</label>
-                <input type="number" id="ref_id" name="ref_id" value="<?php echo get_unique_ref_id($common); ?>" readonly required>
-                <label class="label" for="parent_ref_id">Your Clients Reference ID :</label>
+                <input type="number" id="ref_id" name="ref_id" value="<?php echo get_unique_ref_id($common); ?>" readonly required hidden="hidden">
+                <label class="label" for="parent_ref_id">Referral Code (if any) :</label>
                 <input type="number" id="parent_ref_id" name="parent_ref_id">
                 <input type="submit" class="button" value="Register">
             </form>

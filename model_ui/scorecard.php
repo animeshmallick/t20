@@ -25,7 +25,6 @@
             </div>
         </div>
         <div class="match-detail">
-            <div class="sub-title">Player Details</div>
             <div class="players">
                 <div class="batsmen">
                     <div style="padding-bottom: 0.1rem;text-align: left"><span id="batsman1">&nbsp;</span></div>

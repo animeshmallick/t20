@@ -285,12 +285,12 @@ function update_session_slot_details_actual(session, update_selected){
             document.getElementById("slot_b_runs").innerHTML =
                 "Runs [" + bid_master.predicted_runs_a + " to " + bid_master.predicted_runs_b + "]";
             document.getElementById("slot_b_amount").innerHTML = "Put &#8377;" + amount +
-                " and Take &#8377;" + Math.trunc(amount * bid_master.rate_2);
+                " & Take &#8377;" + Math.trunc(amount * bid_master.rate_2);
 
             document.getElementById("slot_c_runs").innerHTML =
                 "Runs " + bid_master.predicted_runs_b + " or More";
             document.getElementById("slot_c_amount").innerHTML = "Put &#8377;" + amount +
-                " and Take &#8377;" + Math.trunc(amount * bid_master.rate_3);
+                " & Take &#8377;" + Math.trunc(amount * bid_master.rate_3);
 
             if(update_selected) {
                 let max_rate = Math.max(bid_master.rate_1, bid_master.rate_2, bid_master.rate_3);
@@ -370,11 +370,13 @@ document.addEventListener('click', function(e) {
     }
 });
 function w3_open() {
-    document.getElementById("side-bar-container").style.display = "block";
+    if(parseInt(this.getCookie('user_ref_id')) > 0 && this.getCookie('user_type').length > 0)
+        document.getElementById("side-bar-container").style.display = "block";
 }
 
 function w3_close() {
-    document.getElementById("side-bar-container").style.display = "none";
+    if(parseInt(this.getCookie('user_ref_id')) > 0 && this.getCookie('user_type').length > 0)
+        document.getElementById("side-bar-container").style.display = "none";
 }
 function settle_bid(bid_id, session){
     if (window.location.hostname.includes('localhost')) {

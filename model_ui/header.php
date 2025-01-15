@@ -8,23 +8,24 @@
     <script src="../scripts.js?version=<?php echo time(); ?>">
     </script>
 </head>
-<?php
-include "../data.php";
-include "../Common.php";
-$data = new Data();
-$common = new Common($data->get_path(), $data->get_amazon_api_endpoint());
-if ($common->is_user_logged_in()){
-    $balance = $common->get_user_balance($common->get_cookie($data->get_auth_cookie_name()));
-    ?>
 <body>
     <div class="title-container">
         <a href="javascript:void(0)" id='side-bar-icon' class="nav" onclick="w3_open()" style="border-radius: 1rem;">&#9816;</a>
-        <div>
-            <div><span class="title" onclick="redirect_to_home()" style="cursor: grab">&nbsp;CricketT20</span></div>
-            <div class="profile" onclick="redirect_to_home()" style="cursor: grab">
-                <div style="font-size: 1.2rem">&nbsp;Hi, <?php echo $common->get_cookie('fname') . " " . $common->get_cookie('lname'); ?>.</div>
-                <div style="font-size: 1em">&nbsp;Balance ₹<?php echo $balance;?></div>
-            </div>
+        <div style="margin: 0; padding: 0">
+            <div style="margin: 0; padding: 0"><span class="title" onclick="redirect_to_home()" style="cursor: grab">CricketT20</span></div>
+            <?php
+            include "../data.php";
+            include "../Common.php";
+            $data = new Data();
+            $common = new Common($data->get_path(), $data->get_amazon_api_endpoint());
+            if ($common->is_user_logged_in()){
+                $balance = $common->get_user_balance($common->get_cookie($data->get_auth_cookie_name()));
+                ?>
+                <div class="profile" onclick="redirect_to_home()" style="cursor: grab">
+                    <div>&nbsp;Hi, <?php echo $common->get_cookie('fname') . " " . $common->get_cookie('lname'); ?>.</div>
+                    <div style="font-size: 0.8rem">&nbsp;Balance ₹<?php echo $balance;?></div>
+                </div>
+            <?php } ?>
         </div>
 
     <nav class="w3-sidebar w3-bar-block w3-animate-left w3-top" style="font-size: 1rem;z-index:3;width:75%;display:none;left:0;" id="side-bar-container">
@@ -57,7 +58,6 @@ if ($common->is_user_logged_in()){
                 </div>
             </div>
         </nav>
-<?php } ?>
 </div>
 </body>
 </html>

@@ -84,7 +84,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" &&
                 if ($bid_place_response->recharge_status) {
                     $status = true;
                     $status_msg_1 = $bid_runs_string;
-                    $status_msg_2 = "PUT &#8377;".$amount." Take &#8377;".floor((int)($amount * $rate));
+                    $status_msg_2 = "PUT &#8377;".$amount." & Take &#8377;".floor((int)($amount * $rate));
                     $status_msg_3 = "You got refund of &#8377;".floor((int)$amount/10);
                     if ($common->is_user_an_agent()) {
                         $common->recharge_user($common->get_unique_recharge_id(),
