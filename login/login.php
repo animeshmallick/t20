@@ -12,9 +12,9 @@ include '../data.php';
 include "../Common.php";
 $data = new Data();
 $common = new Common($data->get_path(), $data->get_amazon_api_endpoint());
-if ($_SERVER['REQUEST_METHOD'] === 'GET' && !$common->is_user_logged_in()) {
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && !$common->is_user_logged_in() && strlen($common->get_cookie('user_type')) == 0) {
     ?>
-    <body onload="fill_header();fill_footer();">
+    <body onload="fill_header();fill_balance();fill_footer();">
         <div id="header"></div>
         <div class="main_container">
             <div class="sub-title">Login</div>
@@ -53,14 +53,13 @@ else if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$common->is_user_logged_in())
         }
     }
 } else {
-    if($common->is_user_logged_in())
-        header("Location: ../matches/index.php");
-   else{ ?>
-        <body onload="fill_header();fill_footer();fill_account_status('Something Went Wrong.');">
+    if($common->get_cookie('user_type') == 'pending') { ?>
+        <body onload="fill_header();fill_footer();fill_account_status('pending');">
             <div id="header"></div>
             <div id="account_status"></div>
             <div id="footer"></div>
-        <?php
+        <?php } else {
+            header("Location: ../matches/index.php");
         }
 }
 ?>

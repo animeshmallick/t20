@@ -31,7 +31,7 @@ else{
     <link rel="icon" type="image/x-icon" href="../cricket.ico">
     <script src="../scripts.js?version=<?php echo time(); ?>"></script>
 </head>
-<body onload="fill_header();fill_profile();fill_footer()">
+<body onload="fill_header();fill_balance();fill_profile();fill_footer()">
     <div id="header"></div>
     <div id="profile"></div>
     <div class="separator"></div>

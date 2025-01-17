@@ -20,12 +20,11 @@ if ($common->is_user_logged_in()){
                 </head>
                 <body onload="update_session_slot_details('<?php echo $session;?>');
                         update_winner_slot_details('<?php echo $session; ?>');
-                        fill_header();
+                        fill_header();fill_balance();
                         fill_scorecard('<?php echo $series_id;?>', '<?php echo $match_id;?>');
                         fill_footer();">
                     <div id="header"></div>
                     <i class="fa fa-refresh refresh-button" onclick="location.reload();"></i>
-                    <div class="separator"></div>
                     <div class="bid_container">
                     <?php
                     if ($common->is_eligible_for_session_bid($session, $scorecard->over_id)) {

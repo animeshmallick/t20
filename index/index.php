@@ -4,7 +4,7 @@ include "../Common.php";
 $data = new Data();
 $common = new Common($data->get_path(), $data->get_amazon_api_endpoint());
 
-if ($common->is_user_logged_in()) {
+if ($common->is_user_logged_in() || $common->get_cookie('user_type') == 'pending') {
     header("Location: ../login/login.php");
 } else {
 ?>
@@ -17,7 +17,7 @@ if ($common->is_user_logged_in()) {
     <link rel="icon" type="image/x-icon" href="../cricket.ico">
     <script src="../scripts.js?version=<?php echo time(); ?>"></script>
 </head>
-<body onload="fill_header();fill_footer();">
+<body onload="fill_header();fill_balance();fill_footer();">
 <div id="header"></div>
 <div class="main_container">
     <a class="button" href="../login/login.php">Login</a>

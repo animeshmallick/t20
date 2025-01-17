@@ -106,6 +106,17 @@ function fill_scorecard_content(scorecard){
     scorecard_time = 0;
     console.log("Scorecard Updated");
 }
+function fill_balance(){
+    const xmlhttp = new XMLHttpRequest();
+    xmlhttp.onload = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            let balance = JSON.parse(this.responseText);
+            document.getElementById('balance').innerHTML = "Balance &#8377;"+balance.balance
+        }
+    };
+    xmlhttp.open("GET", "https://om8zdfeo2h.execute-api.ap-south-1.amazonaws.com/get_user_balance/" + this.getCookie('user_ref_id'), true);
+    xmlhttp.send();
+}
 function create_balls_container(over_id, balls){
     let old = document.getElementsByName("over_id");
     for(let i=0;i<old.length;i++){

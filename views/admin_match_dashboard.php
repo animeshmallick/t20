@@ -127,7 +127,7 @@ if ($common->is_user_logged_in() && $common->is_user_an_admin()){
         <link rel="icon" type="image/x-icon" href="../cricket.ico">
         <script src="../scripts.js?version=<?php echo time(); ?>"></script>
     </head>
-    <body onload="fill_header();fill_footer()">
+    <body onload="fill_header();fill_balance();fill_footer()">
     <div id="header"></div>
     <div class="scorecard-container">
         <div class="sub-title"><?php echo $common->get_cookie('match_name');?></div>

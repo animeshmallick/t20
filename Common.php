@@ -10,7 +10,8 @@ class Common {
     public function is_user_logged_in(): bool
     {
         return (int)$this->get_cookie('user_ref_id') > 0 &&
-            strlen($this->get_cookie('user_type')) > 0;
+            strlen($this->get_cookie('user_type')) > 0 &&
+            $this->get_cookie('user_type') != 'pending';
     }
     private function get_response_from_url($url): string
     {
@@ -516,6 +517,7 @@ class Common {
     }
     public function withdraw_amount(string $ref_user_id, string $amount){
         $url = $this->amazon_api_end_point . "/withdraw/" . $ref_user_id . "/". $amount."/".date('Y-m-d-H-i-s');
+        echo $url;
         return json_decode($this->get_response_from_url($url));
     }
 

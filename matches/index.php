@@ -19,7 +19,7 @@ if($common->is_user_logged_in()) {
         <link rel="icon" type="image/x-icon" href="../cricket.ico">
         <script src="../scripts.js?version=<?php echo time(); ?>"></script>
     </head>
-    <body onload="fill_header();fill_footer();">
+    <body onload="fill_header();fill_balance();fill_footer();">
     <div id="header"></div>
     <div class="main_container">
         <div class="sub-title">Matches</div>

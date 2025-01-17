@@ -47,7 +47,7 @@ $match_name = $common->get_match_name_match_id($all_matches, $match_id, $series_
         <link rel="icon" type="image/x-icon" href="../cricket.ico">
         <script src="../scripts.js?version=<?php echo time(); ?>"></script>
     </head>
-    <body onload="fill_header(); fill_profile();fill_footer()">
+    <body onload="fill_header();fill_balance();fill_profile();fill_footer()">
     <div id="header"></div>
     <div id="profile"></div>
     <div class="separator"></div>

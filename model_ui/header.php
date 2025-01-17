@@ -8,7 +8,7 @@
     <script src="../scripts.js?version=<?php echo time(); ?>">
     </script>
 </head>
-<body>
+<body onload="fill_balance()">
     <div class="title-container">
         <a href="javascript:void(0)" id='side-bar-icon' class="nav" onclick="w3_open()" style="border-radius: 1rem;">&#9816;</a>
         <div style="margin: 0; padding: 0">
@@ -19,11 +19,10 @@
             $data = new Data();
             $common = new Common($data->get_path(), $data->get_amazon_api_endpoint());
             if ($common->is_user_logged_in()){
-                $balance = $common->get_user_balance($common->get_cookie($data->get_auth_cookie_name()));
                 ?>
                 <div class="profile" onclick="redirect_to_home()" style="cursor: grab">
                     <div>&nbsp;Hi, <?php echo $common->get_cookie('fname') . " " . $common->get_cookie('lname'); ?>.</div>
-                    <div style="font-size: 0.8rem">&nbsp;Balance ₹<?php echo $balance;?></div>
+                    <div style="font-size: 0.8rem" id="balance">Getting Balance</div>
                 </div>
             <?php } ?>
         </div>
@@ -34,11 +33,13 @@
                 <div class="scorecard-container">
                     <a href="../index/index.php" onclick="w3_close()" class="w3-mobile w3-bar-item w3-center nav_item" style="font-weight: bolder;">Home</a>
                     <div class="separator"></div>
-                    <?php if ($common->get_cookie('match_id') != "" && $common->get_cookie('series_id') != ""){ ?>
+                    <?php if ($common->get_cookie('match_id') != "" && $common->get_cookie('series_id') != "" && $common->is_user_logged_in()){ ?>
                     <a href="../views/show_all_bids.php" onclick="w3_close()" class="w3-mobile w3-bar-item w3-center nav_item">Show My Bids</a>
                     <?php } ?>
+                    <?php if($common->is_user_logged_in()){ ?>
                     <a href="../views/show_all_recharge.php" onclick="w3_close()" class="w3-mobile w3-bar-item w3-center nav_item">My Transactions</a>
                     <a href="../views/withdraw_funds.php" onclick="w3_close()" class="w3-mobile w3-bar-item w3-center nav_item">Withdraw</a>
+                    <?php } ?>
                     <div class="separator"></div>
                     <a href="../logout.php" onclick="w3_close()" class="w3-mobile w3-bar-item w3-center nav_item" style="font-weight: bolder;">Logout</a>
                 </div>

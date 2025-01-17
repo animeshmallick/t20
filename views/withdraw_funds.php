@@ -16,18 +16,19 @@ $data = new Data();
 $common = new Common($data->get_path(), $data->get_amazon_api_endpoint());
 $ref_user_id = $common->get_cookie($data->get_auth_cookie_name());
 $all_withdrawals=$common->get_all_withdraws($ref_user_id);
-if($_SERVER['REQUEST_METHOD'] === 'POST' && $common->is_valid_user($data->get_auth_cookie_name())) {
+if($_SERVER['REQUEST_METHOD'] === 'POST') {
+    echo "jj";
         $amount=$_POST['amount'];
         if($amount<1){
             header("Location: ../views/withdraw_funds.php?msg=" . "Please enter a valid amount");
         }
         else{
-            $withdraw=$common->withdraw_amount($ref_user_id, $amount);
+            $withdraw = $common->withdraw_amount($ref_user_id, $amount);
             header("Location: ../views/withdraw_funds.php?msg=" . $withdraw->status);
         }
 }
 ?>
-<body onload="fill_header();fill_profile();fill_footer();">
+<body onload="fill_header();fill_balance();fill_profile();fill_footer();">
 <div id="header"></div>
 <div id="profile"></div>
 <div class="separator"></div>

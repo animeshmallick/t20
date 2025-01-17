@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" &&
         <link rel="icon" type="image/x-icon" href="../cricket.ico">
         <script src="../scripts.js?version=<?php echo time(); ?>"></script>
     </head>
-    <body onload="fill_header();
+    <body onload="fill_header();fill_balance();
         fill_scorecard('<?php echo $series_id;?>','<?php echo $match_id;?>');
         fill_footer();">
         <div id="header"></div>
