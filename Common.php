@@ -179,8 +179,6 @@ class Common {
              "phone" => $phone,
              "ref_id" => $ref_id,
              "status" => $status,
-             "timestamp" => date('Y-m-d-H:i:s'),
-             "balance" => 0,
             "type" => 'user'
         );
         $json_data = json_encode($data);
@@ -263,8 +261,7 @@ class Common {
             "amount" => $amount,
             "status" => "placed",
             'type' => 'session',
-            'bid_name' => $bid_name,
-            "timestamp" => date('Y-m-d-H:i:s')
+            'bid_name' => $bid_name
         );
         $url = $this->amazon_api_end_point . '/save_new_bid';
         $json_bid_data = json_encode($bid_data);
@@ -296,8 +293,7 @@ class Common {
             "rate" => $rate,
             "amount" => $amount,
             "status" => "placed",
-            'type' => 'winner',
-            "timestamp" => date('Y-m-d-H:i:s')
+            'type' => 'winner'
         );
         $url = $this->amazon_api_end_point . '/save_new_bid';
         $json_bid_data = json_encode($bid_data);
@@ -516,8 +512,7 @@ class Common {
         $this->delete_session();
     }
     public function withdraw_amount(string $ref_user_id, string $amount){
-        $url = $this->amazon_api_end_point . "/withdraw/" . $ref_user_id . "/". $amount."/".date('Y-m-d-H-i-s');
-        echo $url;
+        $url = $this->amazon_api_end_point . "/withdraw/" . $ref_user_id . "/". $amount."/"."time";
         return json_decode($this->get_response_from_url($url));
     }
 

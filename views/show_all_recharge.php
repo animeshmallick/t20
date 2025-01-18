@@ -7,6 +7,10 @@ $common = new Common($data->get_path(), $data->get_amazon_api_endpoint());
 $ref_user_id = $common->get_cookie($data->get_auth_cookie_name());
 if($common->is_user_logged_in()) {
     $transactions = $common->get_all_transactions($ref_user_id);
+    usort($transactions, function($a, $b) {
+        return strcmp($a->time,$b->time) * -1;
+    });
+
     $all_transactions = array();
     foreach($transactions as $transaction) {
         if($common->get_cookie("user_type") == 'user') {
