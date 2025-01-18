@@ -8,34 +8,31 @@ $common = new Common($data->get_path(), $data->get_amazon_api_endpoint());
 $match_id = $common->get_cookie("match_id");
 $series_id = $common->get_cookie("series_id");
 $ref_user_id = $common->get_cookie($data->get_auth_cookie_name());
-if($series_id!=null && $match_id!=null){
-    $all_bids = $common->get_all_bids($series_id, $match_id);
-}
-else if($ref_user_id!=null){
-    $all_bids = $common->get_all_bids_by_user($ref_user_id);
-}
-else {
+if($series_id == null || $match_id == null || !$common->is_user_logged_in()){
     header("Location: ".$data->get_path());
 }
-$user_bids = $common->get_bid_from_userid($all_bids, $ref_user_id);
+$all_bids = $common->get_all_bids_by_user($series_id, $match_id, $ref_user_id);
 $all_matches= $common->get_all_matches();
 
 $bids_type_session = array();
 $bids_type_winner = array();
-foreach($user_bids as $bids) {
+$bids_type_special = array();
+foreach($all_bids as $bids) {
     if($bids->type=='session'){
-        $bids_type_session[]=$bids;
+        $bids_type_session[] = $bids;
     }
-    else{
-        $bids_type_winner[]=$bids;
+    if ($bids->type=='winner'){
+        $bids_type_winner[] = $bids;
+    }
+    if ($bids->type=='special'){
+        $bids_type_special[] = $bids;
     }
 }
 usort($bids_type_session, function($a, $b) {
-    return strcmp($a->series_id.'&&'.$a->match_id.'&&'.$a->innings.'&&'.$a->session,
-        $b->series_id.'&&'.$b->match_id.'&&'.$b->innings.'&&'.$a->session);
+    return strcmp($a->timestamp, $b->timestamp) * -1;
 });
 usort($bids_type_winner, function($a, $b) {
-    return strcmp($a->series_id.'&&'.$a->match_id, $b->series_id.'&&'.$b->match_id);
+    return strcmp($a->timestamp, $b->timestamp) * -1;
 });
 $match_name = $common->get_match_name_match_id($all_matches, $match_id, $series_id);
 ?>

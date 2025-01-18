@@ -7,7 +7,7 @@ if ($common->is_user_logged_in() && $common->is_user_an_admin()){
     $series_id = $common->get_cookie("series_id");
     $match_id = $common->get_cookie("match_id");
     $session = $_GET['session'];
-    $all_bids = $common->get_all_bids($series_id, $match_id);
+    $all_bids = $common->get_all_bids($series_id, $match_id, 'session');
     $all_matches= $common->get_all_matches();
     $all_users = $common->get_all_users();
     $all_bids_new = array();

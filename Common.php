@@ -7,6 +7,8 @@ class Common {
         $this->path = $path;
         $this->amazon_api_end_point = $amazon_api_end_point;
     }
+    public function get_path(): string
+    {return $this->path;}
     public function is_user_logged_in(): bool
     {
         return (int)$this->get_cookie('user_ref_id') > 0 &&
@@ -81,10 +83,8 @@ class Common {
         return !isset($scorecard->error) && !str_contains($scorecard->source, 'amazon');
     }
 
-    public function is_valid_slot(string $slot): bool
+    public function is_valid_session_slot(string $slot): bool
     {
-        if ($slot == 'winner')
-            return true;
         if (strlen($slot) != 2)
             return false;
         if ($slot[0] == 'a' || $slot[0] == 'b' || $slot[0] == 'c' || $slot[0] == 'd') {
@@ -143,7 +143,7 @@ class Common {
             return false;
         if ($session == 'winner')
             return false;
-        if (!$this->is_valid_slot($session))
+        if (!$this->is_valid_session_slot($session))
             return false;
         $bid_innings =  $session[1];
         $session = $session[0];
@@ -198,34 +198,23 @@ class Common {
     }
     function get_all_bids_from_match(string $series_id, string $match_id, string $type): array
     {
-        $url = $this->amazon_api_end_point . "/get_match_bids/" . $series_id . "/" . $match_id;
-        $all_bids = json_decode($this->get_response_from_url($url));
-        $bids = array();
-        foreach ($all_bids as $bid) {
-            if ($bid->type == $type)
-                $bids[] = $bid;
-        }
-        return $bids;
+        $url = $this->amazon_api_end_point . "/get_match_bids/" . $series_id . "/" . $match_id . "/" . $type;
+        return json_decode($this->get_response_from_url($url));
     }
 
-    public function get_unique_bid_id(): int
+    public function get_unique_bid_id(string $type): int
     {
         for ($i=0; $i<100; $i++){
             $new_bid_id = mt_rand(10000000, 99999999);
-            if (!isset($this->get_bid_from_bid_id($new_bid_id)->bid_id))
+            if (isset($this->get_bid_from_bid_id($new_bid_id, $type)->error))
                 return $new_bid_id;
         }
         return -1;
     }
-    public function get_bid_from_bid_id($bid_id)
+    public function get_bid_from_bid_id($bid_id, $type)
     {
-        $url = $this->amazon_api_end_point . "/get_all_bids";
-        $all_bids = json_decode($this->get_response_from_url($url));
-        foreach ($all_bids as $bid){
-            if ($bid->bid_id == $bid_id)
-                return $bid;
-        }
-        return null;
+        $url = $this->amazon_api_end_point . "/get_bid/" . $type . "/" .$bid_id;
+        return json_decode($this->get_response_from_url($url));
     }
     public function get_bid_bookie_details(string $series_id, $match_id, string $session, int $amount)
     {
@@ -452,8 +441,8 @@ class Common {
         return json_decode($this->get_response_from_url($url));
     }
 
-    public function get_all_bids(string $series_id, string $match_id) {
-        $url = $this->amazon_api_end_point . "/get_match_bids/" . $series_id . "/" . $match_id;
+    public function get_all_bids(string $series_id, string $match_id, string $type) {
+        $url = $this->amazon_api_end_point . "/get_match_bids/" . $series_id . "/" . $match_id . "/" . $type;
         return json_decode($this->get_response_from_url($url));
     }
 
@@ -488,9 +477,31 @@ class Common {
         return $temp;
     }
 
-    public function get_all_bids_by_user(string $ref_user_id) {
-        $url = $this->amazon_api_end_point . "/get_user_bids/" . $ref_user_id;
-        return json_decode($this->get_response_from_url($url));
+    public function get_all_bids_by_user(string $series_id, string $match_id, string $ref_user_id): array
+    {
+        $all_bids = array();
+        $url = $this->amazon_api_end_point . "/get_match_bids/" . $series_id . "/" . $match_id . "/session";
+        $bids = json_decode($this->get_response_from_url($url));
+        foreach ($bids as $bid) {
+            if ($bid->ref_id == $ref_user_id) {
+                $all_bids[] = $bid;
+            }
+        }
+        $url = $this->amazon_api_end_point . "/get_match_bids/" . $series_id . "/" . $match_id . "/winner";
+        $bids = json_decode($this->get_response_from_url($url));
+        foreach ($bids as $bid) {
+            if ($bid->ref_id == $ref_user_id) {
+                $all_bids[] = $bid;
+            }
+        }
+        $url = $this->amazon_api_end_point . "/get_match_bids/" . $series_id . "/" . $match_id . "/special";
+        $bids = json_decode($this->get_response_from_url($url));
+        foreach ($bids as $bid) {
+            if ($bid->ref_id == $ref_user_id) {
+                $all_bids[] = $bid;
+            }
+        }
+        return $all_bids;
     }
 
     public function delete_session(): void

@@ -55,9 +55,8 @@ else{
                 <tbody>
                 <?php foreach ($all_transactions as $trans) :
                     $flag = "others";
-                    if ($trans->amount<0)
+                    if ($trans->amount<0 || str_contains($trans->from,"withdraw"))
                         $flag="loss";
-                        $flag1=-1;
                     if($trans->amount>0)
                         $flag="win";
                     ?>

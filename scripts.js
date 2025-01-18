@@ -274,7 +274,7 @@ function update_session_slot_details_actual(session, update_selected){
     let series_id = this.getCookie('series_id');
     let match_id = this.getCookie('match_id');
     let amount = document.getElementById('amount').value;
-    if (session === 'winner')
+    if (session === 'winner' || session === 'special')
         return false;
     const xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function () {
