@@ -268,7 +268,7 @@ function update_session_slot_details(session) {
     }, 5000);
     slots_timer = setInterval(function (){
         update_session_slot_details_actual(session, false);
-    }, 14000);
+    }, 4000);
 }
 function update_session_slot_details_actual(session, update_selected){
     let series_id = this.getCookie('series_id');
@@ -326,7 +326,7 @@ function update_winner_slot_details(session){
     update_winner_slot_details_actual(session, true);
     slots_timer = setInterval(function (){
         update_winner_slot_details_actual(session, false);
-    }, 14000);
+    }, 4000);
 }
 function update_winner_slot_details_actual(session, update_checked) {
     let series_id = this.getCookie('series_id');
@@ -431,7 +431,7 @@ setTimeout(function (){
     clearInterval(slots_timer);
     clearInterval(update_slots_timer);
     console.log("All background timers cleared.");
-}, 1800000);
+}, 300000);
 function place_bid_text(){
     let place_bid_btn = document.getElementById('place_bid');
     place_bid_btn.style.color = 'black';
