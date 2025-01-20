@@ -216,7 +216,7 @@ class Common {
         $url = $this->amazon_api_end_point . "/get_bid/" . $type . "/" .$bid_id;
         return json_decode($this->get_response_from_url($url));
     }
-    public function get_bid_bookie_details(string $series_id, $match_id, string $session, int $amount)
+    public function get_bid_bookie_details(string $series_id, $match_id, string $session, float $amount)
     {
         $url = $this->path . "matches/GetSessionSlotDetails.php?match_id=".$match_id."&series_id=".$series_id."&session=".$session."&amount=".$amount;
         $response = file_get_contents($url);
@@ -230,8 +230,9 @@ class Common {
         $response = '{'.explode('{', $response)[1];
         return json_decode($response);
     }
-    public function insert_new_session_bid_to_db($bid_id, $ref_id, $series_id, $match_id, $session, $slot,
-                                                 $runs_min, $runs_max, $rate, $amount, $bid_name): bool|string
+    public function insert_new_session_bid_to_db(int $bid_id, string $ref_id, string $series_id, string $match_id, string $session,
+                                                 string $slot, int $runs_min, int $runs_max, float $rate, float $amount,
+                                                 string $bid_name): bool|string
     {
         if ($rate == null)
             return false;
@@ -301,35 +302,17 @@ class Common {
         return $response;
     }
 
-    public function is_new_bid_id(mixed $bid_id): bool
+    public function get_rates(string $series_id, string $match_id, string $session, float $amount): array
     {
-        $res = $this->get_bid_from_bid_id($bid_id);
-        return $res == null;
-    }
+        $url = $this->amazon_api_end_point . "/get_bid_book/".$series_id."/".$match_id."/".$session;
+        $book = json_decode($this->get_response_from_url($url));
+        if (isset($book->error))
+            return [2.0, 2.0, 2.0];
 
-    public function get_rates(array $all_bids, int $bid_innings, string $session, float $amount): array
-    {
-        $x = 0.0; $a = 0.0; $b = 0.0; $c = 0.0;
-        foreach ($all_bids as $bid) {
-            if ($bid->innings == $bid_innings && $bid->session == $session)
-                $x += (float)($bid->amount);
-        }
-        $x = $x - ($x/100) + $amount;
-
-        foreach ($all_bids as $bid) {
-            if ($bid->innings == $bid_innings && $bid->session == $session && $bid->slot == 'x')
-                $a += (float)($bid->amount);
-        }
-
-        foreach ($all_bids as $bid) {
-            if ($bid->innings == $bid_innings && $bid->session == $session && $bid->slot == 'y')
-                $b += (float)($bid->amount);
-        }
-
-        foreach ($all_bids as $bid) {
-            if ($bid->innings == $bid_innings && $bid->session == $session && $bid->slot == 'z')
-                $c += (float)($bid->amount);
-        }
+        $x = $book->collected * 0.7 + $amount + min($amount, 500);
+        $a = $book->given[0];
+        $b = $book->given[1];
+        $c = $book->given[2];
 
         $ga = max(($x - $a), 0.0);
         $gb = max(($x - $b), 0.0);

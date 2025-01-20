@@ -15,12 +15,8 @@ $amount = (float)$_GET['amount'];
 $scorecard = $common->get_scorecard_latest($series_id, $match_id, "GetSessionSlotDetails");
 
 if($common->is_eligible_for_session_bid($session, $scorecard->over_id)){
-    $bid_innings = $session[1];
-    $session = $session[0];
-    $predicted_runs = $scores->get_slot_runs($bid_innings,$scorecard,$session);
-
-    $all_bids = $common->get_all_bids_from_match($series_id, $match_id, 'session');
-    $rates = $common->get_rates($all_bids, $bid_innings, $session, $amount);
+    $predicted_runs = $scores->get_slot_runs($session[1], $scorecard, $session[0]);
+    $rates = $common->get_rates($series_id, $match_id, $session, $amount);
 
     $output = array(
         "predicted_runs_a" => (int)($predicted_runs - 1.5),

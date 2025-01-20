@@ -5,7 +5,7 @@ $data = new Data();
 $common = new Common($data->get_path(), $data->get_amazon_api_endpoint());
 $slot = $_POST["slot"];
 $session = $_POST["session"];
-$amount = $_POST["amount"];
+$amount = floatval($_POST["amount"]);
 $bid_id = (int)$_POST["bid_id"];
 $bid_name = $_POST["bid_name"] ?? "";
 
@@ -40,8 +40,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" &&
             $bid_runs_string = $slot == 'x' ? "Runs 0 to ".$bid_bookie_response->predicted_runs_a :
                                     ($slot == 'y' ? "Runs [".$bid_bookie_response->predicted_runs_a." to ".$bid_bookie_response->predicted_runs_b."]" :
                                         ($slot == 'z' ? "Runs ".$bid_bookie_response->predicted_runs_b." or more" : 0));
-            $run_min = $slot == 'x' ? 0 : ($slot == 'y' ? $bid_bookie_response->predicted_runs_a : ($slot == 'z' ? $bid_bookie_response->predicted_runs_b + 1 : 9999));
-            $run_max = $slot == 'x' ? $bid_bookie_response->predicted_runs_a - 1 : ($slot == 'y' ? $bid_bookie_response->predicted_runs_b : ($slot == 'z' ? 9999 : -1));
+            $run_min = $slot == 'x' ? 0 : ($slot == 'y' ? $bid_bookie_response->predicted_runs_a : ($slot == 'z' ? $bid_bookie_response->predicted_runs_b + 1 : 490));
+            $run_max = $slot == 'x' ? $bid_bookie_response->predicted_runs_a - 1 : ($slot == 'y' ? $bid_bookie_response->predicted_runs_b : ($slot == 'z' ? 490 : -1));
 
             $ref_id = $common->get_cookie($data->get_auth_cookie_name());
             if ($common->is_valid_bookie_response_session($bid_bookie_response)){
@@ -51,11 +51,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" &&
                 if($bid_place_response->recharge_status){
                     $status = true;
                     $status_msg_1 = $bid_runs_string;
-                    $status_msg_2 = "PUT &#8377;".$amount." Take &#8377;".floor((int)($amount * $rate));
+                    $status_msg_2 = "PUT &#8377;".$amount." Take &#8377;".floor(($amount * $rate));
                     $status_msg_3 = "Agent's Refund &#8377;".floor((int)$amount/10);
                     if ($common->is_user_an_agent()) {
                         $common->recharge_user($common->get_unique_recharge_id(),
-                            "bidder_refund_agent_".$bid_id, $ref_id, floor((int)$amount / 10));
+                            "bidder_refund_agent_".$bid_id, $ref_id, floor($amount / 10));
                     }
                 } else {
                     $status = false;
