@@ -111,7 +111,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" &&
         }
         if ($status){
         ?>
-            <div class="bid_container">
+            <div class="confirm_bid_container">
                 <div class="bid-success-title"><p class="confirm">&#9989; Placed</p></div>
                 <div class="bid_details_success"><span><?php echo $status_msg_1;?></span></div>
                 <div class="bid_details_success"><span><?php echo $status_msg_2;?></span></div>
@@ -119,7 +119,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" &&
                     <div class="bid_details_success"><span><?php echo $status_msg_3;?></span></div>
                 <?php }
         } else { ?>
-            <div class="bid_container">
+            <div class="confirm_bid_container">
                 <div class="bid-failure-title"><p class="confirm">&#10060; Failed</p></div>
                 <div class="bid_details_failure"><span><?php echo $status_msg_1;?></span></div>
                 <div class="bid_details_failure"><span><?php echo $status_msg_2;?></span></div>

@@ -34,7 +34,7 @@ if ($common->is_user_logged_in()) {
             <div id="scorecard">Loading Scorecard</div>
             <div class="separator"></div>
             <div class="play-container" style="margin: 0; padding: 0">
-                <div class="title"><span>Play your Bid on</span></div>
+                <div class="sub-title"><span>Play your Bid on</span></div>
                 <div class="bid_container">
                     <div class="title"><span>1st Innings</span></div>
                     <div style="display: flex">
@@ -46,6 +46,7 @@ if ($common->is_user_logged_in()) {
                         <div class="bid_button_div"><a class="play bid_button <?php if(!$common->is_session_enabled($over_id,'d1')){echo "disabled";}?>" href="place_bid.php?session=d1">Over 17 to 20</a></div>
                     </div>
                 </div>
+                <div class="separator"></div>
                 <div class="bid_container">
                     <div class="title"><span>2nd Innings</span></div>
                     <div style="display: flex">
@@ -53,6 +54,7 @@ if ($common->is_user_logged_in()) {
                         <div class="bid_button_div"><a class="play bid_button <?php if(!$common->is_session_enabled($over_id, 'b2')){echo "disabled";}?>" href="place_bid.php?session=b2">Over 7 to 10</a></div>
                     </div>
                 </div>
+                <div class="separator"></div>
                 <div class="bid_container">
                     <div class="title"><span>Match Winner</span></div>
                     <div class="bid_button_div" style="margin-left: 10%; width: 80%"><a class="play bid_button <?php if(!$scorecard->is_live || (int)$scorecard->over_id > 218){echo "disabled";}?>" href="place_bid.php?session=winner">Who will win the match?</a></div>

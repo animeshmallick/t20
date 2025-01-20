@@ -2,19 +2,34 @@
 .bid_container{
     display: block;
     align-content: center;
-    background: rgba(7, 7, 7, 0.08);
+    background-color: transparent;
     border-radius: 1rem;
     box-shadow: 0 1rem 1rem rgba(230, 6, 6, 0.3);
     margin: 0.3rem 0.5rem;
+}
+div.confirm_bid_container {
+    display: block;
+    align-content: center;
+    background-color: transparent;
+    border-radius: 1rem;
+    box-shadow: 0 1rem 1rem rgba(230, 6, 6, 0.3);
+    margin: 0.3rem 0.5rem;
+    background-image: url("../images/stadium3.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 .main_container{
     margin: 0.2rem 0;
     display: block;
     align-content: center;
-    background: rgba(7, 7, 7, 0.08);
     border-radius: 1rem;
     box-shadow: 0 2rem 1rem rgba(0,0,0,0.3);
-    padding: 0.5rem 2rem;
+    padding: 4rem 2rem;
+    background-image: url("../images/field.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 div.main-control-container {
     margin: 0.2rem 1rem;
@@ -177,9 +192,7 @@ div.smaller-gap {
     background-color:gray
 }
 .body {
-    background-image: url("https://crickettimes.com/wp-content/uploads/2023/12/ipl-2024-complete-squads.webp");
-    background-repeat: no-repeat, repeat;
-    background-color: #cccccc;
+
 }
 .form label[name=slot] {
     height: 4rem;
@@ -276,21 +289,24 @@ div.scorecard-container {
     margin: 0.2rem 0.2rem;
     display: block;
     align-content: center;
-    background: rgba(7, 7, 7, 0.08);
     border-radius: 1rem;
-    box-shadow: 0 2rem 1rem rgba(26, 140, 9, 0.5);
+    box-shadow: 0 2rem 1rem rgba(250, 4, 4, 0.69);
     padding: 0.2rem;
+    background-image: url("../images/stadium.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 div.match-detail {
     display: block;
     align-content: center;
-    background: rgba(7, 7, 7, 0.08);
+    background: rgba(128, 128, 128, 0.75);
     border-radius: 1rem;
     box-shadow: 0 2rem 1rem rgba(0,0,0,0.3);
 }
 div.teams_details {
     width: 50%;
-    background-color: rgba(76, 213, 55, 0.5);
+    background-color: rgba(76, 213, 55, 0.7);
     border: 0.1rem solid #339ecc;
     border-radius: 0.75rem;
     text-align: center;
@@ -304,6 +320,7 @@ div.vs {
     text-align: center;
     margin: 0.2rem 0.3rem;
     font-weight: bold;
+    color: red;
 }
 
 div.players {
@@ -342,6 +359,10 @@ a.show-more-over {
     color: rgb(7, 7, 7);
     font-weight: bolder;
     padding: 0.2rem 0.75rem;
+    background-color: wheat;
+}
+a.show-more-over:hover {
+    background-color: red;
 }
 div.balls-container {
     padding-bottom: 0.2rem;
@@ -392,6 +413,10 @@ div.play-container {
     display: block;
     align-content: center;
     padding: 0.2rem;
+    background-image: url("../images/stadium.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 div.bid_slot {
@@ -432,7 +457,7 @@ div.title {
     border-bottom: 0.1rem solid #f90606;
     box-shadow: 0 0.8rem 0.5rem rgba(250, 4, 4, 0.34);
     color: black;
-    background: rgba(250, 0, 0, 0.4);
+    background: darkcyan;
 }
 div.profile {
     font-size: 0.9rem;
@@ -447,7 +472,7 @@ div.profile {
 }
 div.bid-failure-title {
     font-size: 2.5rem;
-    background: rgba(255, 0, 0, 0.35);;
+    background: rgba(255, 0, 0, 0.6);;
     padding-top: 0.5rem;
     text-align: center;
     font-weight: bold;
@@ -459,7 +484,7 @@ div.bid-failure-title {
     margin-bottom: 0.5rem;
 }
 div.bid-success-title {
-    background: rgba(33, 205, 7, 0.5);
+    background: rgba(33, 205, 7, 0.8);
     font-size: 2.5rem;
     padding-top: 0.5rem;
     text-align: center;
@@ -533,26 +558,31 @@ div.slot_container {
     width: 100%;
     align-content: center;
     display: block;
-    background: rgba(7, 7, 7, 0.08);
     border-radius: 1rem;
     box-shadow: 0 1rem 1rem rgb(250, 4, 4, 0.5);
     padding-bottom: 0.2rem;
+    background-image: url("../images/stadium3.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 div.slot_container_inner {
     box-shadow: 0 1rem 1rem rgba(7, 7, 7, 0.64);
     border-radius: 1rem;
 }
+div.slot_container_outer {
+}
 input[type="radio"]:checked + div.slot {
     font-weight: bold;
     font-size: 1.3rem;
-    color: #21cd07;
     width: 100%;
     text-shadow: 0 1rem 2rem rgba(204, 184, 51);
     letter-spacing: 0.1rem;
-    box-shadow: 0 1rem 2rem rgba(33, 205, 7, 0.63);
+    box-shadow: 0 1rem 2rem rgba(33, 205, 7);
     border-radius: 1rem;
     border-color: red;
-    background: grey;
+    color: greenyellow;
+    background: lightsteelblue;
 }
 div.slot {
     width: 85%;
@@ -562,8 +592,8 @@ div.slot {
     box-shadow: 1rem 1rem 2rem rgb(237, 207, 8);
     border-radius: 1rem;
     padding: 0.3rem;
-    color: wheat;
-    background: rgba(128, 128, 128, 0.5);
+    color: lightcoral;
+    background: rgba(250, 235, 215, 0.8);
 }
 
 label.container {
@@ -581,10 +611,7 @@ label.container {
 
 /* Hide the browser's default checkbox */
 input[type=radio] {
-    opacity: 0;
-    cursor: pointer;
-    height: 0;
-
+    display: none;
 }
 
 /* Style the checkmark/indicator */
@@ -628,7 +655,7 @@ div.account_status {
 }
 div.bid_details_failure {
     align-content: center;
-    background-color: rgba(250, 4, 4, 0.4);
+    background-color: rgba(250, 4, 4, 0.5);
     border: 0.1rem solid #339ecc;
     border-radius: 0.75rem;
     text-align: center;
@@ -639,7 +666,7 @@ div.bid_details_failure {
 }
 div.bid_details_success {
     align-content: center;
-    background-color: rgba(33, 205, 7, 0.4);
+    background-color: rgba(33, 205, 7, 0.7);
     border: 0.1rem solid #339ecc;
     border-radius: 0.75rem;
     text-align: center;
@@ -734,10 +761,53 @@ p.confirm {
     margin: 0;
 }
 a.secondary {
-    background: rgba(51, 117, 204, 0.55);
+    background: rgba(51, 117, 204, 0.8);
     padding: 0.2rem;
 }
 a.nav {
     padding: 1rem 0.8rem;
     background: burlywood;
+}
+div.popup {
+    background: transparent;
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 25rem;
+    padding: 1.5rem;
+    border: 0.5rem solid #ccc;
+    z-index: 1000;
+    border-radius: 3.5rem;
+}
+div.popup-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    background-image: url("../images/stadium.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+a.room_button {
+    width: 100%;
+    border-radius: 2rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    font-size: 1.2rem;
+}
+div.popup-header{
+    width: 100%;
+    text-align: center;
+}
+div.popup-sub-header {
+    width: 100%;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
 }
