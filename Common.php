@@ -466,21 +466,7 @@ class Common {
     public function get_all_bids_by_user(string $series_id, string $match_id, string $ref_user_id): array
     {
         $all_bids = array();
-        $url = $this->amazon_api_end_point . "/get_match_bids/" . $series_id . "/" . $match_id . "/session";
-        $bids = json_decode($this->get_response_from_url($url));
-        foreach ($bids as $bid) {
-            if ($bid->ref_id == $ref_user_id) {
-                $all_bids[] = $bid;
-            }
-        }
-        $url = $this->amazon_api_end_point . "/get_match_bids/" . $series_id . "/" . $match_id . "/winner";
-        $bids = json_decode($this->get_response_from_url($url));
-        foreach ($bids as $bid) {
-            if ($bid->ref_id == $ref_user_id) {
-                $all_bids[] = $bid;
-            }
-        }
-        $url = $this->amazon_api_end_point . "/get_match_bids/" . $series_id . "/" . $match_id . "/special";
+        $url = $this->amazon_api_end_point . "/get_match_bids/" . $series_id . "/" . $match_id . "/all/any";
         $bids = json_decode($this->get_response_from_url($url));
         foreach ($bids as $bid) {
             if ($bid->ref_id == $ref_user_id) {
