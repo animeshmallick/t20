@@ -109,6 +109,7 @@ $match_name = $common->get_match_name_match_id($all_matches, $match_id, $series_
                                     $amount_string = "BID Status Invalid";
                                 ?>
                             <td><?php echo $amount_string; ?></td>
+                            <td><?php echo 'Room '.$bids->room; ?></td>
                             <td><?php echo $bids->status; ?></td>
                         </tr>
                         <?php endforeach; ?>

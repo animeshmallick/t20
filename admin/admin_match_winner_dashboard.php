@@ -7,15 +7,10 @@ if ($common->is_user_logged_in() && $common->is_user_an_admin()){
     $series_id = $common->get_cookie("series_id");
     $match_id = $common->get_cookie("match_id");
     $session = $_GET['session'];
-    $all_bids = $common->get_all_bids($series_id, $match_id, 'session');
+    $all_bids = $common->get_all_bids($series_id, $match_id, 'winner');
     $all_matches= $common->get_all_matches();
     $all_users = $common->get_all_users();
-    $all_bids_new = array();
-    foreach ($all_bids as $bid) {
-        if ($bid->session == $session[0] && $bid->innings == $session[1]) {
-            $all_bids_new[] = $bid;
-        }
-    } ?>
+    ?>
 <html lang="">
 <head>
     <title>All Bids</title>
@@ -33,7 +28,7 @@ if ($common->is_user_logged_in() && $common->is_user_an_admin()){
         <div class="control-title">All Bids On Session <?php echo $session; ?></div>
         <table>
             <tbody>
-    <?php foreach ($all_bids_new as $bid) { ?>
+    <?php foreach ($all_bids as $bid) { ?>
                     <tr>
                         <td><?php echo $common->get_user_from_users($all_users, $bid->ref_id); ?></td>
                         <td>
@@ -64,7 +59,6 @@ if ($common->is_user_logged_in() && $common->is_user_an_admin()){
                         ?>
                         <td><?php echo $amount_string; ?></td>
                         <td><?php echo $bid->status; ?></td>
-                        <td><?php echo $bid->room; ?></td>
                         <?php if ($bid->status == "placed") { ?>
                         <td><a onclick="settle_bid('<?php echo $bid->bid_id;?>', '<?php echo $session;?>')" class="button" style="padding: 1rem 0.5rem; margin: 0" href="#">Settle</a> </td>
                         <?php } ?>

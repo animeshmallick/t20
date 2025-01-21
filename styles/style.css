@@ -14,7 +14,7 @@ div.confirm_bid_container {
     border-radius: 1rem;
     box-shadow: 0 1rem 1rem rgba(230, 6, 6, 0.3);
     margin: 0.3rem 0.5rem;
-    background-image: url("../images/stadium3.png");
+    background-image: url("../images/stadium2.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -26,7 +26,7 @@ div.confirm_bid_container {
     border-radius: 1rem;
     box-shadow: 0 2rem 1rem rgba(0,0,0,0.3);
     padding: 4rem 2rem;
-    background-image: url("../images/field.png");
+    background-image: url("../images/stadium.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -266,6 +266,9 @@ a.button {
     padding: 0.5rem;
     margin: 0.4rem;
 }
+a.plus-minus {
+    background: rgba(245, 222, 179, 0.5);
+}
 
 div.separator {
     border: 0.01rem solid #000000;
@@ -291,7 +294,7 @@ div.scorecard-container {
     border-radius: 1rem;
     box-shadow: 0 2rem 1rem rgba(250, 4, 4, 0.69);
     padding: 0.2rem;
-    background-image: url("../images/stadium.png");
+    background-image: url("../images/stadium3.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -412,7 +415,7 @@ div.play-container {
     display: block;
     align-content: center;
     padding: 0.2rem;
-    background-image: url("../images/stadium.png");
+    background-image: url("../images/stadium2.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -483,7 +486,7 @@ div.bid-failure-title {
     margin-bottom: 0.5rem;
 }
 div.bid-success-title {
-    background: rgba(33, 205, 7, 0.8);
+    background: rgba(33, 205, 7, 0.6);
     font-size: 2.5rem;
     padding-top: 0.5rem;
     text-align: center;
@@ -560,16 +563,16 @@ div.slot_container {
     border-radius: 1rem;
     box-shadow: 0 1rem 1rem rgb(250, 4, 4, 0.5);
     padding-bottom: 0.2rem;
-    background-image: url("../images/stadium3.png");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
 }
 div.slot_container_inner {
     box-shadow: 0 1rem 1rem rgba(7, 7, 7, 0.64);
     border-radius: 1rem;
 }
 div.slot_container_outer {
+    background-image: url("../images/stadium2.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 input[type="radio"]:checked + div.slot {
     font-weight: bold;

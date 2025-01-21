@@ -428,7 +428,7 @@ class Common {
     }
 
     public function get_all_bids(string $series_id, string $match_id, string $type) {
-        $url = $this->amazon_api_end_point . "/get_match_bids/" . $series_id . "/" . $match_id . "/" . $type;
+        $url = $this->amazon_api_end_point . "/get_match_bids/" . $series_id . "/" . $match_id . "/" . $type . "/any";
         return json_decode($this->get_response_from_url($url));
     }
 

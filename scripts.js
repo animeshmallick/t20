@@ -381,12 +381,14 @@ function increase_amount(session, room, amount){
     let amount_element = document.getElementById("amount");
     amount_element.value = parseInt(amount_element.value) + parseInt(amount);
     document.getElementById('amount-display').innerHTML = "Amount of &#8377;" + amount_element.value;
+    updateAmount();
     onRelease(session, room);
 }
 function decrease_amount(session, room, amount){
     let amount_element = document.getElementById("amount");
     amount_element.value -= amount;
     document.getElementById('amount-display').innerHTML = "Amount of &#8377;" + amount_element.value;
+    updateAmount();
     onRelease(session, room);
 }
 document.addEventListener('click', function(e) {
