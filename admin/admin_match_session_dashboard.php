@@ -24,7 +24,7 @@ if ($common->is_user_logged_in() && $common->is_user_an_admin()){
     <link rel="icon" type="image/x-icon" href="../cricket.ico">
     <script src="../scripts.js?version=<?php echo time(); ?>"></script>
 </head>
-<body onload="fill_header();fill_footer()">
+<body onload="fill_header();fill_balance();fill_footer()">
     <div id="header"></div>
     <div class="scorecard-container">
         <div class="sub-title"><?php echo $common->get_match_name_match_id($all_matches,
@@ -66,7 +66,7 @@ if ($common->is_user_logged_in() && $common->is_user_an_admin()){
                         <td><?php echo $bid->status; ?></td>
                         <td><?php echo $bid->room; ?></td>
                         <?php if ($bid->status == "placed") { ?>
-                        <td><a onclick="settle_bid('<?php echo $bid->bid_id;?>', '<?php echo $session;?>')" class="button" style="padding: 1rem 0.5rem; margin: 0" href="#">Settle</a> </td>
+                        <td><a onclick="settle_bid('<?php echo $bid->bid_id;?>', 'session', '<?php echo $bid->session.$bid->innings;?>')" class="button" style="padding: 1rem 0.5rem; margin: 0" href="#">Settle</a> </td>
                         <?php } ?>
                     </tr>
 
