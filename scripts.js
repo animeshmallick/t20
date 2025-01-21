@@ -310,15 +310,22 @@ function update_session_slot_details_actual(session, room, update_selected){
             document.getElementById("slot_c_amount").innerHTML = "Put &#8377;" + amount +
                 " & Take &#8377;" + Math.trunc(amount * bid_master.rate_3);
 
+            let slot_a = document.getElementById("slot_a");
+            let slot_b = document.getElementById("slot_b");
+            let slot_c = document.getElementById("slot_c");
             if(update_selected) {
                 let max_rate = Math.max(bid_master.rate_1, bid_master.rate_2, bid_master.rate_3);
                 if (bid_master.rate_3 === max_rate)
-                    document.getElementById("slot_c").checked = true;
+                    slot_c.checked = true;
                 if (bid_master.rate_2 === max_rate)
-                    document.getElementById("slot_b").checked = true;
+                    slot_b.checked = true;
                 if (bid_master.rate_1 === max_rate)
-                    document.getElementById("slot_a").checked = true;
+                    slot_a.checked = true;
             }
+            slot_c.parentElement.style.display = bid_master.rate_3 <= 1 ? 'none' : 'block';
+            slot_b.parentElement.style.display = bid_master.rate_2 <= 1 ? 'none' : 'block';
+            slot_a.parentElement.style.display = bid_master.rate_1 <= 1 ? 'none' : 'block';
+
             document.getElementById('timer_slots').innerHTML = "&nbsp";
             slots_time = 0;
             console.log("Slots Updated");
@@ -362,13 +369,17 @@ function update_winner_slot_details_actual(session, room, update_checked) {
                 document.getElementById("winner_b_amount").innerHTML = "Put &#8377;" + amount +
                     " Take &#8377;" + Math.trunc(amount * bid_master.rate_2);
 
+                let slot_a = document.getElementById("slot_a");
+                let slot_b = document.getElementById("slot_b");
                 if (update_checked) {
                     let max_rate = Math.max(bid_master.rate_1, bid_master.rate_2);
                     if (bid_master.rate_2 === max_rate)
-                        document.getElementById("slot_b").checked = true;
+                        slot_b.checked = true;
                     if (bid_master.rate_1 === max_rate)
-                        document.getElementById("slot_a").checked = true;
+                        slot_a.checked = true;
                 }
+                slot_b.parentElement.style.display = bid_master.rate_2 <= 1 ? 'none' : 'block';
+                slot_a.parentElement.style.display = bid_master.rate_1 <= 1 ? 'none' : 'block';
                 console.log("Winner Slots Updated");
                 slots_time = 0;
             }
