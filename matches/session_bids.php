@@ -3,24 +3,26 @@ include "../Common.php";
 include "../data.php";
 $data = new Data();
 $common = new Common($data->get_path(), $data->get_amazon_api_endpoint());
-if(isset($_GET['session'])){
+if(isset($_GET['session']) && isset($_GET['room'])){
     $session = $_GET['session'];
+    $room = intval($_GET['room']);
     ?>
     <div class="sub-title">Place New Bid</div>
     <form action="place_bid_to_db.php" method="post" name="bid_form" id="bid_form">
         <input type="text" name="bid_id" value="<?php echo $common->get_unique_bid_id('session'); ?>" hidden="hidden">
         <input type="text" name="session" value="<?php echo $session;?>" hidden="hidden">
+        <input type="text" name="room" value="<?php echo $room;?>" hidden="hidden">
         <div class="title">For Innings <?php echo $session[1];?>, End Of <?php echo ($data->get_maxballs_for_slot($session[0])/6)?>th Over</div>
-
-        <div style="display: flex">
-            <label class="amount_span" for="amount">Amount:</label>
-            <input type="number" id="amount" name="amount" value="100"
-                   onkeyup="update_session_slot_details_actual('<?php echo $session;?>')" required />
-
-        </div>
+        <label class="amount_span" id="amount-display" for="amount">Amount of &#8377;<?php echo $room === 1 ? 100 : ($room == 2 ? 700 : ($room === 3 ? 1500 : 0)); ?> </label>
         <div class="plux_minus_container">
-            <a style="padding: 0.2rem 0.5rem; margin: 0" class="button" onclick="increase_amount(100);"> + ₹100 </a>
-            <a style="padding: 0.2rem 0.5rem; margin: 0" class="button" onclick="decrease_amount(100);"> - ₹100 </a>
+            <a class="button" onclick="increase_amount();"> <i class="fas fa-plus"></i> &#8377;100 </a>
+            <input type="range" id="amount" name="amount" step="1" class="slider"
+                   oninput="updateAmount('<?php echo $session;?>', '<?php echo $room; ?>')"
+                   min="<?php echo $room === 1 ? 1 : ($room == 2 ? 501 : ($room === 3 ? 1001 : 0)); ?>"
+                   max="<?php echo $room === 1 ? 500 : ($room == 2 ? 1000 : ($room === 3 ? 2500 : 0)); ?>"
+                   value="<?php echo $room === 1 ? 100 : ($room == 2 ? 700 : ($room === 3 ? 1500 : 0)); ?>">
+
+            <a class="button" onclick="decrease_amount();"> <i class="fas fa-minus"></i> &#8377;100 </a>
         </div>
         <?php if ($common->is_user_an_agent()){ ?>
             <div class="separator"></div>
@@ -30,6 +32,7 @@ if(isset($_GET['session'])){
             </div>
         <?php } ?>
         <div class="separator"></div>
+        <div class="sub-title">Biding Room : <?php echo $room; ?></div>
         <div class="slot_container">
             <div class="title">Choose your Slot :</div>
             <div class="slot_container_inner">
@@ -57,6 +60,7 @@ if(isset($_GET['session'])){
             </div>
             <div class="small-gap"></div>
             <div class="separator"></div>
+            <span class="error" id="room-error"></span>
             <input type="submit" value="Place Bid" id="place_bid" onclick="place_bid_text()">
             <div class="timer" id="timer_slots">&nbsp;</div>
         </div>

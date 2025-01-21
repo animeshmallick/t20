@@ -259,7 +259,6 @@ a.cancel_bid {
 }
 a.button {
     display: block;
-    min-width: 10%;
     border-radius: 0.5rem;
     box-shadow: 0 0 3rem rgba(7, 7, 7, 0.31), 0 0 3rem rgba(0,0,0,0.24);
     font-weight: bolder;
@@ -619,6 +618,8 @@ label.container div.slot:after ~ input:checked{
     font-size: 2rem;
 }
 label.amount_span {
+    display: block;
+    text-align: center;
     font-weight: bold;
     font-size: 1.3rem;
     padding-top: 0.75rem;
@@ -810,4 +811,39 @@ div.popup-sub-header {
     width: 100%;
     padding-top: 1rem;
     padding-bottom: 1rem;
+}
+.slider {
+    width: 90%;
+    height: 2rem;
+    -webkit-appearance: none;
+    appearance: none;
+    background: linear-gradient(to right, #4CAF50 0%, #4CAF50 50%, #ddd 50%, #ddd 100%);
+    border-radius: 1rem;
+    outline: none;
+    transition: background 0.3s;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 2.5rem;
+    height: 3rem;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    background: url('../images/ball.png') no-repeat center;
+}
+
+.slider::-moz-range-thumb {
+    width: 2rem;
+    height: 2rem;
+    background: #4caf50;
+    border-radius: 50%;
+    cursor: pointer;
+}
+input[type="range"]:active {
+    background: linear-gradient(to right, #4CAF50 0%, #4CAF50 50%, #888 50%, #888 100%);
+}
+input[type="range"]:active::-webkit-slider-thumb {
+    transform: scale(1.1);
 }

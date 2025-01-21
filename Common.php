@@ -196,9 +196,9 @@ class Common {
         curl_close($ch);
         return true;
     }
-    function get_all_bids_from_match(string $series_id, string $match_id, string $type): array
+    function get_all_bids_from_match(string $series_id, string $match_id, string $type, int $room): array
     {
-        $url = $this->amazon_api_end_point . "/get_match_bids/" . $series_id . "/" . $match_id . "/" . $type;
+        $url = $this->amazon_api_end_point . "/get_match_bids/" . $series_id . "/" . $match_id . "/" . $type . "/" . $room;
         return json_decode($this->get_response_from_url($url));
     }
 
@@ -232,7 +232,7 @@ class Common {
     }
     public function insert_new_session_bid_to_db(int $bid_id, string $ref_id, string $series_id, string $match_id, string $session,
                                                  string $slot, int $runs_min, int $runs_max, float $rate, float $amount,
-                                                 string $bid_name): bool|string
+                                                 string $bid_name, string $room): bool|string
     {
         if ($rate == null)
             return false;
@@ -251,7 +251,8 @@ class Common {
             "amount" => $amount,
             "status" => "placed",
             'type' => 'session',
-            'bid_name' => $bid_name
+            'bid_name' => $bid_name,
+            'room' => $room
         );
         $url = $this->amazon_api_end_point . '/save_new_bid';
         $json_bid_data = json_encode($bid_data);
@@ -271,7 +272,7 @@ class Common {
     }
 
     public function insert_new_winner_bid_to_db($bid_id, $ref_id, $series_id, $match_id, $slot,
-                                                $rate, $amount, $bid_name): bool|string
+                                                $rate, $amount, $bid_name, $room): bool|string
     {
         $bid_data = array(
             "id" => $bid_id,
@@ -283,7 +284,9 @@ class Common {
             "rate" => $rate,
             "amount" => $amount,
             "status" => "placed",
-            'type' => 'winner'
+            'type' => 'winner',
+            'bid_name' => $bid_name,
+            'room' => $room
         );
         $url = $this->amazon_api_end_point . '/save_new_bid';
         $json_bid_data = json_encode($bid_data);
@@ -302,9 +305,9 @@ class Common {
         return $response;
     }
 
-    public function get_rates(string $series_id, string $match_id, string $session, float $amount): array
+    public function get_rates(string $series_id, string $match_id, string $session, int $room, float $amount): array
     {
-        $url = $this->amazon_api_end_point . "/get_bid_book/".$series_id."/".$match_id."/".$session;
+        $url = $this->amazon_api_end_point . "/get_bid_book/".$series_id."/".$match_id."/".$session."/".$room;
         $book = json_decode($this->get_response_from_url($url));
         if (isset($book->error))
             return [2.0, 2.0, 2.0];

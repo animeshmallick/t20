@@ -260,17 +260,22 @@ function create_no_more_overs() {
     p.innerHTML = "Only Last 4 overs allowed";
     return p;
 }
-function update_session_slot_details(session) {
-    update_session_slot_details_actual(session, true);
+function update_session_slot_details(session, room) {
+    slots_time = 0;
+    update_session_slot_details_actual(session, room, true);
     update_slots_timer = setInterval(function (){
-        slots_time += 5;
-        document.getElementById('timer_slots').innerHTML = "Updated "+slots_time+" sec ago";
-    }, 5000);
+        slots_time += 1;
+        if(slots_time > 5)
+            document.getElementById('timer_slots').innerHTML = "Updated "+slots_time+" sec ago";
+        else
+            document.getElementById('timer_slots').innerHTML = "&nbsp";
+    }, 1000);
     slots_timer = setInterval(function (){
-        update_session_slot_details_actual(session, false);
-    }, 4000);
+        if (slots_time > 4)
+            update_session_slot_details_actual(session, room, false);
+    }, 6000);
 }
-function update_session_slot_details_actual(session, update_selected){
+function update_session_slot_details_actual(session, room, update_selected){
     let series_id = this.getCookie('series_id');
     let match_id = this.getCookie('match_id');
     let amount = document.getElementById('amount').value;
@@ -319,16 +324,25 @@ function update_session_slot_details_actual(session, update_selected){
             console.log("Slots Updated");
         }
     };
-    xmlhttp.open("GET", "../matches/GetSessionSlotDetails.php?series_id=" + series_id + "&match_id=" + match_id + "&session=" + session + "&amount=" + amount, true);
+    xmlhttp.open("GET", "../matches/GetSessionSlotDetails.php?series_id=" + series_id + "&match_id=" + match_id + "&session=" + session + "&room=" + room + "&amount=" + amount, true);
     xmlhttp.send();
 }
-function update_winner_slot_details(session){
-    update_winner_slot_details_actual(session, true);
+function update_winner_slot_details(session, room){
+    slots_time = 0;
+    update_winner_slot_details_actual(session, room, true);
+    update_slots_timer = setInterval(function (){
+        slots_time += 1;
+        if(slots_time > 5)
+            document.getElementById('timer_slots').innerHTML = "Updated "+slots_time+" sec ago";
+        else
+            document.getElementById('timer_slots').innerHTML = "&nbsp";
+    }, 1000);
     slots_timer = setInterval(function (){
-        update_winner_slot_details_actual(session, false);
-    }, 4000);
+        if (slots_time > 4)
+            update_winner_slot_details_actual(session, room, false);
+    }, 6000);
 }
-function update_winner_slot_details_actual(session, update_checked) {
+function update_winner_slot_details_actual(session, room, update_checked) {
     let series_id = this.getCookie('series_id');
     let match_id = this.getCookie('match_id');
     let amount = document.getElementById('amount').value;
@@ -336,7 +350,7 @@ function update_winner_slot_details_actual(session, update_checked) {
     if(session === 'winner') {
         xmlhttp.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
-                let responseText = '{'+this.responseText.split('{')[1]
+                let responseText = '{' + this.responseText.split('{')[1]
                 let bid_master = JSON.parse(responseText);
                 document.getElementById("winner_a").innerHTML =
                     bid_master.team_a + " Wins";
@@ -348,7 +362,7 @@ function update_winner_slot_details_actual(session, update_checked) {
                 document.getElementById("winner_b_amount").innerHTML = "Put &#8377;" + amount +
                     " Take &#8377;" + Math.trunc(amount * bid_master.rate_2);
 
-                if(update_checked) {
+                if (update_checked) {
                     let max_rate = Math.max(bid_master.rate_1, bid_master.rate_2);
                     if (bid_master.rate_2 === max_rate)
                         document.getElementById("slot_b").checked = true;
@@ -359,21 +373,21 @@ function update_winner_slot_details_actual(session, update_checked) {
                 slots_time = 0;
             }
         };
-        xmlhttp.open("GET", "../matches/GetWinnerSlotDetails.php?series_id=" + series_id + "&match_id=" + match_id + "&amount=" + amount, true);
+        xmlhttp.open("GET", "../matches/GetWinnerSlotDetails.php?series_id=" + series_id + "&match_id=" + match_id + "&room=" + room + "&amount=" + amount, true);
         xmlhttp.send();
     }
 }
-function increase_amount(amount){
-    const amount_element = document.getElementById("amount");
-    amount = parseFloat(amount_element.value) + parseFloat(amount);
-    amount_element.value = Math.min(amount, 1000);
-    this.update_slot_details(amount_element.value);
+function increase_amount(session, room, amount){
+    let amount_element = document.getElementById("amount");
+    amount_element.value = parseInt(amount_element.value) + parseInt(amount);
+    document.getElementById('amount-display').innerHTML = "Amount of &#8377;" + amount_element.value;
+    onRelease(session, room);
 }
-function decrease_amount(amount){
-    const amount_element = document.getElementById("amount");
-    amount = parseFloat(amount_element.value) - parseFloat(amount);
-    amount_element.value = Math.max(amount, 100);
-    this.update_slot_details(amount_element.value);
+function decrease_amount(session, room, amount){
+    let amount_element = document.getElementById("amount");
+    amount_element.value -= amount;
+    document.getElementById('amount-display').innerHTML = "Amount of &#8377;" + amount_element.value;
+    onRelease(session, room);
 }
 document.addEventListener('click', function(e) {
     let sidebar = document.getElementById('side-bar-container');
@@ -439,4 +453,19 @@ function place_bid_text(){
     place_bid_btn.value = "Placing Bid . . . ";
     place_bid_btn.disabled = true;
     document.getElementById("bid_form").submit();
+}
+function updateAmount(){
+    document.getElementById("amount-display").innerHTML = "Amount of &#8377;" + document.getElementById("amount").value;
+    let slider = document.getElementById('amount');
+    let min = slider.min;
+    let value = slider.value - min;
+    let max = slider.max - min;
+    let percentage = (value / max) * 100;
+    slider.style.background = `linear-gradient(to right, #4CAF50 ${percentage}%, #ddd ${percentage}%)`;
+}
+function onRelease(session, room) {
+    if (session.length === 2)
+        update_session_slot_details_actual(session, room, false)
+    else if (session === 'winner')
+        update_winner_slot_details_actual(session, room, false);
 }

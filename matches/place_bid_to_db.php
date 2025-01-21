@@ -8,6 +8,7 @@ $session = $_POST["session"];
 $amount = floatval($_POST["amount"]);
 $bid_id = (int)$_POST["bid_id"];
 $bid_name = $_POST["bid_name"] ?? "";
+$room = $_POST['room'];
 
 $series_id = $common->get_cookie("series_id");
 $match_id = $common->get_cookie("match_id");
@@ -46,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" &&
             $ref_id = $common->get_cookie($data->get_auth_cookie_name());
             if ($common->is_valid_bookie_response_session($bid_bookie_response)){
                 $bid_place_response = $common->insert_new_session_bid_to_db($bid_id, $ref_id, $series_id, $match_id, $session,
-                    $slot, $run_min, $run_max, $rate, $amount, $bid_name);
+                    $slot, $run_min, $run_max, $rate, $amount, $bid_name, $room);
                 $bid_place_response = json_decode($bid_place_response);
                 if($bid_place_response->recharge_status){
                     $status = true;
@@ -79,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" &&
                 $ref_id = $common->get_cookie($data->get_auth_cookie_name());
                 $refund = 0;
                 $bid_place_response = $common->insert_new_winner_bid_to_db($bid_id, $ref_id, $series_id, $match_id, $slot,
-                    $rate, $amount, $bid_name);
+                    $rate, $amount, $bid_name, $room);
                 $bid_place_response = json_decode($bid_place_response);
                 if ($bid_place_response->recharge_status) {
                     $status = true;

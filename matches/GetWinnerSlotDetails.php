@@ -11,10 +11,11 @@ $match_id = $_GET["match_id"];
 $series_id = $_GET["series_id"];
 $session = $common->get_cookie("session");
 $amount = (float)$_GET['amount'];
+$room = intval($_GET['room']);
 
 $scorecard = $common->get_scorecard_latest($series_id, $match_id, "GetWinnerSlotDetails");
 
-$all_bids = $common->get_all_bids_from_match($series_id, $match_id, 'winner');
+$all_bids = $common->get_all_bids_from_match($series_id, $match_id, 'winner', $room);
 $rates = $common->get_winner_rates($all_bids, $amount);
 $output = array(
     "team_a" => $scorecard->teams[0],

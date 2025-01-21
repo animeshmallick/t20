@@ -13,7 +13,7 @@ $session = $_GET['session'];
     <div style="display: flex">
         <label class="amount_span" for="amount">Bid Amount:</label>
         <input type="number" id="amount" name="amount" value="100"
-               onkeyup="update_winner_slot_details('<?php echo $session; ?>')" required />
+               onkeyup="update_special_slot_details('<?php echo $session; ?>')" required />
     </div>
     <div class="plux_minus_container">
         <a style="width: 5rem" class="button" onclick="increase_amount(100);"> + ₹100 </a>

@@ -10,13 +10,14 @@ $scores = new Scores($data);
 $match_id = $_GET["match_id"];
 $series_id = $_GET["series_id"];
 $session = $_GET["session"];
+$room = intval($_GET["room"]);
 $amount = (float)$_GET['amount'];
 
 $scorecard = $common->get_scorecard_latest($series_id, $match_id, "GetSessionSlotDetails");
 
 if($common->is_eligible_for_session_bid($session, $scorecard->over_id)){
     $predicted_runs = $scores->get_slot_runs($session[1], $scorecard, $session[0]);
-    $rates = $common->get_rates($series_id, $match_id, $session, $amount);
+    $rates = $common->get_rates($series_id, $match_id, $session, $room, $amount);
 
     $output = array(
         "predicted_runs_a" => (int)($predicted_runs - 1.5),
