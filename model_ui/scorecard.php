@@ -49,6 +49,7 @@
                 <div style="display: flex" name="over_id" over_no="000"><div class="balls"><span>&nbsp;</span></div> </div>
             </div>
         </div>
+        <a class="button" href="detailed_scorecard.php">Open Detailed Scorecard</a>
         <div class="timer" id="timer">&nbsp;</div>
     </div>
 </body>

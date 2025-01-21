@@ -38,9 +38,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" &&
             $rate = $slot == 'x' ? $bid_bookie_response->rate_1 :
                         ($slot == 'y' ? $bid_bookie_response->rate_2 :
                             ($slot == 'z' ? $bid_bookie_response->rate_3 : 0));
-            $bid_runs_string = $slot == 'x' ? "Runs 0 to ".$bid_bookie_response->predicted_runs_a :
+            $bid_runs_string = $slot == 'x' ? "Runs 0 to ".($bid_bookie_response->predicted_runs_a - 1) :
                                     ($slot == 'y' ? "Runs [".$bid_bookie_response->predicted_runs_a." to ".$bid_bookie_response->predicted_runs_b."]" :
-                                        ($slot == 'z' ? "Runs ".$bid_bookie_response->predicted_runs_b." or more" : 0));
+                                        ($slot == 'z' ? "Runs ".($bid_bookie_response->predicted_runs_b + 1)." or more" : 0));
             $run_min = $slot == 'x' ? 0 : ($slot == 'y' ? $bid_bookie_response->predicted_runs_a : ($slot == 'z' ? $bid_bookie_response->predicted_runs_b + 1 : 490));
             $run_max = $slot == 'x' ? $bid_bookie_response->predicted_runs_a - 1 : ($slot == 'y' ? $bid_bookie_response->predicted_runs_b : ($slot == 'z' ? 490 : -1));
 

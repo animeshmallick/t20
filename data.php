@@ -23,7 +23,7 @@ class Data {
             $this->path = "https://www.crickett20.in/T20/";
         }
         $this->auth_cookie_name = "user_ref_id";
-		$this->default_runs_slotA = 54;
+		$this->default_runs_slotA = 53;
 		$this->default_runs_slotB = 90;
 		$this->default_runs_slotC = 144;
 		$this->default_runs_slotD = 180;

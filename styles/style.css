@@ -65,7 +65,7 @@ form input[type=submit]{
     margin-left: 2.5%;
     padding: 0 0.3rem;
     background: green;
-    font-size: 2rem;
+    font-size: 1.75rem;
     cursor: pointer;
     transition: 0.4s;
     display: block;
@@ -263,7 +263,7 @@ a.button {
     box-shadow: 0 0 3rem rgba(7, 7, 7, 0.31), 0 0 3rem rgba(0,0,0,0.24);
     font-weight: bolder;
     white-space: nowrap;
-    padding: 0.5rem;
+    padding: 0.3rem 0.5rem;
     margin: 0.4rem;
 }
 a.plus-minus {

@@ -296,7 +296,7 @@ function update_session_slot_details_actual(session, room, update_selected){
                         "match_id=" + getCookie('match_id') + "&series_id=" + getCookie('series_id') + "&match_name=" + getCookie('match_name');
             }
             document.getElementById("slot_a_runs").innerHTML =
-                "Runs 0 to " + bid_master.predicted_runs_a;
+                "Runs 0 to " + (bid_master.predicted_runs_a - 1);
             document.getElementById("slot_a_amount").innerHTML = "Put &#8377;" + amount +
                 " & Take &#8377;" + Math.trunc(amount * bid_master.rate_1);
 
@@ -306,7 +306,7 @@ function update_session_slot_details_actual(session, room, update_selected){
                 " & Take &#8377;" + Math.trunc(amount * bid_master.rate_2);
 
             document.getElementById("slot_c_runs").innerHTML =
-                "Runs " + bid_master.predicted_runs_b + " or More";
+                "Runs " + (bid_master.predicted_runs_b + 1) + " or More";
             document.getElementById("slot_c_amount").innerHTML = "Put &#8377;" + amount +
                 " & Take &#8377;" + Math.trunc(amount * bid_master.rate_3);
 
