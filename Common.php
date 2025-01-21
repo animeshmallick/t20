@@ -27,7 +27,11 @@ class Common {
     public function get_all_matches(): array
     {
         $url = $this->amazon_api_end_point . '/get_all_matches';
-        return json_decode($this->get_response_from_url($url));
+        $matches = json_decode($this->get_response_from_url($url));
+        usort($matches, function($a, $b) {
+            return strcmp($a->id,$b->id) * -1;
+        });
+        return $matches;
     }
     public function get_scorecard_latest($series_id, $match_id, $from)
     {
