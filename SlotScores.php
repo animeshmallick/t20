@@ -18,13 +18,16 @@ class Scores {
         return $bid_innings == 1 ? $scorecard->team1_score->runs : $scorecard->team2_score->runs;
 	}
 	public function get_r1($curr_runs, $curr_balls, $slot): int{
-		if($curr_balls == 0){
+		if($curr_balls == 0 || $curr_runs == 0){
 			return $this->datahelper->get_default_runs($slot);}
 		return ($curr_runs / $curr_balls) * $this->datahelper->get_maxballs_for_slot($slot);	
 	}
 
-	public function get_r2_without_wickets($slot): int{
-		return $this->datahelper->get_default_runs($slot);
+	public function get_r2_without_wickets($runs, $balls, $slot): int{
+        echo "ballsPlayed".$balls." ";
+        if($balls == 0 || $runs == 0)
+            return $this->datahelper->get_default_runs($slot);
+		return (($runs / $balls) + 0.3) * $this->datahelper->get_maxballs_for_slot($slot);
 	}
 	
 	public function update_r2_with_wickets($r2, $scorecard, $bid_innings): int{
@@ -45,13 +48,9 @@ class Scores {
     public function get_slot_runs($bid_innings, $scorecard, $slot): float{
 
             $curr_balls_played = $this->get_curr_balls($scorecard);
-            if($curr_balls_played == 0)
-                return $this->datahelper->get_default_runs($slot);
-            if ($bid_innings == 2 && $curr_balls_played < 121)
-                $curr_balls_played = 120;
             $curr_runs = $this->get_curr_runs($bid_innings, $scorecard);
-            $r1 = $this->get_r1($curr_runs, $curr_balls_played, $slot);
-            $r2 = $this->get_r2_without_wickets($slot);
+            $r1 = $this->get_r1($curr_runs, $curr_balls_played%120, $slot);
+            $r2 = $this->get_r2_without_wickets($curr_runs, $curr_balls_played%120, $slot);
             $r2 = $this->update_r2_with_wickets($r2, $scorecard, $bid_innings);
             $r = $this->get_r($r1, $r2, $curr_balls_played, $slot);
             echo $r1." ".$r2." ".$r;
