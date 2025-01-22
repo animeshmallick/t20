@@ -299,6 +299,18 @@ div.scorecard-container {
     background-position: center;
     background-repeat: no-repeat;
 }
+div.detailed-scorecard-container {
+    margin: 0.2rem 0.2rem;
+    display: block;
+    align-content: center;
+    border-radius: 1rem;
+    box-shadow: 0 2rem 1rem rgba(250, 4, 4, 0.69);
+    padding: 0.2rem;
+    background-image: url("../images/stadium1.png");
+    background-size: cover;
+    background-position: right;
+    background-repeat: no-repeat;
+}
 div.match-detail {
     display: block;
     align-content: center;
@@ -709,7 +721,6 @@ i.refresh-button:hover {
 
 table {
     width: 100%;
-    box-shadow: 0.5rem 0.5rem darkgrey;
     border-collapse:separate;
     border:solid black 0.2rem;
     border-radius: 1rem;
@@ -720,6 +731,7 @@ th, td {
     text-align: center;
     border: 0.1rem solid #000000;
     border-radius: 1rem;
+    background: rgba(189, 183, 107, 0.6);
 }
 
 

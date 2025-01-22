@@ -594,4 +594,10 @@ class Common {
         $url = $this->amazon_api_end_point . "/get_all_users";
         return json_decode($this->get_response_from_url($url));
     }
+
+    public function get_scores_of_match(string $series_id, string $match_id, string $over_id)
+    {
+        $url = $this->amazon_api_end_point . '/scores/' . $series_id . '/' . $match_id . '/' . $over_id;
+        return json_decode($this->get_response_from_url($url));
+    }
 }
