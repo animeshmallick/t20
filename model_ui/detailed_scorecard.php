@@ -11,7 +11,7 @@ function get_score_at_over($scores, $over_id): stdClass
             return $score;
         }
     }
-    return (object)array('error' => '--');
+    return (object)array('error' => '-- ('.($over_id % 100).')');
 }
 
 $series_id = $common->get_cookie('series_id');
@@ -75,7 +75,6 @@ if(isset($_GET['expand']) && $_GET['expand'] == 1){ ?>
                 <td colspan="3">Detailed Score Per Over</td>
             </tr>
             <tr>
-                <th>Overs</th>
                 <th><?php echo $scores[0]->teams[0]; ?></th>
                 <th><?php echo $scores[0]->teams[1]; ?></th>
             </tr>
@@ -87,7 +86,6 @@ if(isset($_GET['expand']) && $_GET['expand'] == 1){ ?>
                     $score_2 = get_score_at_over($scores, (200 + $i));
                     ?>
                     <tr>
-                        <td style="width: 10%"><?php echo $i; ?></td>
                         <td id="row_1_<?php echo $i;?>" style="width: 45%" onclick="toggleDetails(<?php echo (100 + $i);?>)"><?php echo get_score_string($score_1);?>
                         </td>
                         <td id="row_2_<?php echo $i;?>" style="width: 45%" onclick="toggleDetails(<?php echo (200 + $i);?>)">
@@ -95,7 +93,7 @@ if(isset($_GET['expand']) && $_GET['expand'] == 1){ ?>
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="3" class="over_details" id="row_over_<?php echo (100 + $i);?>">
+                        <td colspan="2" class="over_details" id="row_over_<?php echo (100 + $i);?>">
                             <div style="display: flex">
                                 <?php
                                 if(isset($score_1->this_over)){
@@ -112,7 +110,7 @@ if(isset($_GET['expand']) && $_GET['expand'] == 1){ ?>
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="3" class="over_details" id="row_over_<?php echo (200 + $i);?>">
+                        <td colspan="2" class="over_details" id="row_over_<?php echo (200 + $i);?>">
                             <div style="display: flex">
                                 <?php
                                 if(isset($score_2->this_over)){
