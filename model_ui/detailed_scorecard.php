@@ -108,22 +108,24 @@ if(isset($_GET['expand']) && $_GET['expand'] == 1){ ?>
                                 }
                                 ?>
                             </div>
+                            <div class="over_summary"><span><?php echo $score_1->this_over_summary?></span></div>
                         </td>
                     </tr>
                     <tr>
                         <td colspan="3" class="over_details" id="row_over_<?php echo (200 + $i);?>">
                             <div style="display: flex">
                                 <?php
-                                if(isset($score_2->balls)){
-                                    $width = count($score_2->balls) < 4 ? 33.3 : 100 / count($score_2->balls);
-                                    for($j=0;$j<count($score_2->balls);$j++) { ?>
+                                if(isset($score_2->this_over)){
+                                    $width = count($score_2->this_over) < 4 ? 33.3 : 100 / count($score_2->this_over);
+                                    for($j=0;$j<count($score_2->this_over);$j++) { ?>
                                         <div class="balls" style="align-content: center; width: <?php echo $width.'%'; ?>">
-                                            <span><?php echo $score_2->balls[$j];?></span>
+                                            <span><?php echo $score_2->this_over[$j];?></span>
                                         </div>
                                     <?php }
                                 }
                                 ?>
                             </div>
+                            <div class="over_summary"><span><?php echo $score_2->this_over_summary?></span></div>
                         </td>
                     </tr>
                 <?php } ?>
