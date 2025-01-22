@@ -146,6 +146,7 @@ a:hover, a:active {
 }
 .error {
     color: red;
+    background: white;
 }
 .success {
     color: green;

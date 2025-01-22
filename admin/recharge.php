@@ -4,7 +4,7 @@ include "../data.php";
 $data = new Data();
 $common = new Common($data->get_path(), $data->get_amazon_api_endpoint());
 $ref_id = $common->get_cookie($data->get_auth_cookie_name());
-if ($_SERVER['REQUEST_METHOD'] === 'GET' && $common->is_user_an_admin()){ ?>
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && ($common->is_user_an_admin() || $common->is_user_an_agent()) && $common->is_user_logged_in()){ ?>
     <html>
     <head>
         <title>Recharge User</title>
@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && $common->is_user_an_admin()){ ?>
         <link rel="icon" type="image/x-icon" href="../cricket.ico">
         <script src="../scripts.js?version=<?php echo time(); ?>"></script>
     </head>
-    <body onload="fill_header();fill_footer();">
+    <body onload="fill_header();fill_balance();fill_footer();">
     <div id="header"></div>
     <div class="main_container">
         <div class="sub-title">Recharge User Balance</div>
@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && $common->is_user_an_admin()){ ?>
     <div id="footer"></div>
     </body>
     </html>
-<?php } else if($_SERVER['REQUEST_METHOD'] === 'POST' && $common->is_user_an_admin() && $common->is_user_logged_in()) {
+<?php } else if($_SERVER['REQUEST_METHOD'] === 'POST' && ($common->is_user_an_admin() || $common->is_user_an_agent()) && $common->is_user_logged_in()) {
     $phone = $_POST['phone'];
     $amount = $_POST['amount'];
     $recharge_id = $_POST['recharge_id'];

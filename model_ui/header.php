@@ -54,6 +54,13 @@
                         </div>
                     <div class="separator"></div>
                 <?php } ?>
+                <?php if ($common->is_user_an_agent()){ ?>
+                    <div class="scorecard-container">
+                        <div class="title">Agents Only</div>
+                        <a href="../admin/recharge.php" onclick="w3_close()" class="w3-mobile w3-bar-item w3-center nav_item">Transfer Balance</a>
+                    </div>
+                    <div class="separator"></div>
+                <?php } ?>
                 <div class="scorecard-container">
                     <a href="javascript:void(0)" onclick="w3_close()" class="w3-mobile w3-bar-item w3-center nav_item" style="font-weight: bolder;">Close</a>
                 </div>
