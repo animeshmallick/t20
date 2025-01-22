@@ -600,4 +600,15 @@ class Common {
         $url = $this->amazon_api_end_point . '/scores/' . $series_id . '/' . $match_id . '/' . $over_id;
         return json_decode($this->get_response_from_url($url));
     }
+
+    public function get_valid_balls(array $this_over): int
+    {
+        $count = 0;
+        for ($i=0;$i<count($this_over);$i++) {
+            if (str_contains($this_over[$i], 'w') || str_contains($this_over[$i], 'nb'))
+                continue;
+            $count++;
+        }
+        return $count;
+    }
 }
