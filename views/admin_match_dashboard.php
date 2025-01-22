@@ -110,6 +110,9 @@ if ($common->is_user_logged_in() && $common->is_user_an_admin()){
         }
     }
     foreach ($all_bids_winner  as $bid){
+        $total_c += (int)$bid->amount;
+        if ($bid->status == 'win')
+            $total_d += (int)((int)$bid->amount * $bid->rate);
         $session_winner['count'] += 1;
         $session_winner['collected'] += $bid->amount;
         if ($bid->slot == 'T1')
@@ -120,6 +123,9 @@ if ($common->is_user_logged_in() && $common->is_user_an_admin()){
             $session_winner['given'] += (int)($bid->amount * $bid->rate);
     }
     foreach ($all_bids_special  as $bid){
+        $total_c += (int)$bid->amount;
+        if ($bid->status == 'win')
+            $total_d += (int)((int)$bid->amount * $bid->rate);
         $session_special['count'] += 1;
         $session_special['collected'] += $bid->amount;
         if ($bid->slot == 'T1')
