@@ -325,10 +325,6 @@ function update_session_slot_details_actual(session, room, update_selected){
                 if (bid_master.rate_1 === max_rate)
                     slot_a.checked = true;
             }
-            slot_c.parentElement.style.display = bid_master.rate_3 <= 1 ? 'none' : 'block';
-            slot_b.parentElement.style.display = bid_master.rate_2 <= 1 ? 'none' : 'block';
-            slot_a.parentElement.style.display = bid_master.rate_1 <= 1 ? 'none' : 'block';
-
             document.getElementById('timer_slots').innerHTML = "&nbsp";
             slots_time = 0;
             console.log("Slots Updated");

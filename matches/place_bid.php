@@ -5,42 +5,9 @@ include "../data.php";
 $data = new Data();
 $common = new Common($data->get_path(), $data->get_amazon_api_endpoint());
 if ($common->is_user_logged_in()){
-    if (isset($_GET['session']) &&
-        ($common->is_valid_session_slot($_GET['session']) || $_GET['session'] == "winner") || $_GET['session'] == "special") {
-        if (!isset($_GET['room'])){ ?>
-<head>
-    <title>Place Your Bid</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="../styles/style.css?version=<?php echo time(); ?>">
-    <link rel="icon" type="image/x-icon" href="../cricket.ico">
-    <script src="../scripts.js?version=<?php echo time(); ?>"></script>
-    <script>
-        function open_popup() {
-            document.getElementById('popup').style.display = 'block';
-            document.getElementById('popup-overlay').style.display = 'block';
-        }
-    </script>
-</head>
-        <body onload="open_popup()">
-            <div class="popup-overlay" id="popup-overlay"></div>
-            <div class="popup" id="popup">
-                <div class="sub-title"><h1>Select Room !!</h1></div>
-                <div class="popup-sub-header">Select Room of your choice based on interested bid amount.</div>
-                <div class="bid_container">
-                    <div class="title">Bid Amount</div>
-                    <div class="smaller-gap"></div>
-                    <a class="room_button" href="place_bid.php?session=<?php echo $_GET['session']; ?>&room=1">Less Than &#8377;500</a>
-                    <div class="smaller-gap"></div>
-                    <a class="room_button" href="place_bid.php?session=<?php echo $_GET['session']; ?>&room=2">&#8377;501 to &#8377;1000</a>
-                    <div class="smaller-gap"></div>
-                    <a class="room_button" href="place_bid.php?session=<?php echo $_GET['session']; ?>&room=3">&#8377;1001 to &#8377;2500</a>
-                    <div class="smaller-gap"></div>
-                </div>
-            </div>
-        </body>
-        </html>
-        <?php } else {
-            $room = $_GET['room'];
+    if (isset($_GET['session']) && ($common->is_valid_session_slot($_GET['session']) || $_GET['session'] == "winner" || $_GET['session'] == "special") &&
+         isset($_GET['room'])){
+            $room = intval($_GET['room']);
             $session = $_GET['session'];
             $series_id = $common->get_cookie("series_id");
             $match_id = $common->get_cookie("match_id");
@@ -53,10 +20,6 @@ if ($common->is_user_logged_in()){
                 <link rel="icon" type="image/x-icon" href="../cricket.ico">
                 <script src="../scripts.js?version=<?php echo time(); ?>"></script>
                 <script>
-                    function open_popup() {
-                        document.getElementById('popup').style.display = 'block';
-                        document.getElementById('popup-overlay').style.display = 'block';
-                    }
                     function init() {
                         document.getElementById('amount').addEventListener('mouseup', () => onRelease('<?php echo $session; ?>', '<?php echo $room; ?>'));
                         document.getElementById('amount').addEventListener('touchend', () => onRelease('<?php echo $session; ?>', '<?php echo $room; ?>'));
@@ -66,6 +29,14 @@ if ($common->is_user_logged_in()){
             </head>
                     <body onload="<?php if(strlen($session) == 2) { echo 'update_session_slot_details(\''. $session.'\', '.$room.');';} ?><?php if($session === 'winner'){echo 'update_winner_slot_details(\''.$session.'\', '.$room.');';} ?>updateAmount();fill_header();fill_balance();fill_scorecard('<?php echo $series_id;?>', '<?php echo $match_id;?>');fill_footer();init()">
                         <div id="header"></div>
+                        <div class="play-container">
+                            <div class="title">Select Room Based On Bid Amount</div>
+                            <div style="display: flex; justify-content: space-between">
+                                <a class="room <?php echo $room === 1 ? 'room-selected' : ''?>" href="place_bid.php?session=<?php echo $_GET['session']; ?>&room=1" id="room_1">Below &#8377;500</a>
+                                <a class="room <?php echo $room === 2 ? 'room-selected' : ''?>" href="place_bid.php?session=<?php echo $_GET['session']; ?>&room=2" id="room_1">&#8377;500 - &#8377;1500</a>
+                                <a class="room <?php echo $room === 3 ? 'room-selected' : ''?>" href="place_bid.php?session=<?php echo $_GET['session']; ?>&room=3" id="room_1">&#8377;1500 - &#8377;2500</a>
+                            </div>
+                        </div>
                         <i class="fa fa-refresh refresh-button" onclick="location.reload();"></i>
                         <div class="slot_container_outer">
                             <?php
@@ -90,7 +61,6 @@ if ($common->is_user_logged_in()){
                     </body>
                 </html>
             <?php
-            }
     }else {
             header("Location: ".$data->get_path()."/index.php");
     }

@@ -38,20 +38,20 @@ if ($common->is_user_logged_in()) {
                 <div class="bid_container">
                     <div class="title"><span>1st Innings</span></div>
                     <div style="display: flex">
-                        <div class="bid_button_div"><a class="play bid_button <?php if(!$common->is_session_enabled($over_id,'a1')){echo "disabled";}?>" href="place_bid.php?session=a1">Over 1 to 6</a></div>
-                        <div class="bid_button_div"><a class="play bid_button <?php if(!$common->is_session_enabled($over_id, 'b1')){echo "disabled";}?>" href="place_bid.php?session=b1">Over 7 to 10</a></div>
+                        <div class="bid_button_div"><a class="play bid_button <?php if(!$common->is_session_enabled($over_id,'a1')){echo "disabled";}?>" href="place_bid.php?session=a1&room=1">Over 1 to 6</a></div>
+                        <div class="bid_button_div"><a class="play bid_button <?php if(!$common->is_session_enabled($over_id, 'b1')){echo "disabled";}?>" href="place_bid.php?session=b1&room=1">Over 7 to 10</a></div>
                     </div>
                     <div style="display: flex">
-                        <div class="bid_button_div"><a class="play bid_button <?php if(!$common->is_session_enabled($over_id,'c1')){echo "disabled";}?>" href="place_bid.php?session=c1">Over 11 to 16</a></div>
-                        <div class="bid_button_div"><a class="play bid_button <?php if(!$common->is_session_enabled($over_id,'d1')){echo "disabled";}?>" href="place_bid.php?session=d1">Over 17 to 20</a></div>
+                        <div class="bid_button_div"><a class="play bid_button <?php if(!$common->is_session_enabled($over_id,'c1')){echo "disabled";}?>" href="place_bid.php?session=c1&room=1">Over 11 to 16</a></div>
+                        <div class="bid_button_div"><a class="play bid_button <?php if(!$common->is_session_enabled($over_id,'d1')){echo "disabled";}?>" href="place_bid.php?session=d1&room=1">Over 17 to 20</a></div>
                     </div>
                 </div>
                 <div class="separator"></div>
                 <div class="bid_container">
                     <div class="title"><span>2nd Innings</span></div>
                     <div style="display: flex">
-                        <div class="bid_button_div"><a class="play bid_button <?php if(!$common->is_session_enabled($over_id, 'a2')){echo "disabled";}?>" href="place_bid.php?session=a2">Over 1 to 6</a></div>
-                        <div class="bid_button_div"><a class="play bid_button <?php if(!$common->is_session_enabled($over_id, 'b2')){echo "disabled";}?>" href="place_bid.php?session=b2">Over 7 to 10</a></div>
+                        <div class="bid_button_div"><a class="play bid_button <?php if(!$common->is_session_enabled($over_id, 'a2')){echo "disabled";}?>" href="place_bid.php?session=a2&room=1">Over 1 to 6</a></div>
+                        <div class="bid_button_div"><a class="play bid_button <?php if(!$common->is_session_enabled($over_id, 'b2')){echo "disabled";}?>" href="place_bid.php?session=b2&room=1">Over 7 to 10</a></div>
                     </div>
                 </div>
                 <div class="separator"></div>
