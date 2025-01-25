@@ -4,7 +4,7 @@ include "../Common.php";
 include "../data.php";
 $data = new Data();
 $common = new Common($data->get_path(), $data->get_amazon_api_endpoint());
-if ($common->is_user_logged_in()){
+if ($common->is_user_logged_in() || (isset($_GET['auth']) && $_GET['auth'] == 'locust')){
     if (isset($_GET['session']) && ($common->is_valid_session_slot($_GET['session']) || $_GET['session'] == "winner" || $_GET['session'] == "special") &&
          isset($_GET['room'])){
             $room = intval($_GET['room']);

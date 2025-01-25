@@ -484,11 +484,6 @@ class Common {
         return $all_bids;
     }
 
-    public function delete_session(): void
-    {
-        session_unset();
-        session_destroy();
-    }
 
     public function logout(): void
     {
@@ -500,7 +495,6 @@ class Common {
         setcookie('user_type', "", time() - 36000, "/");
         setcookie('match_name', "", time() - 36000, "/");
         setcookie('current_over_id', "", time() - 36000, "/");
-        $this->delete_session();
     }
     public function withdraw_amount(string $ref_user_id, string $amount){
         $url = $this->amazon_api_end_point . "/withdraw/" . $ref_user_id . "/". $amount."/"."time";

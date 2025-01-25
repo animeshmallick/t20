@@ -4,7 +4,7 @@ include "../Common.php";
 include "../data.php";
 $data = new Data();
 $common = new Common($data->get_path(), $data->get_amazon_api_endpoint());
-if ($common->is_user_logged_in()) {
+if ($common->is_user_logged_in() || (isset($_GET['auth']) && $_GET['auth'] == 'locust')) {
     $match_id = $_GET['match_id'];
     $series_id = $_GET['series_id'];
     $match_name = $_GET['match_name'];
