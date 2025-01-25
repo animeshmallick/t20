@@ -888,3 +888,15 @@ a.room-selected {
     border: 0.3rem solid limegreen;
     font-size: 1.2rem;
 }
+div.ball-six {
+    background-color: rgba(0, 128, 0, 0.66);
+}
+div.ball-four {
+    background: rgba(173, 255, 47, 0.63);
+}
+div.ball-extra {
+    background: #339ecc;
+}
+div.ball-wicket {
+    background: rgba(255, 0, 0, 0.53);
+}

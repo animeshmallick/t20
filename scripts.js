@@ -98,8 +98,8 @@ function fill_scorecard_content(scorecard){
         document.getElementById('current-over-id').innerHTML = "Innings "+scorecard.innings+" | Over : "+(scorecard.over);
     else
         document.getElementById('current-over-id').innerHTML = "Innings "+scorecard.innings+" | Over : "+(scorecard.over - 1)+"."+get_valid_balls(scorecard.this_over);
-    document.getElementById("over-container")
-            .appendChild(create_balls_container(scorecard.over_id, scorecard.this_over));
+    document.getElementById("current-over-container")
+            .appendChild(create_current_over_balls_container(scorecard.over_id, scorecard.this_over));
     document.getElementById('this_over_summary').innerHTML =
         "Over " + (scorecard.over-1)+"."+get_valid_balls(scorecard.this_over)+"  :  " + scorecard.this_over_summary;
     document.getElementById('timer').innerHTML = "&nbsp";
@@ -119,25 +119,31 @@ function fill_balance(){
         xmlhttp.send();
     }, 1000);
 }
-function create_balls_container(over_id, balls){
-    let old = document.getElementsByName("over_id");
-    for(let i=0;i<old.length;i++){
-        old[i].remove();
-    }
+function create_current_over_balls_container(over_id, this_over){
+    document.getElementById('current-over-container').childNodes.forEach((child) => {
+        child.remove();
+    });
+    document.getElementById('current-over-container').setAttribute('name', 'over');
+    document.getElementById('current-over-container').setAttribute('over_id', over_id);
     let res = document.createElement("div");
     res.setAttribute("style","display: flex");
-    res.setAttribute('name', 'over_id');
-    res.setAttribute("over_no", over_id);
 
-    let width = balls.length < 4 ? 33.3 : 100 / balls.length;
-    for(let i=0;i<balls.length;i++) {
+    let width = this_over.length < 4 ? 33.3 : 100 / this_over.length;
+    for(let i=0;i<this_over.length;i++) {
         const div = document.createElement("div");
-        div.setAttribute("class", "balls");
+        div.classList.add('balls');
+        if(this_over[i].includes('W'))
+            div.classList.add('ball-wicket');
+        else if(this_over[i].includes('nb') || this_over[i].includes('w') || this_over[i].includes('lb'))
+            div.classList.add('ball-extra');
+        else if(this_over[i].includes('4'))
+            div.classList.add('ball-four');
+        else if(this_over[i].includes('6'))
+            div.classList.add('ball-six');
         div.setAttribute("style", "align-content: center;width: "+width+"%;")
 
         const span = document.createElement("span");
-        span.setAttribute("id", "balls_id_"+i);
-        span.innerHTML = balls[i];
+        span.innerHTML = this_over[i];
         div.appendChild(span);
 
         res.appendChild(div);
@@ -204,16 +210,16 @@ function fill_account_status(status) {
     xmlhttp.send();
 }
 function add_new_over_data() {
-    let existing_overs_element = document.getElementsByName("over_id");
+    let existing_overs_element = document.getElementsByName("over");
     if (existing_overs_element.length < 4) {
-        let last_showing_over_id = Number(existing_overs_element.item(existing_overs_element.length - 1).getAttribute("over_no"));
+        let last_showing_over_id = Number(existing_overs_element.item(existing_overs_element.length - 1).getAttribute("over_id"));
         let series_id = getCookie("series_id");
         let match_id = getCookie("match_id");
         const xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
                 let scorecard = JSON.parse(this.responseText);
-                document.getElementById("over-container")
+                document.getElementById("previous-over-container")
                     .appendChild(create_new_over_element(scorecard.this_over, scorecard.over_id));
             }
         };
@@ -221,15 +227,15 @@ function add_new_over_data() {
         xmlhttp.send();
     } else {
         if(document.getElementsByName("no-more-overs").length === 0)
-            document.getElementById("over-container").appendChild(create_no_more_overs());
+            document.getElementById("previous-over-container").appendChild(create_no_more_overs());
     }
 }
 function create_new_over_element(this_over, over_id) {
     const div = document.createElement("div");
     div.setAttribute("class", "balls-container-extra");
-    div.setAttribute("name", "over_id");
+    div.setAttribute("name", "over");
     div.setAttribute("id", over_id);
-    div.setAttribute('over_no', over_id);
+    div.setAttribute('over_id', over_id);
 
     const more_over_div = document.createElement("div");
     more_over_div.setAttribute("class", "more_over_div");
@@ -240,9 +246,17 @@ function create_new_over_element(this_over, over_id) {
     let ball_id = 1;
     this_over.forEach((ball) => {
         const ball_div = document.createElement("div");
+        ball_div.classList.add('balls-extra');
+        if(ball.includes('W'))
+            ball_div.classList.add('ball-wicket');
+        else if(ball.includes('nb') || ball.includes('w') || ball.includes('lb'))
+            ball_div.classList.add('ball-extra');
+        else if(ball.includes('4'))
+            ball_div.classList.add('ball-four');
+        else if(ball.includes('6'))
+            ball_div.classList.add('ball-six');
         let width = this_over.length < 4 ? 33.333 : 100 / this_over.length;
         ball_div.setAttribute("style", "width: "+width+"%; align-content: center");
-        ball_div.setAttribute("class", "balls-extra");
 
         const ball_span = document.createElement("span");
         ball_span.setAttribute("id", "ball_id_"+ball_id);

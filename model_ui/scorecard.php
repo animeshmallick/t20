@@ -45,8 +45,10 @@
                         Last Over
                     </a> </div>
             </div>
-            <div class="over-container" id="over-container">
-                <div style="display: flex" name="over_id" over_no="000"><div class="balls"><span>&nbsp;</span></div> </div>
+            <div class="current-over-container" id="current-over-container">
+            </div>
+            <div class="previous-over-container" id="previous-over-container">
+
             </div>
         </div>
         <a id='detailed-scorecard' class="button" href="../model_ui/detailed_scorecard.php">Open Detailed Scorecard</a>
