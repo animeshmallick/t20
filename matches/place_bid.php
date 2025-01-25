@@ -49,10 +49,7 @@ if ($common->is_user_logged_in()){
                             }else { ?>
                                     <div class="title">Invalid Slot. Not reachable statement</div>
                             <?php }?>
-                            <div style="display: flex">
-                                <div class="bid_button_div"><a class="button" href="match.php?match_id=<?php echo $common->get_cookie('match_id'); ?>&series_id=<?php echo $common->get_cookie('series_id'); ?>&match_name=<?php echo $common->get_cookie('match_name'); ?>">Change Bid Type</a></div>
-                                <div class="bid_button_div"><a class="button" href="place_bid.php?session=<?php echo $session ?>">Change Room</a></div>
-                            </div>
+                                <div class="bid_button_div" style="width: 80%; margin-left: 10%"><a class="button" href="match.php?match_id=<?php echo $common->get_cookie('match_id'); ?>&series_id=<?php echo $common->get_cookie('series_id'); ?>&match_name=<?php echo $common->get_cookie('match_name'); ?>">Change Bid Type</a></div>
                             <div class="separator"></div>
                         </div>
                         <div id="scorecard"></div>
