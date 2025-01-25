@@ -309,17 +309,21 @@ class Common {
         return $response;
     }
 
-    public function get_rates(string $series_id, string $match_id, string $session, int $room, float $amount): array
+    public function get_rates(string $series_id, string $match_id, string $session, int $room, float $amount, float $r): array
     {
         $url = $this->amazon_api_end_point . "/get_bid_book/".$series_id."/".$match_id."/".$session."/".$room;
         $book = json_decode($this->get_response_from_url($url));
         if (isset($book->error))
             return [2.0, 2.0, 2.0];
 
-        $x = $book->collected * 0.7 + $amount + min($amount, 500);
-        $a = $book->given[0];
-        $b = $book->given[1];
-        $c = $book->given[2];
+        $x = $book->collected * 0.8 + $amount;
+        $r1 = (int)($r - 1.5);
+        $r2 = (int)($r + 1.5);
+        $a = max($book->runs[$r1 - 1], $book->runs[$r1 - 2], $book->runs[$r1 - 3], $book->runs[$r1 - 4], $book->runs[$r1 - 5]);
+        $b = 0;
+        for($i = $r1; $i <= $r2; $i++)
+            $b = max($b, $book->runs[$i]);
+        $c = max($book->runs[$r2 + 1], $book->runs[$r2 + 2], $book->runs[$r2 + 3], $book->runs[$r2 + 4], $book->runs[$r2 + 5]);
 
         $ga = max(($x - $a), 0.0);
         $gb = max(($x - $b), 0.0);

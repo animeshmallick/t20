@@ -37,7 +37,7 @@ if($session[0] == 'd')
 
 if($common->is_eligible_for_session_bid($session, $scorecard->over_id)){
     $predicted_runs = $scores->get_slot_runs($session[1], $scorecard, $session[0]);
-    $rates = $common->get_rates($series_id, $match_id, $session, $room, $amount);
+    $rates = $common->get_rates($series_id, $match_id, $session, $room, $amount, $predicted_runs);
 
     $output = array(
         "predicted_runs_a" => (int)($predicted_runs - 1.5),
