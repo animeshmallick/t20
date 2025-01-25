@@ -611,4 +611,21 @@ class Common {
         }
         return $count;
     }
+    function get_score_string($score): string
+    {
+        if(isset($score->error))
+            return $score->error;
+        return $score->innings == 1 ?
+            $score->team1_score->runs . "/" . $score->team1_score->wickets . " (".$score->over.")" :
+            $score->team2_score->runs . "/" . $score->team2_score->wickets . " (".$score->over.")";
+    }
+    function get_score_at_over($scores, $over_id): stdClass
+    {
+        foreach ($scores as $score){
+            if ($score->over_id == $over_id){
+                return $score;
+            }
+        }
+        return (object)array('error' => '-- ('.($over_id % 100).')');
+    }
 }

@@ -35,6 +35,7 @@ usort($bids_type_winner, function($a, $b) {
     return strcmp($a->timestamp, $b->timestamp) * -1;
 });
 $match_name = $common->get_match_name_match_id($all_matches, $match_id, $series_id);
+$scores = $common->get_scores_of_match($series_id, $match_id, 'all');
 ?>
 <html lang="">
     <head>
@@ -48,7 +49,40 @@ $match_name = $common->get_match_name_match_id($all_matches, $match_id, $series_
     <div id="header"></div>
     <div id="profile"></div>
     <div class="separator"></div>
-        <div class="bid_container">
+    <div class="detailed-scorecard-container">
+        <table>
+            <thead>
+            <tr>
+                <th>Overs</th>
+                <th><?php echo $scores[0]->teams[0]; ?></th>
+                <th><?php echo $scores[0]->teams[1]; ?></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>End of 6th Over</td>
+                <td><?php echo $common->get_score_string($common->get_score_at_over($scores, 106));?></td>
+                <td><?php echo $common->get_score_string($common->get_score_at_over($scores, 206));?></td>
+            </tr>
+            <tr>
+                <td>End of 10th Over</td>
+                <td><?php echo $common->get_score_string($common->get_score_at_over($scores, 110));?></td>
+                <td><?php echo $common->get_score_string($common->get_score_at_over($scores, 210));?></td>
+            </tr>
+            <tr>
+                <td>End of 16th Over</td>
+                <td><?php echo $common->get_score_string($common->get_score_at_over($scores, 116));?></td>
+                <td><?php echo $common->get_score_string($common->get_score_at_over($scores, 216));?></td>
+            </tr>
+            <tr>
+                <td>End of 20th Over</td>
+                <td><?php echo $common->get_score_string($common->get_score_at_over($scores, 120));?></td>
+                <td><?php echo $common->get_score_string($common->get_score_at_over($scores, 220));?></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="bid_container">
         <div class="bids_heading">Your Bids</div>
             <div class="bid_container">
                 <div class ="title"><?php echo $match_name;?></div>

@@ -3,30 +3,11 @@ include "../Common.php";
 include "../data.php";
 $data = new Data();
 $common = new Common($data->get_path(), $data->get_amazon_api_endpoint());
-
-function get_score_at_over($scores, $over_id): stdClass
-{
-    foreach ($scores as $score){
-        if ($score->over_id == $over_id){
-            return $score;
-        }
-    }
-    return (object)array('error' => '-- ('.($over_id % 100).')');
-}
-
 $series_id = $common->get_cookie('series_id');
 $match_id = $common->get_cookie('match_id');
 $espn_url = "https://www.espncricinfo.com/series/" . $series_id . "/" . $match_id . "/live-cricket-score";
 
 $scores = $common->get_scores_of_match($series_id, $match_id, 'all');
-function get_score_string($score): string
-{
-    if(isset($score->error))
-        return $score->error;
-    return $score->innings == 1 ?
-        $score->team1_score->runs . "/" . $score->team1_score->wickets . " (".$score->over.")" :
-        $score->team2_score->runs . "/" . $score->team2_score->wickets . " (".$score->over.")";
-}
 
 if(isset($_GET['expand']) && $_GET['expand'] == 1){ ?>
     <html lang="">
@@ -82,14 +63,14 @@ if(isset($_GET['expand']) && $_GET['expand'] == 1){ ?>
             <tbody>
                 <?php
                 for($i = 1; $i <= 20; $i++){
-                    $score_1 = get_score_at_over($scores, (100 + $i));
-                    $score_2 = get_score_at_over($scores, (200 + $i));
+                    $score_1 = $common->get_score_at_over($scores, (100 + $i));
+                    $score_2 = $common->get_score_at_over($scores, (200 + $i));
                     ?>
                     <tr>
-                        <td id="row_1_<?php echo $i;?>" style="width: 45%" onclick="toggleDetails(<?php echo (100 + $i);?>)"><?php echo get_score_string($score_1);?>
+                        <td id="row_1_<?php echo $i;?>" style="width: 45%" onclick="toggleDetails(<?php echo (100 + $i);?>)"><?php echo $common->get_score_string($score_1);?>
                         </td>
                         <td id="row_2_<?php echo $i;?>" style="width: 45%" onclick="toggleDetails(<?php echo (200 + $i);?>)">
-                            <?php echo get_score_string($score_2);?>
+                            <?php echo $common->get_score_string($score_2);?>
                         </td>
                     </tr>
                     <tr>
@@ -162,23 +143,23 @@ if(isset($_GET['expand']) && $_GET['expand'] == 1){ ?>
                 <tbody>
                     <tr>
                         <td>End of 6th Over</td>
-                        <td><?php echo get_score_string(get_score_at_over($scores, 106));?></td>
-                        <td><?php echo get_score_string(get_score_at_over($scores, 206));?></td>
+                        <td><?php echo $common->get_score_string($common->get_score_at_over($scores, 106));?></td>
+                        <td><?php echo $common->get_score_string($common->get_score_at_over($scores, 206));?></td>
                     </tr>
                     <tr>
                         <td>End of 10th Over</td>
-                        <td><?php echo get_score_string(get_score_at_over($scores, 110));?></td>
-                        <td><?php echo get_score_string(get_score_at_over($scores, 210));?></td>
+                        <td><?php echo $common->get_score_string($common->get_score_at_over($scores, 110));?></td>
+                        <td><?php echo $common->get_score_string($common->get_score_at_over($scores, 210));?></td>
                     </tr>
                     <tr>
                         <td>End of 16th Over</td>
-                        <td><?php echo get_score_string(get_score_at_over($scores, 116));?></td>
-                        <td><?php echo get_score_string(get_score_at_over($scores, 216));?></td>
+                        <td><?php echo $common->get_score_string($common->get_score_at_over($scores, 116));?></td>
+                        <td><?php echo $common->get_score_string($common->get_score_at_over($scores, 216));?></td>
                     </tr>
                     <tr>
                         <td>End of 20th Over</td>
-                        <td><?php echo get_score_string(get_score_at_over($scores, 120));?></td>
-                        <td><?php echo get_score_string(get_score_at_over($scores, 220));?></td>
+                        <td><?php echo $common->get_score_string($common->get_score_at_over($scores, 120));?></td>
+                        <td><?php echo $common->get_score_string($common->get_score_at_over($scores, 220));?></td>
                     </tr>
                 </tbody>
             </table>
