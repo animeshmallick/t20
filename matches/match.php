@@ -11,7 +11,8 @@ if ($common->is_user_logged_in() || (isset($_GET['auth']) && $_GET['auth'] == 'l
     $common->delete_cookie('scorecard');
     $common->set_cookie('match_id', $match_id);
     $common->set_cookie('series_id', $series_id);
-    $common->set_cookie('match_name', $match_name);
+    $ma = explode('--', str_replace(' ', '', $match_name))[0];
+    $common->set_cookie('match_name', $ma);
     $scorecard = $common->get_scorecard_latest($series_id, $match_id, "Match Homepage");
     $over_id =  (int)($scorecard->over_id);
     ?>

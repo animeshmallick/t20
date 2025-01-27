@@ -276,8 +276,9 @@ div.separator {
     margin: 0.5rem;
 }
 div.small-separator {
+    width: 100%;
     border: 0.01rem solid #000000;
-    margin: 0.25rem 1.5rem;
+    margin: 0.1rem 0;
 }
 div.title-container {
     display: flex;
@@ -315,18 +316,17 @@ div.detailed-scorecard-container {
 div.match-detail {
     display: block;
     align-content: center;
-    background: rgba(128, 128, 128, 0.75);
+    background: wheat;
     border-radius: 1rem;
     box-shadow: 0 2rem 1rem rgba(0,0,0,0.3);
 }
 div.teams_details {
     width: 50%;
-    background-color: rgba(76, 213, 55, 0.7);
+    background-color: lightsteelblue;
     border: 0.1rem solid #339ecc;
     border-radius: 0.75rem;
     text-align: center;
     font-weight: bold;
-    margin: 0.2rem 0.3rem;
 }
 div.vs {
     background-color: rgba(76, 213, 55, 0.5);
@@ -354,6 +354,9 @@ div.players_container {
 div.batsmen {
     width: 50%;
     padding: 0 1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 div.current-over {
     width: 60%;
@@ -899,4 +902,23 @@ div.ball-extra {
 }
 div.ball-wicket {
     background: rgba(255, 0, 0, 0.53);
+}
+
+a.detailed_scorecard_button{
+    width: 100%;
+    margin: 0;
+    padding: 0.2rem;
+    border-radius: 1rem;
+}
+div.match-score-main {
+    text-align: center;
+    font-weight: bold;
+    letter-spacing: 0.2rem;
+    border-radius: 1rem;
+    border-bottom: 0.2rem solid #edcf08;
+    box-shadow: 0 0.7rem 0.5rem rgba(237, 207, 8, 0.4);
+    padding: 0.1rem 0.3rem;
+    color: wheat;
+    font-size: 1.75rem;
+    background-color: cornflowerblue;
 }

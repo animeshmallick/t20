@@ -74,34 +74,55 @@ function fill_scorecard_content(scorecard){
         over_str_1 -= 1;
         let bls = get_valid_balls(scorecard.this_over);
         over_str_1 = over_str_1+"."+bls;
-        if(bls === 6)
+        if(bls === 6 || bls === 0)
             over_str_1 = scorecard.team1_score.overs;
     }
     if(scorecard.innings === 2){
         over_str_2 -= 1;
         let bls = get_valid_balls(scorecard.this_over);
         over_str_2 = over_str_2+"."+bls;
-        if(bls === 6)
+        if(bls === 6 || bls === 0)
             over_str_2 = scorecard.team2_score.overs;
     }
+    let total_balls = 0;
+    if(scorecard.innings === 1){
+        let x = parseFloat(over_str_1) * 10;
+        total_balls = (x * 6 / 10) + (x % 10);
+    }else{
+        let x = parseFloat(over_str_2) * 10;
+        total_balls = (x * 6 / 10) + (x % 10);
+    }
+    if(total_balls <= 0){
+        over_str_1 = 0;
+        over_str_2 = 0;
+    }
+    let crr = 0;
+    crr = (scorecard.innings === 1 ? scorecard.team1_score.runs : scorecard.team2_score.runs) / total_balls * 6;
+    let rrr = scorecard.innings === 2 ? (scorecard.team1_score - scorecard.team2_score + 1) / (120 - total_balls) * 6 : 0;
+    let team_score = [];
+    document.getElementById('team1_logo').setAttribute('src', `../images/${scorecard.teams[0].toLowerCase()}.png`)
+    document.getElementById('team2_logo').setAttribute('src', `../images/${scorecard.teams[1].toLowerCase()}.png`)
     document.getElementById("team1_name").innerHTML = scorecard.teams[0];
-    let team1_score = scorecard.team1_score.runs + "/" + scorecard.team1_score.wickets + " (" + over_str_1 + ")";
-    document.getElementById("team1_score").innerHTML = team1_score;
+    team_score[0] = scorecard.team1_score.runs + "/" + scorecard.team1_score.wickets + " (" + over_str_1 + ")";
+    document.getElementById("team1_score").innerHTML = team_score[0];
     document.getElementById("team2_name").innerHTML = scorecard.teams[1];
-    let team2_score = scorecard.team2_score.runs + "/" + scorecard.team2_score.wickets + " (" + over_str_2 + ")";
-    document.getElementById("team2_score").innerHTML = team2_score;
+    team_score[1] = scorecard.team2_score.runs + "/" + scorecard.team2_score.wickets + " (" + over_str_2 + ")";
+    document.getElementById("team2_score").innerHTML = team_score[1];
     document.getElementById("match_additional_details").innerHTML = scorecard.match_additional_details[0];
     document.getElementById('bowler').innerHTML = scorecard.bowler;
     document.getElementById('batsman1').innerHTML = scorecard.batsmen[0];
     document.getElementById('batsman2').innerHTML = scorecard.batsmen[1];
-    if(get_valid_balls(scorecard.this_over) === 6)
-        document.getElementById('current-over-id').innerHTML = "Innings "+scorecard.innings+" | Over : "+(scorecard.over);
-    else
-        document.getElementById('current-over-id').innerHTML = "Innings "+scorecard.innings+" | Over : "+(scorecard.over - 1)+"."+get_valid_balls(scorecard.this_over);
+    document.getElementById('current-over-id').innerHTML = scorecard.teams[scorecard.innings - 1]+" | " +team_score[scorecard.innings - 1];
     document.getElementById("current-over-container")
             .appendChild(create_current_over_balls_container(scorecard.over_id, scorecard.this_over));
     document.getElementById('this_over_summary').innerHTML =
-        "Over " + (scorecard.over-1)+"."+get_valid_balls(scorecard.this_over)+"  :  " + scorecard.this_over_summary;
+        "Over " + (scorecard.innings === 1 ? over_str_1 : over_str_2)+"  :  " + scorecard.this_over_summary;
+
+    document.getElementById('crr').innerHTML = crr !== 0 ? ("Cur. RR : "+ crr.toFixed(2)) : "";
+    document.getElementById('rrr').innerHTML = rrr !== 0 ? ("Req. RR : "+ rrr.toFixed(2)) : "";
+
+    document.getElementById('partnership').innerHTML = 'Partnership : ' + scorecard.partnership.replaceAll(' Runs, ', ' (').replaceAll(' B', ')');
+    document.getElementById('last_batsman').innerHTML = 'L. Wkt.: ' +scorecard.last_batsman + " " +scorecard.last_wicket_at;
     document.getElementById('timer').innerHTML = "&nbsp";
     scorecard_time = 0;
     console.log("Scorecard Updated");
