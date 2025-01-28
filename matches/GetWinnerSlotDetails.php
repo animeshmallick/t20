@@ -35,15 +35,18 @@ function get_valid_balls($this_over): int
     }
     return $count;
 }
-
-$output = array(
-    "team_a" => $scorecard->teams[0],
-    "team_b" => $scorecard->teams[1],
-    "rate_1" => $rates[0],
-    "rate_2" => $rates[1],
-    "target" => $scorecard->teams[1]." needs ".($scorecard->team1_score->runs - $scorecard->team2_score->runs + 1)." runs in "
-        .get_balls_remaining($scorecard)." balls",
-    "innings" => $scorecard->innings
-);
-echo json_encode($output)
+if ($scorecard->over_id < 218) {
+    $output = array(
+        "team_a" => $scorecard->teams[0],
+        "team_b" => $scorecard->teams[1],
+        "rate_1" => $rates[0],
+        "rate_2" => $rates[1],
+        "target" => $scorecard->teams[1] . " needs " . ($scorecard->team1_score->runs - $scorecard->team2_score->runs + 1) . " runs in "
+            . get_balls_remaining($scorecard) . " balls",
+        "innings" => $scorecard->innings
+    );
+}else{
+    $output = array("error" => "Session Closed for Bidding");
+}
+echo json_encode($output);
 ?>

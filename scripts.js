@@ -393,6 +393,15 @@ function update_winner_slot_details_actual(session, room, update_checked) {
             if (this.readyState === 4 && this.status === 200) {
                 let responseText = '{' + this.responseText.split('{')[1]
                 let bid_master = JSON.parse(responseText);
+                if (bid_master.hasOwnProperty('error')) {
+                    alert("Session Closed For Biding. !!")
+                    if (window.location.hostname.includes('localhost'))
+                        window.location.href = "http://localhost/t20/matches/match.php?" +
+                            "match_id=" + getCookie('match_id') + "&series_id=" + getCookie('series_id') + "&match_name=" + getCookie('match_name');
+                    else
+                        window.location.href = "https://www.crickett20.in/T20/matches/match.php?" +
+                            "match_id=" + getCookie('match_id') + "&series_id=" + getCookie('series_id') + "&match_name=" + getCookie('match_name');
+                }
                 document.getElementById('target').innerHTML = bid_master.innings === 2 ? bid_master.target : "";
                 document.getElementById("winner_a").innerHTML =
                     bid_master.team_a + " Wins";
