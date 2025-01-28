@@ -325,11 +325,10 @@ class Common {
             $b = max($b, $book->runs[$i]);
         $c = max($book->runs[$r2 + 1], $book->runs[$r2 + 2], $book->runs[$r2 + 3], $book->runs[$r2 + 4], $book->runs[$r2 + 5]);
 
-        $ga = max(($x - $a), 0.0);
-        $gb = max(($x - $b), 0.0);
-        $gc = max(($x - $c), 0.0);
+        $ga = max(($x - $a), 0.1);
+        $gb = max(($x - $b), 0.1);
+        $gc = max(($x - $c), 0.1);
         $g = $ga + $gb + $gc;
-
 
         $ra = $ga/$g;
         $rb = $gb/$g;
