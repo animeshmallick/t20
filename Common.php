@@ -454,7 +454,7 @@ class Common {
     {
         foreach ($all_matches as $match){
             if($match->match_id==$match_id && $match->series_id==$series_id){
-                return $match->match_name;
+                return trim(explode('--', $match->match_name)[0]);
             }
         }
         return "";
@@ -581,7 +581,7 @@ class Common {
     {
         foreach ($all_users as $user) {
             if ($user->ref_id == $ref_id) {
-                return $user->fname;
+                return $user->fname." ".$user->lname;
             }
         }
         return null;
