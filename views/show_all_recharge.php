@@ -28,6 +28,15 @@ else{
 ?>
 <html lang="">
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z91TWPR0DM"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-Z91TWPR0DM');
+    </script>
     <title>All My Transactions</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="../styles/style.css?version=<?php echo time(); ?>">

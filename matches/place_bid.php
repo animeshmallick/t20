@@ -13,6 +13,15 @@ if ($common->is_user_logged_in() || (isset($_GET['auth']) && $_GET['auth'] == 'l
             $match_id = $common->get_cookie("match_id");
             ?>
             <head>
+                <!-- Google tag (gtag.js) -->
+                <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z91TWPR0DM"></script>
+                <script>
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){dataLayer.push(arguments);}
+                    gtag('js', new Date());
+
+                    gtag('config', 'G-Z91TWPR0DM');
+                </script>
                 <title>Place Your Bid</title>
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
                 <link rel="stylesheet" type="text/css" href="../styles/style.css?version=<?php echo time(); ?>">
