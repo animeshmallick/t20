@@ -1,17 +1,3 @@
-<html lang="en">
-<head>
-    <title>GetWinnerSlotDetails</title>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z91TWPR0DM"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'G-Z91TWPR0DM');
-    </script>
-</head>
-</html>
 <?php
 header('Content-Type: application/json');
 include "../Common.php";
