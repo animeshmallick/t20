@@ -592,25 +592,29 @@ div.slot_container_outer {
 }
 input[type="radio"]:checked + div.slot {
     font-weight: bold;
-    font-size: 1.3rem;
+
     width: 100%;
     text-shadow: 0 1rem 2rem rgba(204, 184, 51);
     letter-spacing: 0.1rem;
     box-shadow: 0 1rem 2rem rgba(33, 205, 7);
     border-radius: 1rem;
     border-color: red;
-    color: greenyellow;
-    background: lightsteelblue;
+
+    font-size: 1.2rem;
+    color: black;
+    background: lightgoldenrodyellow;
 }
 div.slot {
     width: 85%;
     font-weight: bold;
-    font-size: 0.9rem;
+
     letter-spacing: 0.1rem;
     box-shadow: 1rem 1rem 2rem rgb(237, 207, 8);
     border-radius: 1rem;
     padding: 0.3rem;
-    color: lightcoral;
+
+    font-size: 0.8rem;
+    color: rgba(236, 113, 13, 0.79);
     background: rgba(250, 235, 215, 0.8);
 }
 
@@ -641,10 +645,11 @@ label.amount_span {
     text-align: center;
     font-weight: bold;
     font-size: 1.3rem;
-    padding-top: 0.75rem;
     margin-left: 0.5rem;
-    margin-right: 1rem;
+    margin-right: 0.5rem;
     white-space: nowrap;
+    background-color: rgba(245, 222, 179, 0.8);
+    border-radius: 1rem;
 }
 div.plux_minus_container {
     display: flex;
@@ -845,7 +850,7 @@ div.popup-sub-header {
 .slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 2.5rem;
+    width: 1rem;
     height: 3rem;
     border-radius: 50%;
     cursor: pointer;
@@ -885,11 +890,12 @@ a.room {
     text-align: center;
     text-decoration: none;
     font-size: 0.8rem;
+    width: 33%;
 }
 a.room-selected {
     background-color: greenyellow;
     border: 0.3rem solid limegreen;
-    font-size: 1.2rem;
+    font-size: 0.8rem;
 }
 div.ball-six {
     background-color: rgba(0, 128, 0, 0.66);

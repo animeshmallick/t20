@@ -38,7 +38,7 @@ if(isset($_GET['session']) && isset($_GET['room'])){
                 <label class="container">
                     <input type="radio" name="slot" value="x" id="slot_a">
                     <div class="slot">
-                        <div id="slot_a_runs">Loading Slots</div>
+                        <div style="font-size: 0.9rem" id="slot_a_runs">Loading Slots</div>
                         <div id="slot_a_runs_1">Loading Slots</div>
                         <div class="small-separator"></div>
                         <div id="slot_a_amount">&nbsp;</div>
@@ -47,7 +47,7 @@ if(isset($_GET['session']) && isset($_GET['room'])){
                 <label class="container">
                     <input type="radio" name="slot" value="y" id="slot_b">
                     <div class="slot">
-                        <div id="slot_b_runs">Loading Slots</div>
+                        <div style="font-size: 0.9rem" id="slot_b_runs">Loading Slots</div>
                         <div id="slot_b_runs_1">Loading Slots</div>
                         <div class="small-separator"></div>
                         <div id="slot_b_amount">&nbsp;</div>
@@ -56,7 +56,7 @@ if(isset($_GET['session']) && isset($_GET['room'])){
                 <label class="container">
                     <input type="radio" name="slot" value="z" id="slot_c">
                     <div class="slot">
-                        <div id="slot_c_runs">Loading Slots</div>
+                        <div style="font-size: 0.9rem" id="slot_c_runs">Loading Slots</div>
                         <div id="slot_c_runs_1">Loading Slots</div>
                         <div class="small-separator"></div>
                         <div id="slot_c_amount">&nbsp;</div>
