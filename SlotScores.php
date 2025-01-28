@@ -47,7 +47,7 @@ class Scores {
         $curr_runs = $this->get_curr_runs($bid_innings, $scorecard);
         $r1 = $this->get_r1($curr_runs, $curr_balls_played, $slot);
         $r2 = $this->get_r2_without_wickets($curr_runs, $curr_balls_played%120, $slot);
-        $r2 = $this->update_r2_with_wickets($r2, $scorecard, $bid_innings);
+        $r2 = max($r1, $this->update_r2_with_wickets($r2, $scorecard, $bid_innings));
         return $this->get_r($r1, $r2, $curr_balls_played, $slot);
     }
 
