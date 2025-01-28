@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" &&
         if ($common->is_user_logged_in() &&
         $common->is_eligible_for_session_bid($session, $scorecard->over_id)) {
 
-            $bid_bookie_response = $common->get_bid_bookie_details($series_id, $match_id, $session, $amount);
+            $bid_bookie_response = $common->get_bid_bookie_details($series_id, $match_id, $session, $amount, $room);
             $rate = $slot == 'x' ? $bid_bookie_response->rate_1 :
                         ($slot == 'y' ? $bid_bookie_response->rate_2 :
                             ($slot == 'z' ? $bid_bookie_response->rate_3 : 0));
@@ -72,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" &&
             }
         } elseif ($common->is_user_logged_in() &&
         $common->is_eligible_for_winner_bid($session)) {
-            $bid_bookie_response = $common->get_match_winner_bid_bookie_details($series_id, $match_id, $amount);
+            $bid_bookie_response = $common->get_match_winner_bid_bookie_details($series_id, $match_id, $amount, $room);
             $rate = $slot == 'T1' ? $bid_bookie_response->rate_1 : ($slot == 'T2' ? $bid_bookie_response->rate_2 : 0);
             $bid_runs_string = $slot == 'T1' ? $scorecard->teams[0]." Wins The Match " :
                 ($slot == 'T2' ? $scorecard->teams[1]." Wins The Match " : 0);
@@ -129,7 +129,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" &&
             <?php   }
             } ?>
                 <div class="small-separator"></div>
-                <a class="button" style="margin-left: 12.5%; width: 75%" href="place_bid.php?session=<?php echo $session; ?>">New Bid</a>
+                <a class="button" style="margin-left: 12.5%; width: 75%" href="place_bid.php?session=<?php echo $session; ?>&room=<?php echo $room;?>">New Bid</a>
                 <div class="separator"></div>
                 <a class="button secondary" style="margin-left: 12.5%; width: 75%" href="../views/show_all_bids.php">All Bids</a>
             </div>

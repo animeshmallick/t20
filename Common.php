@@ -220,16 +220,16 @@ class Common {
         $url = $this->amazon_api_end_point . "/get_bid/" . $type . "/" .$bid_id;
         return json_decode($this->get_response_from_url($url));
     }
-    public function get_bid_bookie_details(string $series_id, $match_id, string $session, float $amount)
+    public function get_bid_bookie_details(string $series_id, $match_id, string $session, float $amount, int $room)
     {
-        $url = $this->path . "matches/GetSessionSlotDetails.php?match_id=".$match_id."&series_id=".$series_id."&session=".$session."&amount=".$amount;
+        $url = $this->path . "matches/GetSessionSlotDetails.php?match_id=".$match_id."&series_id=".$series_id."&session=".$session."&amount=".$amount."&room=".$room;
         $response = file_get_contents($url);
         $response = '{'.explode('{', $response)[1];
         return json_decode($response);
     }
-    public function get_match_winner_bid_bookie_details(string $series_id, $match_id, int $amount)
+    public function get_match_winner_bid_bookie_details(string $series_id, $match_id, int $amount, int $room)
     {
-        $url = $this->path . "matches/GetWinnerSlotDetails.php?match_id=".$match_id."&series_id=".$series_id."&amount=".$amount;
+        $url = $this->path . "matches/GetWinnerSlotDetails.php?match_id=".$match_id."&series_id=".$series_id."&amount=".$amount."&room=".$room;
         $response = file_get_contents($url);
         $response = '{'.explode('{', $response)[1];
         return json_decode($response);
