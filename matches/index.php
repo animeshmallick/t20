@@ -19,7 +19,6 @@ if($common->is_user_logged_in()) {
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-
             gtag('config', 'G-Z91TWPR0DM');
         </script>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">

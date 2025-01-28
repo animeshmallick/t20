@@ -24,7 +24,6 @@ if ($common->is_user_logged_in() || (isset($_GET['auth']) && $_GET['auth'] == 'l
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
                 gtag('js', new Date());
-
                 gtag('config', 'G-Z91TWPR0DM');
             </script>
             <title><?php echo $match_name?></title>

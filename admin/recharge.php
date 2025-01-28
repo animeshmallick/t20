@@ -13,7 +13,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && ($common->is_user_an_admin() || $com
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-
             gtag('config', 'G-Z91TWPR0DM');
         </script>
         <title>Recharge User</title>

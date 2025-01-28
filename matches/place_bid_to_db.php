@@ -25,7 +25,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" &&
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-
             gtag('config', 'G-Z91TWPR0DM');
         </script>
         <title>Bid Placed Confirmation</title>

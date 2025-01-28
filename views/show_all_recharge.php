@@ -34,7 +34,6 @@ else{
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-
         gtag('config', 'G-Z91TWPR0DM');
     </script>
     <title>All My Transactions</title>
