@@ -98,7 +98,7 @@ function fill_scorecard_content(scorecard){
     }
     let crr = 0;
     crr = (scorecard.innings === 1 ? scorecard.team1_score.runs : scorecard.team2_score.runs) / total_balls * 6;
-    let rrr = scorecard.innings === 2 ? (scorecard.team1_score - scorecard.team2_score + 1) / (120 - total_balls) * 6 : 0;
+    let rrr = scorecard.innings === 2 ? (6 * (scorecard.team1_score.runs - scorecard.team2_score.runs + 1) / (120 - total_balls)) : 0;
     let team_score = [];
     document.getElementById('team1_logo').setAttribute('src', `../images/${scorecard.teams[0].toLowerCase()}.png`)
     document.getElementById('team2_logo').setAttribute('src', `../images/${scorecard.teams[1].toLowerCase()}.png`)
