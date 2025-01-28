@@ -32,6 +32,8 @@ $room = intval($_GET['room']);
     <div class="separator"></div>
     <div class="slot_container">
         <div class="title">Choose your Slot :</div>
+        <div class="small-gap"></div>
+        <div class="sub-title" id="target">Target</div>
         <label class="container">
             <input type="radio" name="slot" value="T1" id="slot_a">
             <div class="slot">

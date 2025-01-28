@@ -393,6 +393,7 @@ function update_winner_slot_details_actual(session, room, update_checked) {
             if (this.readyState === 4 && this.status === 200) {
                 let responseText = '{' + this.responseText.split('{')[1]
                 let bid_master = JSON.parse(responseText);
+                document.getElementById('target').innerHTML = bid_master.innings === 2 ? bid_master.target : "";
                 document.getElementById("winner_a").innerHTML =
                     bid_master.team_a + " Wins";
                 document.getElementById("winner_a_amount").innerHTML = "Put &#8377;" + amount +
