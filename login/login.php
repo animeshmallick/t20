@@ -22,7 +22,7 @@ $data = new Data();
 $common = new Common($data->get_path(), $data->get_amazon_api_endpoint());
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && !$common->is_user_logged_in() && strlen($common->get_cookie('user_type')) == 0) {
     ?>
-    <body onload="fill_header();fill_balance();fill_footer();">
+    <body onload="fill_header();fill_footer();">
         <div id="header"></div>
         <div class="main_container">
             <div class="sub-title">Login</div>
