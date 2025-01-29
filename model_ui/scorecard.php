@@ -7,7 +7,7 @@
     <script src="../scripts.js?version=<?php echo time(); ?>"></script>
 </head>
 <body>
-    <div class="scorecard-container">
+    <div class="scorecard-container" id='scorecard-container'>
         <div style="display: flex">
             <div class="sub-title" style="width: 80%">Scorecard</div>
             <a id='detailed-scorecard' class="detailed_scorecard_button" href="../model_ui/detailed_scorecard.php">Details</a>
@@ -15,17 +15,17 @@
         <div class="match-score-main" id="current-over-id">&nbsp;</div>
         <div class="match-detail">
             <div style="display: flex">
-                <div class="teams_details" style="display: flex; justify-content: space-between;">
+                <div class="teams_details" id='team1_details' style="display: flex; justify-content: space-between;">
                     <div>
                         <img id="team1_logo" src="../images/field.png"  alt="T1.Img" height="50px" width="50px" style="object-fit: cover; border-radius: 0.5rem;">
                     </div>
-                    <div>
+                    <div style="background: rgba(245,255,250,0.5)">
                         <div><span id="team1_name" style="padding-right: 1rem">&nbsp;</span></div>
                         <div><span id="team1_score" style="padding-right: 1rem">&nbsp;</span></div>
                     </div>
                 </div>
-                <div class="teams_details" style="display: flex; justify-content: space-between;">
-                    <div>
+                <div class="teams_details" id='team2_details' style="display: flex; justify-content: space-between;">
+                    <div style="background: rgba(245,255,250,0.5)">
                         <div style="padding-left: 0.1rem"><span id="team2_name">&nbsp;</span></div>
                         <div><span id="team2_score" style="padding-left: 1rem">&nbsp;</span></div>
                     </div>
@@ -39,7 +39,7 @@
             <span id="match_additional_details">&nbsp;</span>
         </div>
         <div class="small-gap"></div>
-        <div class="match-detail" style="display: flex; background: rgb(99,174,172)">
+        <div class="match-detail" style="display: flex;">
             <div class="batsmen" style="text-align: left">
                 <span id="crr">CRR: 8.47</span>
             </div>
@@ -60,7 +60,7 @@
             </div>
         </div>
         <div class="small-gap"></div>
-        <div class="match-detail" style="background: rgb(99,174,172)">
+        <div class="match-detail"">
             <div class="batsmen" style="width: 100%">
                 <span id="partnership">Partnership: 0 (0)</span>
             </div>

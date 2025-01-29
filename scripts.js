@@ -100,8 +100,10 @@ function fill_scorecard_content(scorecard){
     crr = (scorecard.innings === 1 ? scorecard.team1_score.runs : scorecard.team2_score.runs) / total_balls * 6;
     let rrr = scorecard.innings === 2 ? (6 * (scorecard.team1_score.runs - scorecard.team2_score.runs + 1) / (120 - total_balls)) : 0;
     let team_score = [];
-    document.getElementById('team1_logo').setAttribute('src', `../images/${scorecard.teams[0].toLowerCase()}.png`)
-    document.getElementById('team2_logo').setAttribute('src', `../images/${scorecard.teams[1].toLowerCase()}.png`)
+    document.getElementById('team1_logo').setAttribute('src', `../images/logo/${scorecard.teams[0].toLowerCase()}.png`)
+    document.getElementById('team2_logo').setAttribute('src', `../images/logo/${scorecard.teams[1].toLowerCase()}.png`)
+    document.getElementById('team1_details').style.backgroundImage = `url('../images/cover/${scorecard.teams[0]}-cover.png')`;
+    document.getElementById('team2_details').style.backgroundImage = `url('../images/cover/${scorecard.teams[1]}-cover.png')`;
     document.getElementById("team1_name").innerHTML = scorecard.teams[0];
     team_score[0] = scorecard.team1_score.runs + "/" + scorecard.team1_score.wickets + " (" + over_str_1 + ")";
     document.getElementById("team1_score").innerHTML = team_score[0];

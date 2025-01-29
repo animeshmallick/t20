@@ -296,7 +296,7 @@ div.scorecard-container {
     border-radius: 1rem;
     box-shadow: 0 2rem 1rem rgba(250, 4, 4, 0.69);
     padding: 0 0.2rem;
-    background: gray;
+    background-image: url("../images/stadium4.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -316,7 +316,7 @@ div.detailed-scorecard-container {
 div.match-detail {
     display: block;
     align-content: center;
-    background: wheat;
+    background: rgba(191, 197, 218, 0.5);
     border-radius: 1rem;
     box-shadow: 0 2rem 1rem rgba(0,0,0,0.3);
 }
@@ -329,7 +329,7 @@ div.teams_details {
     font-weight: bold;
 }
 div.vs {
-    background-color: rgba(76, 213, 55, 0.5);
+    background-color: rgba(176, 196, 222);
     border: 0.1rem solid #339ecc;
     border-radius: 0.5rem;
     text-align: center;
@@ -790,7 +790,7 @@ a.secondary {
     padding: 0.2rem;
 }
 a.nav {
-    padding: 1rem 0.8rem;
+    padding: 0.5rem 1rem;
     background: burlywood;
 }
 div.popup {
@@ -924,7 +924,7 @@ div.match-score-main {
     border-bottom: 0.2rem solid #edcf08;
     box-shadow: 0 0.7rem 0.5rem rgba(237, 207, 8, 0.4);
     padding: 0.1rem 0.3rem;
-    color: wheat;
+    color: antiquewhite;
     font-size: 1.6rem;
-    background-color: cornflowerblue;
+    background-image: url("../images/main-cover.png");
 }
