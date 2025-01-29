@@ -8,7 +8,10 @@
 </head>
 <body>
     <div class="scorecard-container">
-        <div class="sub-title">Scorecard</div>
+        <div style="display: flex">
+            <div class="sub-title" style="width: 80%">Scorecard</div>
+            <a id='detailed-scorecard' class="detailed_scorecard_button" href="../model_ui/detailed_scorecard.php">Details</a>
+        </div>
         <div class="match-score-main" id="current-over-id">&nbsp;</div>
         <div class="match-detail">
             <div style="display: flex">
@@ -81,8 +84,6 @@
 
             </div>
         </div>
-        <div class="separator"></div>
-        <a id='detailed-scorecard' class="detailed_scorecard_button" href="../model_ui/detailed_scorecard.php">More Details</a>
         <div class="timer" id="timer">&nbsp;</div>
     </div>
 </body>

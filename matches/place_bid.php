@@ -32,11 +32,16 @@ if ($common->is_user_logged_in() || (isset($_GET['auth']) && $_GET['auth'] == 'l
                         document.getElementById('amount').addEventListener('mouseup', () => onRelease('<?php echo $session; ?>', '<?php echo $room; ?>'));
                         document.getElementById('amount').addEventListener('touchend', () => onRelease('<?php echo $session; ?>', '<?php echo $room; ?>'));
                     }
-
+                    function scroll_page() {
+                        setTimeout(() => {
+                            document.getElementById('bid_container').scrollIntoView({behavior: "smooth", block: "end"});
+                        }, 1000);
+                    }
                 </script>
             </head>
-                    <body onload="<?php if(strlen($session) == 2) { echo 'update_session_slot_details(\''. $session.'\', '.$room.');';} ?><?php if($session === 'winner'){echo 'update_winner_slot_details(\''.$session.'\', '.$room.');';} ?>updateAmount();fill_header();fill_balance();fill_scorecard('<?php echo $series_id;?>', '<?php echo $match_id;?>');fill_footer();init()">
+                    <body onload="<?php if(strlen($session) == 2) { echo 'update_session_slot_details(\''. $session.'\', '.$room.');';} ?><?php if($session === 'winner'){echo 'update_winner_slot_details(\''.$session.'\', '.$room.');';} ?>updateAmount();fill_header();fill_balance();fill_scorecard('<?php echo $series_id;?>', '<?php echo $match_id;?>');fill_footer();init();scroll_page()">
                         <div id="header"></div>
+                        <div id="scorecard"></div>
                         <div class="play-container">
                             <div class="title">Select Room Based On Bid Amount</div>
                             <div style="display: flex; justify-content: space-between">
@@ -46,7 +51,7 @@ if ($common->is_user_logged_in() || (isset($_GET['auth']) && $_GET['auth'] == 'l
                             </div>
                         </div>
                         <i class="fa fa-refresh refresh-button" onclick="location.reload();"></i>
-                        <div class="slot_container_outer">
+                        <div class="slot_container_outer" id="bid_container">
                             <?php
                             if ($common->is_valid_session_slot($session)) {
                                 echo file_get_contents($common->get_path()."matches/session_bids.php?session=".$session."&room=".$room);
@@ -60,7 +65,6 @@ if ($common->is_user_logged_in() || (isset($_GET['auth']) && $_GET['auth'] == 'l
                                 <div class="bid_button_div" style="width: 80%; margin-left: 10%"><a class="button" href="match.php?match_id=<?php echo $common->get_cookie('match_id'); ?>&series_id=<?php echo $common->get_cookie('series_id'); ?>&match_name=<?php echo $common->get_cookie('match_name'); ?>">Change Bid Type</a></div>
                             <div class="separator"></div>
                         </div>
-                        <div id="scorecard"></div>
                         <div class="separator"></div>
                         <div id="footer"></div>
                     </body>
