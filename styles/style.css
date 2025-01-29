@@ -282,7 +282,7 @@ div.small-separator {
 }
 div.title-container {
     display: flex;
-    background-image: url("../images/stadium3.png");
+    background-image: url("../images/stadium1.png");
     box-shadow: 0 0.5rem 0.5rem rgb(4, 221, 241);
     border-radius: 1rem;
     color: #edcf08;
