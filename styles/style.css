@@ -478,15 +478,12 @@ div.title {
     background: darkcyan;
 }
 div.profile {
-    font-size: 0.9rem;
+    font-size: 1rem;
     color: black;
     text-align: left;
     font-weight: normal;
-    letter-spacing: 0.15rem;
     border-radius: 1rem;
     display: block;
-    margin: 0;
-    padding: 0;
 }
 div.bid-failure-title {
     font-size: 2.5rem;
@@ -752,11 +749,11 @@ h2.type_session, h2.type_winner{
 
 
 tr.row_win{
-    background-color: rgba(144, 238, 144, 0.65);
+    background-color: rgba(7, 246, 7, 0.65);
 }
 
 tr.row_loss{
-    background-color: rgba(240, 128, 128, 0.52);
+    background-color: rgba(250, 4, 4, 0.66);
 }
 td.match_name {
     background: rgba(244, 60, 5, 0.51);
@@ -790,7 +787,6 @@ a.secondary {
     padding: 0.2rem;
 }
 a.nav {
-    padding: 0.5rem 1rem;
     background: burlywood;
 }
 div.popup {
@@ -913,7 +909,7 @@ div.ball-wicket {
 a.detailed_scorecard_button{
     width: 20%;
     margin: 0;
-    padding: 0.2rem;
+    padding: 0;
     border-radius: 1rem;
 }
 div.match-score-main {

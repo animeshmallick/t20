@@ -84,7 +84,7 @@
 
             </div>
         </div>
-        <div class="timer" id="timer">&nbsp;</div>
+        <div class="timer" id="timer" style="display: none">&nbsp;</div>
     </div>
 </body>
 </html>

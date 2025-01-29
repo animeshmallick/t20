@@ -28,7 +28,7 @@ if(isset($_GET['expand']) && $_GET['expand'] == 1){ ?>
             let expanded_over_id = 0;
             setTimeout(() => {
                 let detailed_scorecard_btn = document.getElementById('detailed-scorecard');
-                detailed_scorecard_btn.innerHTML = 'Collapse Overs and Refresh';
+                detailed_scorecard_btn.innerHTML = 'Refresh';
                 detailed_scorecard_btn.setAttribute('href', '../model_ui/detailed_scorecard.php');
             }, 1000);
             function toggleDetails(id) {
@@ -122,7 +122,7 @@ if(isset($_GET['expand']) && $_GET['expand'] == 1){ ?>
         <script>
             setTimeout(() => {
                 let detailed_scorecard_btn = document.getElementById('detailed-scorecard');
-                detailed_scorecard_btn.innerHTML = 'Expand Overs';
+                detailed_scorecard_btn.innerHTML = 'Expand';
                 detailed_scorecard_btn.setAttribute('href', '../model_ui/detailed_scorecard.php?expand=1');
             }, 1000);
         </script>

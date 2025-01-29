@@ -135,7 +135,7 @@ function fill_balance(){
         xmlhttp.onload = function () {
             if (this.readyState === 4 && this.status === 200) {
                 let balance = JSON.parse(this.responseText);
-                document.getElementById('balance').innerHTML = "Balance &#8377;"+balance.balance;
+                document.getElementById('balance').innerHTML = "&#8377;"+balance.balance;
             }
         };
         xmlhttp.open("GET", "https://om8zdfeo2h.execute-api.ap-south-1.amazonaws.com/get_user_balance/" + this.getCookie('user_ref_id'), true);
@@ -361,6 +361,7 @@ function update_session_slot_details_actual(session, room, update_selected){
                     slot_b.checked = true;
                 if (bid_master.rate_1 === max_rate)
                     slot_a.checked = true;
+                document.getElementById('bid_container').scrollIntoView({behavior: "smooth", block: "end"});
             }
             document.getElementById('timer_slots').innerHTML = "&nbsp";
             slots_time = 0;

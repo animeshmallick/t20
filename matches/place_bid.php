@@ -32,14 +32,9 @@ if ($common->is_user_logged_in() || (isset($_GET['auth']) && $_GET['auth'] == 'l
                         document.getElementById('amount').addEventListener('mouseup', () => onRelease('<?php echo $session; ?>', '<?php echo $room; ?>'));
                         document.getElementById('amount').addEventListener('touchend', () => onRelease('<?php echo $session; ?>', '<?php echo $room; ?>'));
                     }
-                    function scroll_page() {
-                        setTimeout(() => {
-                            document.getElementById('bid_container').scrollIntoView({behavior: "smooth", block: "end"});
-                        }, 1000);
-                    }
                 </script>
             </head>
-                    <body onload="<?php if(strlen($session) == 2) { echo 'update_session_slot_details(\''. $session.'\', '.$room.');';} ?><?php if($session === 'winner'){echo 'update_winner_slot_details(\''.$session.'\', '.$room.');';} ?>updateAmount();fill_header();fill_balance();fill_scorecard('<?php echo $series_id;?>', '<?php echo $match_id;?>');fill_footer();init();scroll_page()">
+                    <body onload="<?php if(strlen($session) == 2) { echo 'update_session_slot_details(\''. $session.'\', '.$room.');';} ?><?php if($session === 'winner'){echo 'update_winner_slot_details(\''.$session.'\', '.$room.');';} ?>updateAmount();fill_header();fill_balance();fill_scorecard('<?php echo $series_id;?>', '<?php echo $match_id;?>');fill_footer();init();">
                         <div id="header"></div>
                         <div id="scorecard"></div>
                         <div class="play-container">

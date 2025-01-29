@@ -56,7 +56,6 @@ else{
                 <tr>
                     <th>Time</th>
                     <th>From</th>
-                    <th>Recharge ID</th>
                     <th>Amount</th>
                 </tr>
                 </thead>
@@ -69,7 +68,7 @@ else{
                         $flag="win";
                     ?>
                     <tr class="row_<?php echo $flag;?>">
-                        <td><?php if(property_exists($trans, 'time')){echo $trans->time;}?></td>
+                        <td style="width: 45%;"><?php if(property_exists($trans, 'time')){echo $trans->time;}?></td>
                         <td>
                             <?php
                             if(str_contains($trans->from, "bidder_return")){
@@ -78,16 +77,17 @@ else{
                                 echo "Agent Refund";
                             } else if(str_contains($trans->from, "bidder")){
                                 echo "Bid Placed";
-                            } else{
+                            }else if(str_contains($trans->from, "withdraw")){
                                 echo "Withdraw";
+                            }else{
+                                echo "Recharge";
                             }
                             ?></td>
-                        <td><?php echo $trans->id; ?></td>
                         <td><?php
                             if($trans->amount<0){
-                                echo (int)($trans->amount*-1); }
+                                echo '&#8377;'.(int)($trans->amount*-1); }
                             else {
-                                echo (int)$trans->amount;
+                                echo '&#8377;'.(int)$trans->amount;
                             }?></td>
                     </tr>
                 <?php endforeach; ?>

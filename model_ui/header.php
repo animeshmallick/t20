@@ -11,8 +11,8 @@
 <body onload="fill_balance()">
     <div class="title-container">
         <a href="javascript:void(0)" id='side-bar-icon' class="nav" onclick="w3_open()" style="border-radius: 1rem;">&#9816;</a>
-        <div style="margin: 0; padding: 0">
-            <div style="margin: 0; padding: 0"><span class="title" onclick="redirect_to_home()" style="cursor: grab">CricketT20</span></div>
+        <div style="width: 80%">
+            <div><span onclick="redirect_to_home()" style="cursor: grab; font-size: 1.6rem">CricketT20</span></div>
             <?php
             include "../data.php";
             include "../Common.php";
@@ -21,13 +21,16 @@
             if ($common->is_user_logged_in()){
                 ?>
                 <div class="profile" onclick="redirect_to_home()" style="cursor: grab">
-                    <div>&nbsp;Hi, <?php echo $common->get_cookie('fname') . " " . $common->get_cookie('lname'); ?>.</div>
-                    <div style="font-size: 0.8rem" id="balance">Getting Balance</div>
+                    <span>&nbsp;Hi, <?php echo $common->get_cookie('fname') . " " . $common->get_cookie('lname'); ?>.</span>
                 </div>
             <?php } ?>
         </div>
+        <div style="padding-top: 0.5rem; font-size: 1rem">
+            <span>Balance: </span>
+            <span id="balance">0</span>
+        </div>
 
-    <nav class="w3-sidebar w3-bar-block w3-animate-left w3-top" style="font-size: 1rem;z-index:3;width:75%;display:none;left:0;" id="side-bar-container">
+    <nav class="w3-sidebar w3-bar-block w3-animate-left w3-top" style="font-size: 1rem;z-index:3;width:75%;display:none;left:0;margin: 0;padding: 0" id="side-bar-container">
             <div class="bid_container">
                 <div class="title">Controls</div>
                 <div class="scorecard-container">
