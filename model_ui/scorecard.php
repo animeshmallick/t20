@@ -1,90 +1,77 @@
-<!DOCTYPE html>
-<html lang="">
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="../styles/style.css?version=<?php echo time(); ?>">
-    <link rel="icon" type="image/x-icon" href="../cricket.ico">
-    <script src="../scripts.js?version=<?php echo time(); ?>"></script>
-</head>
-<body>
-    <div class="scorecard-container" id='scorecard-container'>
-        <div style="display: flex">
-            <div class="sub-title" style="width: 80%">Scorecard</div>
-            <a id='detailed-scorecard' class="detailed_scorecard_button" href="../model_ui/detailed_scorecard.php">Details</a>
-        </div>
-        <div class="match-score-main" id="current-over-id">&nbsp;</div>
-        <div class="match-detail">
-            <div style="display: flex">
-                <div class="teams_details" id='team1_details' style="display: flex; justify-content: space-between;">
-                    <div>
-                        <img id="team1_logo" src="../images/field.png"  alt="T1.Img" height="50px" width="50px" style="object-fit: cover; border-radius: 0.5rem;">
-                    </div>
-                    <div style="background: rgba(245,255,250,0.5)">
-                        <div><span id="team1_name" style="padding-right: 1rem">&nbsp;</span></div>
-                        <div><span id="team1_score" style="padding-right: 1rem">&nbsp;</span></div>
-                    </div>
-                </div>
-                <div class="teams_details" id='team2_details' style="display: flex; justify-content: space-between;">
-                    <div style="background: rgba(245,255,250,0.5)">
-                        <div style="padding-left: 0.1rem"><span id="team2_name">&nbsp;</span></div>
-                        <div><span id="team2_score" style="padding-left: 1rem">&nbsp;</span></div>
-                    </div>
-                    <div>
-                        <img id="team2_logo" src="../images/field.png"  alt="T2.Img" height="50px" width="50px" style="object-fit: cover; border-radius: 0.5rem;">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="vs">
-            <span id="match_additional_details">&nbsp;</span>
-        </div>
-        <div class="small-gap"></div>
-        <div class="match-detail" style="display: flex;">
-            <div class="batsmen" style="text-align: left">
-                <span id="crr">CRR: 8.47</span>
-            </div>
-            <div class="batsmen" style="text-align: right">
-                <span id="rrr">RRR: 9.10</span>
-            </div>
-        </div>
-        <div class="small-gap"></div>
-        <div class="match-detail">
-            <div class="players">
-                <div class="batsmen">
-                    <div style="padding-bottom: 0.1rem;text-align: left"><span id="batsman1">&nbsp;</span></div>
-                    <div style="padding-bottom: 0.2rem;text-align: left"><span id="batsman2">&nbsp;</span></div>
-                </div>
-                <div class="batsmen">
-                    <div style="padding-bottom: 0.2rem;text-align: right"><span id="bowler">&nbsp;</span></div>
-                </div>
-            </div>
-        </div>
-        <div class="small-gap"></div>
-        <div class="match-detail"">
-            <div class="batsmen" style="width: 100%">
-                <span id="partnership">Partnership: 0 (0)</span>
-            </div>
-            <div class="batsmen" style="width: 100%">
-                <span id="last_batsman">Last Batsman: Rohit Sharma 0(0) @ 77/4</span>
-            </div>
-        </div>
-        <div class="small-gap"></div>
-        <div class="match-detail" style="background: mistyrose">
-            <div style="display: flex">
-                <div class="current-over"><span id="this_over_summary">&nbsp;</span></div>
-                <div class="get-previous-over">
-                    <a class="show-more-over" id="get-previous-over"
-                       onclick="add_new_over_data()">
-                        Last Over
-                    </a> </div>
-            </div>
-            <div class="current-over-container" id="current-over-container">
-            </div>
-            <div class="previous-over-container" id="previous-over-container">
-
-            </div>
-        </div>
-        <div class="timer" id="timer" style="display: none">&nbsp;</div>
+<div id="scorecard-container" class="w-full sm:w-96 md:w-1/2 lg:w-1/3 xl:w-1/4 rounded-lg shadow-lg border border-gray-500 p-1 bg-gray-310 card-container">
+    <!-- Match Info -->
+    <div class="flex justify-between items-center pl-4">
+        <span id='match_name' class="card-title">IND vs AUS</span>
+        <span class="bg-red-500 text-white px-3 py-1 rounded-full live-badge">LIVE</span>
     </div>
-</body>
-</html>
+
+    <!-- Team Logos and Scores -->
+    <div class="space-y-1">
+        <div class="team-hover flex justify-between items-center text-sm bg-gray-500 p-2 rounded-md">
+            <img id="team1_logo" src="../images/logo/india.png" alt="India" class="h-5 w-10" />
+            <span id='team1_name' class="team-badge">Team 1</span>
+            <span id='team1_score' class="score text-yellow-400">245/6</span>
+            <span id='team1_overs' class="small-text">(40.2 ov)</span>
+        </div>
+        <div class="h-1 bg-gray-800 mb-4"></div>
+        <div class="team-hover flex justify-between items-center text-sm bg-gray-500 p-2 rounded-md">
+            <img id='team2_logo' src="../images/logo/england.png" alt="Australia" class="h-5 w-10" />
+            <span id='team2_name' class="team-badge">Team 2</span>
+            <span id='team2_score' class="score text-yellow-400">220/10</span>
+            <span id='team2_overs' class="small-text">(50 ov)</span>
+        </div>
+    </div>
+
+    <!-- Match Status -->
+    <div class="mt-2 flex justify-between items-center text-sm text-gray-800">
+        <div class="flex items-center">
+            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12" y2="16"></line></svg>
+            <span>C.RR: <span class="small-text" id="crr">6.1</span></span>
+        </div>
+        <div class="flex items-center text-blue-600">
+            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 12h4v8h12v-8h4L12 2z"></path></svg>
+            <span id='match_additional_details' class="live-score">Match Status</span>
+        </div>
+    </div>
+
+    <!-- Player Details -->
+    <div class="team-hover mt-2 flex justify-between items-center text-sm bg-gray-500 p-1 rounded-md">
+        <div class="player">
+            <div style="margin-bottom: 0.4rem;display: flex">
+                <span id='batsman1' class="text-green-400">Batsman 1 : 20 (11)</span>
+                <svg class="mt-0.5 text-gray-200 ml-2 w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12" y2="16"></line></svg>
+            </div>
+            <div style="margin-bottom: 0.4rem;display: flex">
+                <span id='batsman2' class="text-green-400">Batsman 1 : 20 (11)</span>
+                <svg class="mt-0.95 text-gray-200 ml-2 w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12" y2="16"></line></svg>
+            </div>
+        </div>
+        <div class="player">
+            <div style="margin-bottom: 0.4rem;">
+                <span id='bowler' class="text-green-400">Bowler : 3.2</span>
+                <svg class="mt-0.95 text-gray-200 w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12" y2="16"></line></svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- Partnership and Last Wicket -->
+    <div class="mt-1 text-l text-gray-300">
+        <div class="flex items-center gap-1">
+            <svg class="w-5 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 12h4v8h12v-8h4L12 2z"></path></svg>
+            <span>Partnership: <span id='partnership' class="text-yellow-300">0 (0)</span></span>
+        </div>
+        <div class="flex items-center gap-1">
+            <svg class="w-5 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 12h4v8h12v-8h4L12 2z"></path></svg>
+            <span>Last Wicket: <span id='last_batsman' class="text-red-400">Abc 0 (0)</span></span>
+        </div>
+    </div>
+    <div class="small-separator"></div>
+    <!-- Current Over Scores -->
+    <div class="text-l text-gray-300">
+        <span class="font-bold text-red-400">This Over : </span>
+        <span id="this_over_summary" class="text-yellow-200"></span>
+        <div class="ball-container justify-between items-center" id="current-over-container">
+        </div>
+    </div>
+    <div style="display: none;text-align: right"><span id="timer" class="text-xs">0sec ago</span></div>
+</div>

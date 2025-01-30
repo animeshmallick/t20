@@ -31,6 +31,9 @@ if ($common->is_user_logged_in() || (isset($_GET['auth']) && $_GET['auth'] == 'l
             <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
             <link rel="stylesheet" type="text/css" href="../styles/style.css?version=<?php echo time(); ?>">
+            <link rel="stylesheet" type="text/css" href="../styles/scorecard_style.css?version=<?php echo time(); ?>">
+            <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+            <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.3/dist/tailwind.min.css" rel="stylesheet">
             <title>Match Page</title>
             <link rel="icon" type="image/x-icon" href="../cricket.ico">
             <script src="../scripts.js?version=<?php echo time(); ?>"></script>
@@ -41,7 +44,6 @@ if ($common->is_user_logged_in() || (isset($_GET['auth']) && $_GET['auth'] == 'l
             <div id="header"></div>
             <i class="fa fa-refresh refresh-button" onclick="location.reload();"></i>
             <div id="scorecard">Loading Scorecard</div>
-            <div class="separator"></div>
             <div class="play-container" style="margin: 0; padding: 0">
                 <div class="sub-title"><span>Play your Bid on</span></div>
                 <div class="bid_container">
@@ -71,7 +73,7 @@ if ($common->is_user_logged_in() || (isset($_GET['auth']) && $_GET['auth'] == 'l
                 <div class="separator"></div>
                 <div class="bid_container">
                     <div class="title"><span>Special Bids</span></div>
-                    <div class="bid_button_div" style="margin-left: 10%; width: 80%"><a class="play bid_button <?php if(!$scorecard->is_live || (int)$scorecard->over_id > 218){echo "disabled";}?>" href="place_bid.php?session=special">Open Special Bids</a></div>
+                    <div class="bid_button_div" style="margin-left: 10%; width: 80%"><a class="play bid_button <?php if(!$scorecard->is_live || (int)$scorecard->over_id > 218){echo "disabled";}?>" href="place_bid.php?session=special&room=1">Open Special Bids</a></div>
                 </div>
                 <div class="bid_button_div" style="margin-left: 25%"><a class="button" href="index.php">Go Back</a></div>
             </div>

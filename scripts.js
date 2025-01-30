@@ -100,31 +100,31 @@ function fill_scorecard_content(scorecard){
     crr = (scorecard.innings === 1 ? scorecard.team1_score.runs : scorecard.team2_score.runs) / total_balls * 6;
     let rrr = scorecard.innings === 2 ? (6 * (scorecard.team1_score.runs - scorecard.team2_score.runs + 1) / (120 - total_balls)) : 0;
     let team_score = [];
+    document.getElementById('match_name').innerHTML = scorecard.teams[0] + ' vs ' + scorecard.teams[1];
     document.getElementById('team1_logo').setAttribute('src', `../images/logo/${scorecard.teams[0].toLowerCase()}.png`)
     document.getElementById('team2_logo').setAttribute('src', `../images/logo/${scorecard.teams[1].toLowerCase()}.png`)
-    document.getElementById('team1_details').style.backgroundImage = `url('../images/cover/${scorecard.teams[0]}-cover.png')`;
-    document.getElementById('team2_details').style.backgroundImage = `url('../images/cover/${scorecard.teams[1]}-cover.png')`;
     document.getElementById("team1_name").innerHTML = scorecard.teams[0];
-    team_score[0] = scorecard.team1_score.runs + "/" + scorecard.team1_score.wickets + " (" + over_str_1 + ")";
+    team_score[0] = scorecard.team1_score.runs + "/" + scorecard.team1_score.wickets;
     document.getElementById("team1_score").innerHTML = team_score[0];
+    document.getElementById('team1_overs').innerHTML = " (" + over_str_1 + " ov)";
     document.getElementById("team2_name").innerHTML = scorecard.teams[1];
-    team_score[1] = scorecard.team2_score.runs + "/" + scorecard.team2_score.wickets + " (" + over_str_2 + ")";
+    team_score[1] = scorecard.team2_score.runs + "/" + scorecard.team2_score.wickets;
     document.getElementById("team2_score").innerHTML = team_score[1];
+    document.getElementById('team2_overs').innerHTML = " (" + over_str_2 + " ov)";
     document.getElementById("match_additional_details").innerHTML = scorecard.match_additional_details[0];
     document.getElementById('bowler').innerHTML = scorecard.bowler;
     document.getElementById('batsman1').innerHTML = scorecard.batsmen[0];
     document.getElementById('batsman2').innerHTML = scorecard.batsmen[1];
-    document.getElementById('current-over-id').innerHTML = scorecard.teams[scorecard.innings - 1]+" | " +team_score[scorecard.innings - 1];
-    document.getElementById("current-over-container")
-            .appendChild(create_current_over_balls_container(scorecard.over_id, scorecard.this_over));
+    //document.getElementById('current-over-id').innerHTML = scorecard.teams[scorecard.innings - 1]+" | " +team_score[scorecard.innings - 1];
+    create_current_over_balls_container(scorecard.this_over);
     document.getElementById('this_over_summary').innerHTML =
         "Over " + (scorecard.innings === 1 ? over_str_1 : over_str_2)+"  :  " + scorecard.this_over_summary;
 
-    document.getElementById('crr').innerHTML = crr !== 0 ? ("Cur. RR : "+ crr.toFixed(2)) : "";
-    document.getElementById('rrr').innerHTML = rrr !== 0 ? ("Req. RR : "+ rrr.toFixed(2)) : "";
+    document.getElementById('crr').innerHTML = crr !== 0 ? (crr.toFixed(2)) : "";
+    //document.getElementById('rrr').innerHTML = rrr !== 0 ? ("Req. RR : "+ rrr.toFixed(2)) : "";
 
-    document.getElementById('partnership').innerHTML = 'Partnership : ' + scorecard.partnership.replaceAll(' Runs, ', ' (').replaceAll(' B', ')');
-    document.getElementById('last_batsman').innerHTML = 'L. Wkt.: ' +scorecard.last_batsman + " " +scorecard.last_wicket_at;
+    document.getElementById('partnership').innerHTML = scorecard.partnership.replaceAll(' Runs, ', ' (').replaceAll(' B', ')');
+    document.getElementById('last_batsman').innerHTML = +scorecard.last_batsman + " " +scorecard.last_wicket_at;
     document.getElementById('timer').innerHTML = "&nbsp";
     scorecard_time = 0;
     console.log("Scorecard Updated");
@@ -142,36 +142,30 @@ function fill_balance(){
         xmlhttp.send();
     }, 1000);
 }
-function create_current_over_balls_container(over_id, this_over){
-    document.getElementById('current-over-container').childNodes.forEach((child) => {
-        child.remove();
+function create_current_over_balls_container(balls){
+    document.getElementById('current-over-container').textContent = '';
+    const container = document.querySelector('#current-over-container');
+
+    // Function to create ball elements with animations
+    balls.forEach(ball => {
+        let bgColor = 'bg-gray-700';
+        let textColor = 'text-white';
+        if (ball.includes('6')) {
+            bgColor = 'bg-green-500';
+        } else if (ball.includes('4')) {
+            bgColor = 'bg-green-800';
+        } else if (ball.includes('W')) {
+            bgColor = 'bg-red-500';
+        } else if(ball.includes('w') || ball.includes('nb')){
+            bgColor = 'bg-blue-500';
+        }
+
+        const ballDiv = document.createElement('div');
+        ballDiv.classList.add('ball-hover', 'w-12', 'h-8', 'flex', 'items-center', 'justify-center', 'rounded-full', 'text-xl', 'font-bold', 'shadow-md', bgColor, textColor);
+        ballDiv.textContent = ball;
+
+        container.appendChild(ballDiv);
     });
-    document.getElementById('current-over-container').setAttribute('name', 'over');
-    document.getElementById('current-over-container').setAttribute('over_id', over_id);
-    let res = document.createElement("div");
-    res.setAttribute("style","display: flex");
-
-    let width = this_over.length < 4 ? 33.3 : 100 / this_over.length;
-    for(let i=0;i<this_over.length;i++) {
-        const div = document.createElement("div");
-        div.classList.add('balls');
-        if(this_over[i].includes('W'))
-            div.classList.add('ball-wicket');
-        else if(this_over[i].includes('nb') || this_over[i].includes('w') || this_over[i].includes('lb'))
-            div.classList.add('ball-extra');
-        else if(this_over[i].includes('4'))
-            div.classList.add('ball-four');
-        else if(this_over[i].includes('6'))
-            div.classList.add('ball-six');
-        div.setAttribute("style", "align-content: center;width: "+width+"%;")
-
-        const span = document.createElement("span");
-        span.innerHTML = this_over[i];
-        div.appendChild(span);
-
-        res.appendChild(div);
-    }
-    return res;
 }
 function get_valid_balls(this_over){
     let count = 0;

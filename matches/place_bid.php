@@ -24,6 +24,9 @@ if ($common->is_user_logged_in() || (isset($_GET['auth']) && $_GET['auth'] == 'l
                 <title>Place Your Bid</title>
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
                 <link rel="stylesheet" type="text/css" href="../styles/style.css?version=<?php echo time(); ?>">
+                <link rel="stylesheet" type="text/css" href="../styles/scorecard_style.css?version=<?php echo time(); ?>">
+                <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+                <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.3/dist/tailwind.min.css" rel="stylesheet">
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
                 <link rel="icon" type="image/x-icon" href="../cricket.ico">
                 <script src="../scripts.js?version=<?php echo time(); ?>"></script>
