@@ -521,3 +521,26 @@ function onRelease(session, room) {
     else if (session === 'winner')
         update_winner_slot_details_actual(session, room, false);
 }
+const team_badge = document.querySelector('.team-hover')
+team_badge.addEventListener('touchstart', function() {
+    team_badge.classList.add('active');
+});
+team_badge.addEventListener('touchend', function() {
+    team_badge.classList.remove('active');
+});
+
+const live_badge = document.querySelector('.live-hover')
+live_badge.addEventListener('touchstart', function() {
+    live_badge.classList.add('active');
+});
+live_badge.addEventListener('touchend', function() {
+    live_badge.classList.remove('active');
+});
+
+const balls = document.querySelector('.balls')
+balls.addEventListener('touchstart', function() {
+    balls.classList.add('active');
+});
+balls.addEventListener('touchend', function() {
+    balls.classList.remove('active');
+});

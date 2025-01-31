@@ -19,10 +19,6 @@
     transform: scale(2) rotate(360deg);
     box-shadow: 0 1rem 1rem rgb(255, 255, 255);
 }
-.ball-hover:focus {
-    transform: scale(2) rotate(360deg);
-    box-shadow: 0 1rem 1rem rgb(255, 255, 255);
-}
 
 .live-badge {
     animation: pulse 2s infinite ease-in-out;
@@ -30,9 +26,6 @@
 }
 
 .live-badge:active {
-    transform: scale(1.7) rotate(360deg);
-}
-.live-badge:focus {
     transform: scale(1.7) rotate(360deg);
 }
 
