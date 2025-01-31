@@ -28,8 +28,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" &&
             gtag('config', 'G-Z91TWPR0DM');
         </script>
         <title>Bid Placed Confirmation</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
         <link rel="stylesheet" type="text/css" href="../styles/style.css?version=<?php echo time(); ?>">
+        <link rel="stylesheet" type="text/css" href="../styles/scorecard_style.css?version=<?php echo time(); ?>">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.3/dist/tailwind.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <link rel="icon" type="image/x-icon" href="../cricket.ico">
         <title>Home</title>
         <link rel="icon" type="image/x-icon" href="../cricket.ico">
         <script src="../scripts.js?version=<?php echo time(); ?>"></script>
