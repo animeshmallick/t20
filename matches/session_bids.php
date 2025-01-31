@@ -16,7 +16,7 @@ if(isset($_GET['session']) && isset($_GET['room'])){
         <label class="amount_span" id="amount-display" for="amount">Amount of &#8377;<?php echo $room === 1 ? 100 : ($room == 2 ? 700 : ($room === 3 ? 1500 : 0)); ?> </label>
         <div class="plux_minus_container">
             <a class="button plus-minus" onclick="decrease_amount('<?php echo $session;?>','<?php echo $room;?>','<?php echo 100;?>');"> <i class="fas fa-minus"></i> &#8377;100 </a>
-            <input type="range" id="amount" name="amount" step="1" class="slider"
+            <input type="range" id="amount" name="amount" step="5" class="slider"
                    onchange="updateAmount('<?php echo $session;?>', '<?php echo $room; ?>')"
                    oninput="document.getElementById('amount-display').innerHTML = 'Amount of &#8377;' + document.getElementById('amount').value;"
                    min="<?php echo $room === 1 ? 1 : ($room == 2 ? 501 : ($room === 3 ? 1501: 0)); ?>"

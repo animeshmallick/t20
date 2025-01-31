@@ -311,11 +311,10 @@ class Common {
 
     public function get_rates(string $series_id, string $match_id, string $session, int $room, float $amount, float $r): array
     {
-        $url = $this->amazon_api_end_point . "/get_bid_book/".$series_id."/".$match_id."/".$session."/".$room;
+        $url = $this->amazon_api_end_point . "/get_session_bid_book/".$series_id."/".$match_id."/".$session."/".$room;
         $book = json_decode($this->get_response_from_url($url));
         if (isset($book->error))
             return [2.0, 2.0, 2.0];
-
         $x = $book->collected * 0.8 + $amount;
         $r1 = (int)($r - 1.5);
         $r2 = (int)($r + 1.5);
