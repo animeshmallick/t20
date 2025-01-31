@@ -1,4 +1,4 @@
-<div id="scorecard-container" class="w-full sm:w-96 md:w-1/2 lg:w-1/3 xl:w-1/4 rounded-lg shadow-lg border border-gray-500 p-1 bg-gray-310 card-container">
+<div id="scorecard-container" class="shadow-lg border border-gray-500 p-1 bg-gray-310 card-container">
     <!-- Match Info -->
     <div class="flex justify-between items-center pl-4">
         <span id='match_name' class="card-title">IND vs AUS</span>

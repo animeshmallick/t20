@@ -1,10 +1,8 @@
 
 @keyframes breathe {
-    0% { background-color: #34979f; } /* Dark blue */
-    25% { background-color: #164187; } /* Dark blue */
-    50% { background-color: #0767ea; } /* Lighter blue */
-    75% { background-color: #164187; } /* Lighter blue */
-    100% { background-color: #34979f; } /* Back to dark blue */
+    0% { background-color: royalblue; } /* Dark blue */
+    50% { background-color: rgba(65, 105, 225, 0.6); } /* Lighter blue */
+    100% { background-color: royalblue; } /* Back to dark blue */
 }
 
 @keyframes pulse {
@@ -21,6 +19,10 @@
     transform: scale(2) rotate(360deg);
     box-shadow: 0 1rem 1rem rgb(255, 255, 255);
 }
+.ball-hover:focus {
+    transform: scale(2) rotate(360deg);
+    box-shadow: 0 1rem 1rem rgb(255, 255, 255);
+}
 
 .live-badge {
     animation: pulse 2s infinite ease-in-out;
@@ -28,6 +30,9 @@
 }
 
 .live-badge:active {
+    transform: scale(1.7) rotate(360deg);
+}
+.live-badge:focus {
     transform: scale(1.7) rotate(360deg);
 }
 
@@ -41,9 +46,8 @@
 }
 
 .card-container {
-    background-color: rgba(72, 61, 139, 0.79);
-    border-radius: 2rem;
-    animation: breathe 4s infinite ease-in-out;
+    border-radius: 1rem;
+    animation: breathe 2s infinite ease-in-out;
 }
 
 .ball-container {
