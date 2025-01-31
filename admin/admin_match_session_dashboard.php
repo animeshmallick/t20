@@ -15,7 +15,11 @@ if ($common->is_user_logged_in() && $common->is_user_an_admin()){
         if ($bid->session == $session[0] && $bid->innings == $session[1]) {
             $all_bids_new[] = $bid;
         }
-    } ?>
+    }
+    usort($all_bids_new, function($a, $b) {
+        return strcmp($a->timestamp,$b->timestamp) * -1;
+    });
+    ?>
 <html lang="">
 <head>
     <!-- Google tag (gtag.js) -->
