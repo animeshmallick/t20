@@ -124,7 +124,7 @@ function fill_scorecard_content(scorecard){
     //document.getElementById('rrr').innerHTML = rrr !== 0 ? ("Req. RR : "+ rrr.toFixed(2)) : "";
 
     document.getElementById('partnership').innerHTML = scorecard.partnership.replaceAll(' Runs, ', ' (').replaceAll(' B', ')');
-    document.getElementById('last_batsman').innerHTML = +scorecard.last_batsman + " " +scorecard.last_wicket_at;
+    document.getElementById('last_batsman').innerHTML = scorecard.last_batsman + " @ " +scorecard.last_wicket_at;
     document.getElementById('timer').innerHTML = "&nbsp";
     scorecard_time = 0;
     console.log("Scorecard Updated");
