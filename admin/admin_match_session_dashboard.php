@@ -43,7 +43,7 @@ if ($common->is_user_logged_in() && $common->is_user_an_admin()){
             <tbody>
     <?php foreach ($all_bids_new as $bid) { ?>
                     <tr>
-                        <td><?php echo $common->get_user_from_users($all_users, $bid->ref_id); ?></td>
+                        <td><?php echo $common->get_user_from_users($all_users, $bid->ref_id)." @ ".$bid->timestamp; ?></td>
                         <td>
                             <?php if ($bid->slot == 'x')
                                 echo 'Runs '.$bid->runs_max." or Less";
