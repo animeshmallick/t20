@@ -63,7 +63,7 @@ class Common {
 
     public function get_user_from_db(string $phone, string $password)
     {
-        $url = $this->amazon_api_end_point . "/login/".$phone."/".$password."/".date('Y-m-d-H-i-s');
+        $url = $this->amazon_api_end_point . "/login/".$phone."/".$password;
         return json_decode($this->get_response_from_url($url));
     }
     public function get_user_from_ref_id(string $ref_id)
