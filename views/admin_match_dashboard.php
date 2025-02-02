@@ -304,6 +304,14 @@ if ($common->is_user_logged_in() && $common->is_user_an_admin()){
                     <td><?php echo $bid['given']?></td>
                 </tr>
             <?php } ?>
+            <thead>
+            <tr>
+                <th>Total</th>
+                <th><?php echo count($all_bids_session) + count($all_bids_winner) + count($all_bids_special)?></th>
+                <th><?php echo $total_c?></th>
+                <th><?php echo $total_d?></th>
+            </tr>
+            </thead>
             </tbody>
         </table>
     </div>
