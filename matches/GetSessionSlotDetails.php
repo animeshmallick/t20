@@ -31,7 +31,7 @@ if($session[0] == 'a')
 if($session[0] == 'b')
     $balls_left = 60 - $balls;
 if($session[0] == 'c')
-    $balls_left = 90 - $balls;
+    $balls_left = 96 - $balls;
 if($session[0] == 'd')
     $balls_left = 120 - $balls;
 
