@@ -3,12 +3,23 @@ include "../Common.php";
 include "../data.php";
 $data = new Data();
 $common = new Common($data->get_path(), $data->get_amazon_api_endpoint());
+function get_name(array $all_users, string $ref_id): string
+{
+    foreach ($all_users as $user){
+        if ($user->ref_id == $ref_id)
+            return $user->fname." ".$user->lname;
+    }
+    return "";
+}
+
 if ($common->is_user_logged_in() && $common->is_user_an_admin()){
     $series_id = $common->get_cookie("series_id");
     $match_id = $common->get_cookie("match_id");
     $all_bids_session = $common->get_all_bids($series_id, $match_id, 'session');
     $all_bids_winner = $common->get_all_bids($series_id, $match_id, 'winner');
     $all_bids_special = $common->get_all_bids($series_id, $match_id, 'special');
+    $all_users = $common->get_all_users();
+    $user_bids = array();
     $session_a1 = array();
     $session_a1['count'] = 0;
     $session_a1['collected'] = 0;
@@ -27,6 +38,22 @@ if ($common->is_user_logged_in() && $common->is_user_an_admin()){
     $total_c = 0;
     $total_d = 0;
     foreach ($all_bids_session as $bid){
+        if(isset($user_bids[$bid->ref_id])){
+            $user_bids[$bid->ref_id]['count']++;
+            $user_bids[$bid->ref_id]['collected'] += $bid->amount;
+            if ($bid->status == 'win')
+                $user_bids[$bid->ref_id]['given'] += (int)($bid->amount * $bid->rate);
+        }else{
+            $obj = array();
+            $obj['ref_id'] = $bid->ref_id;
+            $obj['count'] = 1;
+            $obj['collected'] = $bid->amount;
+            if ($bid->status == 'win')
+                $obj['given'] = (int)($bid->amount * $bid->rate);
+            else
+                $obj['given'] = 0;
+            $user_bids[$bid->ref_id] = $obj;
+        }
         $total_c += (int)$bid->amount;
         if ($bid->status == 'win')
             $total_d += (int)((int)$bid->amount * $bid->rate);
@@ -109,7 +136,23 @@ if ($common->is_user_logged_in() && $common->is_user_an_admin()){
             continue;
         }
     }
-    foreach ($all_bids_winner  as $bid){
+    foreach ($all_bids_winner as $bid){
+        if(isset($user_bids[$bid->ref_id])){
+            $user_bids[$bid->ref_id]['count']++;
+            $user_bids[$bid->ref_id]['collected'] += $bid->amount;
+            if ($bid->status == 'win')
+                $user_bids[$bid->ref_id]['given'] += (int)($bid->amount * $bid->rate);
+        }else{
+            $obj = array();
+            $obj['ref_id'] = $bid->ref_id;
+            $obj['count'] = 1;
+            $obj['collected'] = $bid->amount;
+            if ($bid->status == 'win')
+                $obj['given'] = (int)($bid->amount * $bid->rate);
+            else
+                $obj['given'] = 0;
+            $user_bids[$bid->ref_id] = $obj;
+        }
         $total_c += (int)$bid->amount;
         if ($bid->status == 'win')
             $total_d += (int)((int)$bid->amount * $bid->rate);
@@ -122,7 +165,7 @@ if ($common->is_user_logged_in() && $common->is_user_an_admin()){
         if ($bid->status == 'win')
             $session_winner['given'] += (int)($bid->amount * $bid->rate);
     }
-    foreach ($all_bids_special  as $bid){
+    foreach ($all_bids_special as $bid){
         $total_c += (int)$bid->amount;
         if ($bid->status == 'win')
             $total_d += (int)((int)$bid->amount * $bid->rate);
@@ -242,6 +285,27 @@ if ($common->is_user_logged_in() && $common->is_user_an_admin()){
         </div>
         <div class="small-gap"></div>
         <div class="sub-title"><?php echo "Total: ₹".$total_c." - ₹".$total_d." = ₹".($total_c - $total_d)?></div>
+        <div class="separator"></div>
+        <table>
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Bids Placed</th>
+                    <th>Collected</th>
+                    <th>Given</th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($user_bids as $bid){ ?>
+                <tr>
+                    <td><?php echo get_name($all_users, $bid['ref_id'])?></td>
+                    <td><?php echo $bid['count']?></td>
+                    <td><?php echo $bid['collected']?></td>
+                    <td><?php echo $bid['given']?></td>
+                </tr>
+            <?php } ?>
+            </tbody>
+        </table>
     </div>
     <div class="separator"></div>
     <div id="footer"></div>
